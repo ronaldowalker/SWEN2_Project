@@ -1,7 +1,7 @@
 from App.database import db
+from .user import User
 
-
-class Student(db.Model):
+class Student(User):
 	__tablename__ = 'student'
 	ID = db.Column(db.String(10), primary_key=True)
 	degree = db.Column(db.String(120), nullable=False) 
@@ -10,8 +10,8 @@ class Student(db.Model):
 	#reviews = db.relationship('Review', backref='student', lazy='joined')
 	#karmaID = db.Column(db.Integer, db.ForeignKey('karma.karmaID'))
 
-	def __init__(self, ID,firstname, lastname, email, password, faculty, admittedTerm, yearofStudy,degree):
-		super().__init__(firstname, lastname, email, password, faculty)
+	def __init__(self, ID, username,firstname, lastname, email, password, faculty, admittedTerm, yearofStudy,degree):
+		super().__init__(username, firstname, lastname, email, password, faculty)
 		self.studentID = ID
 		self.admittedTerm = admittedTerm
 		self.yearOfStudy = yearofStudy
