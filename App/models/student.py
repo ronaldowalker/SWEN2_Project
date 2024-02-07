@@ -4,18 +4,15 @@ from App.database import db
 class Student(db.Model):
 	__tablename__ = 'student'
 	ID = db.Column(db.String(10), primary_key=True)
-	firstname = db.Column(db.String(120), nullable=False)
-	lastname = db.Column(db.String(120), nullable=False)
 	degree = db.Column(db.String(120), nullable=False) 
     admittedTerm = db.Column(db.String(120), nullable=False)
 	yearOfStudy = db.Column(db.Integer, nullable=False)
 	#reviews = db.relationship('Review', backref='student', lazy='joined')
 	#karmaID = db.Column(db.Integer, db.ForeignKey('karma.karmaID'))
 
-	def __init__(self, studentID, firstname, lastname, admittedTerm, yearofStudy,degree):
-		self.firstname = firstname
-		self.lastname = lastname
-		self.ID = studentID
+	def __init__(self, ID,firstname, lastname, email, password, faculty, admittedTerm, yearofStudy,degree):
+		super().__init__(firstname, lastname, email, password, faculty)
+		self.studentID = ID
 		self.admittedTerm = admittedTerm
 		self.yearOfStudy = yearofStudy
         self.degree= degree
@@ -28,7 +25,8 @@ class Student(db.Model):
 	def to_json(self):
 		karma = self.getKarma()
 		return {
-        "studentID": self.ID,
+        "studentID": self.studentID,
+        "username": self.username,
         "firstname": self.firstname,
         "lastname": self.lastname,
         "degree": self.degree,
