@@ -6,23 +6,33 @@ class Review(db.Model):
   __tablename__ = 'review'
   ID = db.Column(db.Integer, primary_key=True)
   studentID = db.Column(db.String(10), db.ForeignKey('student.ID'))
-  reviewerID = db.Column(db.String(10),db.ForeignKey('staff.ID'))
+  createdByStaffID = db.Column(db.String(10),db.ForeignKey('staff.ID'))
   isPositive = db.Column(db.Boolean, nullable=False)
   dateCreated = db.Column(db.DateTime, default=datetime.utcnow)
   points = db.Column(db.Integer, nullable=False)
-  reviewer = db.relationship('Staff', backref=db.backref('reviews_created', lazy='joined'),foreign_keys=[reviewerID])
+  details = db.Column(db.String(400), nullable=False)
+  reviewer = db.relationship('Staff', backref=db.backref('reviews_created', lazy='joined'),foreign_keys=[createdByStaffID])
 
-  def __init__(self,ID, reviewer, student, isPositive, points):
+  def __init__(self,ID, staff, student, isPositive, points,details):
     self.reviewID = ID
-    self.reviewerID = reviewer.ID
-    self.reviewer = reviewer
+    self.createdByStaffID = staff.ID
+    self.reviewer = staff
     self.studentID = student.ID
     self.isPositive = isPositive
+    self.points= points
+    self.details= details
     self.dateCreatedreated = datetime.now()
 
   def get_id(self):
     return self.ID
 
+  def deleteReview(self, staff):
+    if self.reviewer == staff:
+      db.session.delete(self)
+      db.session.commit()
+      return True
+    return None
+    
   def to_json(self):
     return {
         "reviewID": self.ID,
@@ -32,5 +42,6 @@ class Review(db.Model):
         "created":
         self.created.strftime("%d-%m-%Y %H:%M"),  #format the date/time
         "isPositive": self.isPositive,
-        "points": self.points
+        "points": self.points,
+        "details": self.details
     }
