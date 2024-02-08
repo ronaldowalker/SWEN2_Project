@@ -6,10 +6,12 @@ from .student import Student
 class Staff(User):
   __tablename__ = 'staff'
   ID = db.Column(db.String(10), primary_key=True)
+  reviews = db.relationship('Review', backref='staff', lazy='joined')
 
   def __init__(self, ID,username,firstname, lastname, email, password, faculty):
      super().__init__(username,firstname, lastname, email, password, faculty) 
      self.staff_id = ID
+     self.reviews = []
 
   def get_id(self):
     return self.staff_id
@@ -24,17 +26,16 @@ class Staff(User):
         "lastname": self.lastname,
         "email": self.email,
         "faculty": self.faculty,
-        "email": self.email,
-        "faculty": self.faculty
+        "reviews": [review.to_json() for review in self.reviews]
     }
 
   def __repr__(self):
      return f'<Admin {self.staff_id} :{self.email}>'
 
 #allows staff to create a review about a student
-  def createReview(self):
+#   def createReview(self):
 
-#allows staff to search for a student
-  def studentSearch(self):
+# #allows staff to search for a student
+#   def studentSearch(self):
 
-  def reviewSearch(self):
+#   def reviewSearch(self):
