@@ -1,6 +1,5 @@
 from App.database import db
 from .student import Student
-from datetime import datetime
 
 class Karma(db.Model):
   __tablename__ = "karma"
@@ -10,8 +9,7 @@ class Karma(db.Model):
   studentID = db.Column(db.String(10), db.ForeignKey('student.ID'))
   associatedStudent = db.relationship('Student', backref=db.backref('karma', lazy='joined'),foreign_keys=[studentID])
 
-  def __init__(self,ID,student, studentID ,points=0.0, rank=-99):
-    self.karmaID = ID
+  def __init__(self,student, studentID ,points=0.0, rank=-99):
     self.points = points
     self.associatedStudent = student
     self.rank = rank

@@ -12,8 +12,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(120), nullable=False)
     faculty = db.Column(db.String(120), nullable=False)
 
-    def __init__(self, id, username, firstname,lastname , password, email, faculty):
-        self.id=id
+    def __init__(self, username, firstname,lastname , password, email, faculty):
         self.username= username
         self.firstname = firstname
         self.lastname = lastname
