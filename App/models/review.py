@@ -41,7 +41,7 @@ class Review(db.Model):
         "studentID": self.student.ID,
         "studentName": self.student.firstname + " " + self.student.lastname,
         "created":
-        self.created.strftime("%d-%m-%Y %H:%M"),  #format the date/time
+        self.dateCreated.strftime("%d-%m-%Y %H:%M"),  #format the date/time
         "isPositive": self.isPositive,
         "points": self.points,
         "details": self.details
