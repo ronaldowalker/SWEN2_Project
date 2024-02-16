@@ -41,15 +41,4 @@ class Student(User):
         "karmaRank": karma.rank if karma else None
     }
 
-# #Allow students to submit a review about themselves to a teacher for validation
-#     def proposeReview(self);
-
-# # Allow students to submit a recommendation request to a teacher of choice (certain points achievedS)
-#     def requestRecommendation(self):
-
-
-# #get karma record from the karma table using the karmaID attached to the student
-# 	def getKarma(self):
-# 		from .karma import Karma
-# 		return Karma.query.get(self.karmaID)
 

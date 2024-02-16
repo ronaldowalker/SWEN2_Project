@@ -14,9 +14,6 @@ class Staff(User):
      self.reviews = []
      self.pendingPosts = []
 
-  def get_id(self):
-    return self.staff_id
-
 #return staff details on json format
 
   def to_json(self):
@@ -33,11 +30,3 @@ class Staff(User):
 
   def __repr__(self):
      return f'<Admin {self.ID} :{self.email}>'
-
-#allows staff to create a review about a student
-#   def createReview(self):
-
-# #allows staff to search for a student
-#   def studentSearch(self):
-
-#   def reviewSearch(self):
