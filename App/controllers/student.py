@@ -17,7 +17,7 @@ def create_student(username, firstname, lastname, email, password, faculty, admi
     except Exception as e:
         print("[student.create_student] Error occurred while creating new student: ", str(e))
         db.session.rollback()
-        return None
+        return False
     
 
 def get_student_by_id(id):
@@ -57,10 +57,53 @@ def get_all_students_json():
 
 
 def student_create_post(studentUsername, teacherUsername, details):
-    if create_post(studentUsername, staffUsername, verified=False, details):
+    if create_post(studentUsername, teacherUsername, verified=False, details):
         return True
     else:
         print("[student.student_create_post] Error occurred while creating new post: create_post returned False")
         return False
-    
-    
+
+def update_admittedTerm(studentID, newAdmittedTerm):
+    student = get_student_by_id(studentID)
+    if student:
+        student.admittedTerm = newAdmittedTerm
+        try:
+            db.session.commit()
+            return True
+        except Exception as e:
+            print("[student.update_admittedTerm] Error occurred while updating student admittedTerm:", str(e))
+            db.session.rollback()
+            return False
+    else:
+        print("[student.update_admittedTerm] Error occurred while updating student admittedTerm: Student "+studentID+" not found")
+        return False
+
+def update_yearofStudy(studentID, newYearofStudy):
+    student = get_student_by_id(studentID)
+    if student:
+        student.yearofStudy = newYearofStudy
+        try:
+            db.session.commit()
+            return True
+        except Exception as e:
+            print("[student.update_yearofStudy] Error occurred while updating student yearofStudy:", str(e))
+            db.session.rollback()
+            return False
+    else:
+        print("[student.update_yearofStudy] Error occurred while updating student yearofStudy: Student "+studentID+" not found")
+        return False
+
+def update_degree(studentID, newDegree):
+    student = get_student_by_id(studentID)
+    if student:
+        student.degree = newDegree
+        try:
+            db.session.commit()
+            return True
+        except Exception as e:
+            print("[student.update_degree] Error occurred while updating student degree:", str(e))
+            db.session.rollback()
+            return False
+    else:
+        print("[student.update_degree] Error occurred while updating student degree: Student "+studentID+" not found")
+        return False

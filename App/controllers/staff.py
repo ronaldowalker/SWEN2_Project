@@ -21,6 +21,7 @@ def create_staff(username,firstname, lastname, email, password, faculty):
     except Exception as e:
         print("[staff.create_staff] Error occurred while creating new staff: ", str(e))
         db.session.rollback()
+        return False
     
 
 def get_staff_by_id(id):
