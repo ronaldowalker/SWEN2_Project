@@ -22,7 +22,7 @@ class Review(db.Model):
     self.isPositive = isPositive
     self.points= points
     self.details= details
-    self.dateCreatedreated = datetime.now()
+    self.dateCreated = datetime.now()
 
   def get_id(self):
     return self.ID

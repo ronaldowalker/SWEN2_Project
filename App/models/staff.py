@@ -10,9 +10,9 @@ class Staff(User):
   pendingPosts = db.relationship('Post', backref='staff', lazy='joined')
 
   def __init__(self,username,firstname, lastname, email, password, faculty):
-     super().__init__(username,firstname, lastname, email, password, faculty) 
-     self.reviews = []
-     self.pendingPosts = []
+    super().__init__(username,firstname, lastname, email, password, faculty) 
+    self.reviews = []
+    self.pendingPosts = []
 
 #return staff details on json format
 
@@ -29,4 +29,4 @@ class Staff(User):
     }
 
   def __repr__(self):
-     return f'<Admin {self.ID} :{self.email}>'
+    return f'<Admin {self.ID} :{self.email}>'

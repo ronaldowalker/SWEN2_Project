@@ -1,4 +1,4 @@
-from App.models import Student, Post
+from App.models import Student
 from App.database import db 
 from .staff import(
     get_staff_by_username
@@ -56,12 +56,12 @@ def get_all_students_json():
     return students_json
 
 
-def student_create_post(studentUsername, teacherUsername, details):
-    if create_post(studentUsername, teacherUsername, verified=False, details):
-        return True
-    else:
-        print("[student.student_create_post] Error occurred while creating new post: create_post returned False")
-        return False
+# def student_create_post(studentUsername, teacherUsername, details):
+#     if create_post(studentUsername, teacherUsername, verified=False, details):
+#         return True
+#     else:
+#         print("[student.student_create_post] Error occurred while creating new post: create_post returned False")
+#         return False
 
 def update_admittedTerm(studentID, newAdmittedTerm):
     student = get_student_by_id(studentID)
