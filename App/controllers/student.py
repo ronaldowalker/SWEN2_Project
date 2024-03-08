@@ -1,11 +1,5 @@
 from App.models import Student
 from App.database import db 
-from .staff import(
-    get_staff_by_username
-)
-from .post import (
-    create_post
-)
 
 def create_student(username, firstname, lastname, email, password, faculty, admittedTerm, yearofStudy, degree):
     newStudent = Student(username, firstname, lastname, email, password, faculty, admittedTerm, yearofStudy, degree)
