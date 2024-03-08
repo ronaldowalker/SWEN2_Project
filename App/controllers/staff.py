@@ -39,8 +39,9 @@ def get_staff_by_username(username):
         return None
 
 # need clarifcation for this 
-def studentSearch(username, studentID, faculty, degree):
-def reviewSearch():
+# def studentSearch(username, studentID, faculty, degree):
+
+# def reviewSearch():
 
 
 def staff_create_review(staff, student, isPositive, points, details):
