@@ -1,7 +1,10 @@
 from App.models import Staff, Review, Student
 from App.database import db 
-# add create_review and get_student
-from .review import create_review
+
+from .review import (
+    create_review,
+    get_review
+)
 from .student import(
     get_student_by_id,
     get_student_by_username,
@@ -38,10 +41,19 @@ def get_staff_by_username(username):
     else:
         return None
 
-# need clarifcation for this 
-# def studentSearch(username, studentID, faculty, degree):
-
-# def reviewSearch():
+def staff_edit_review(id, details):
+    review = get_review(id)
+    if review is None:
+        return False
+    else:
+        review.details = details
+        try:
+            db.session.commit()
+            return True
+        except Exception as e:
+            print("[staff.staff_edit_review] Error occurred while editing review:", str(e))
+            db.session.rollback()
+            return False
 
 
 def staff_create_review(staff, student, isPositive, points, details):
