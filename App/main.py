@@ -36,6 +36,7 @@ def create_app(config_overrides={}):
     app.config['SEVER_NAME'] = '0.0.0.0'
     app.config['PREFERRED_URL_SCHEME'] = 'https'
     app.config['UPLOADED_PHOTOS_DEST'] = "App/uploads"
+    app.config['UPLOAD_FOLDER'] = 'uploads'
     CORS(app)
     photos = UploadSet('photos', TEXT + DOCUMENTS + IMAGES)
     configure_uploads(app, photos)
