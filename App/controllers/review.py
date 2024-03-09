@@ -58,3 +58,9 @@ def get_total_points(studentID):
         return sum
     return 0
 
+def get_review(id):
+    review = Review.query.filter_by(ID=id).first()
+    if review:
+        return review
+    else:
+        return None
