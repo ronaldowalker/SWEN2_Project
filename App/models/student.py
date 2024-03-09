@@ -11,6 +11,7 @@ class Student(User):
     reviews = db.relationship('Review', backref='studentReviews', lazy='joined')
     accomplishments = db.relationship('Accomplishment', backref='studentAccomplishments', lazy='joined')
     incidents = db.relationship('IncidentReport', backref='studentincidents', lazy='joined')
+    grades = db.relationship('Grades', backref='studentGrades', lazy='joined')
     karmaID = db.Column(db.Integer, db.ForeignKey('karma.karmaID'))
 
     def __init__(self, username, firstname, lastname, email, password, faculty, admittedTerm, yearofStudy, degree, gpa):
@@ -22,6 +23,7 @@ class Student(User):
         self.reviews = []
         self.accomplishments = []
         self.incidents = []
+        self.grades = []
     
     def get_id(self):
         return self.ID
@@ -43,6 +45,7 @@ class Student(User):
             "reviews": [review.to_json() for review in self.reviews],
             "accomplishments": [accomplishment.to_json() for accomplishment in self.accomplishments],
             "incidents": [incident.to_json() for incident in self.incidents],
+            "grades": [grade.to_json() for grade in self.grades],
             "karmaScore": karma.score if karma else None,
             "karmaRank": karma.rank if karma else None
         }
