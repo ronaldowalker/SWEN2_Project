@@ -11,8 +11,6 @@ class Review(db.Model):
   dateCreated = db.Column(db.DateTime, default=datetime.utcnow)
   points = db.Column(db.Integer, nullable=False)
   details = db.Column(db.String(400), nullable=False)
-  reviewer = db.relationship('Staff', backref=db.backref('staff_review', lazy='joined'),foreign_keys=[createdByStaffID])
-  student = db.relationship('Student', backref=db.backref('student_review', lazy='joined'),foreign_keys=[studentID])
 
   def __init__(self, staff, student, isPositive, points,details):
     self.createdByStaffID = staff.ID

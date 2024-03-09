@@ -6,8 +6,6 @@ class Karma(db.Model):
   karmaID = db.Column(db.Integer, primary_key=True)
   points = db.Column(db.Float, nullable=False, default=0.0)
   rank = db.Column(db.Integer, nullable=False, default=-99)
-  studentID = db.Column(db.String(10), db.ForeignKey('student.ID'))
-  associatedStudent = db.relationship('Student', backref=db.backref('karma', lazy='joined'),foreign_keys=[studentID])
 
   def __init__(self,student, studentID ,points=0.0, rank=-99):
     self.points = points
