@@ -6,13 +6,15 @@ from .student import Student
 class Staff(User):
   __tablename__ = 'staff'
   ID = db.Column(db.String(10) ,db.ForeignKey('user.ID') , primary_key=True)
-  reviews = db.relationship('Review', backref='staff', lazy='joined')
-  pendingPosts = db.relationship('Post', backref='staff', lazy='joined')
+  reviews = db.relationship('Review', backref='staffReviews', lazy='joined')
+  reports = db.relationship('IncidentReport', backref='staffReports', lazy='joined')
+  pendingAccomplishments = db.relationship('Accomplishment', backref='studentaccomplishments', lazy='joined')
 
   def __init__(self,username,firstname, lastname, email, password, faculty):
     super().__init__(username,firstname, lastname, email, password, faculty) 
     self.reviews = []
-    self.pendingPosts = []
+    self.reports = []
+    self.pendingAccomplishments = []
 
 #return staff details on json format
 
@@ -25,7 +27,8 @@ class Staff(User):
         "email": self.email,
         "faculty": self.faculty,
         "reviews": [review.to_json() for review in self.reviews],
-        "pendingPosts": [post.to_json() for post in self.pendingPosts]
+        "reports": [report.to_json() for report in self.reports],
+        "pendingAccomplishments": [pendingAccomplishment.to_json() for pendingAccomplishment in self.pendingAccomplishments]
     }
 
   def __repr__(self):
