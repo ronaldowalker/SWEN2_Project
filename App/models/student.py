@@ -30,7 +30,8 @@ class Student(User):
         return self.ID
 
     # Gets the student details and returns in JSON format
-    def to_json(self):
+    def to_json(self, karma):
+        
         return {
             "studentID": self.ID,
             "username": self.username,
@@ -46,7 +47,6 @@ class Student(User):
             "accomplishments": [accomplishment.to_json() for accomplishment in self.accomplishments],
             "incidents": [incident.to_json() for incident in self.incidents],
             "grades": [grade.to_json() for grade in self.grades],
-            "karmaID": self.karmaID,
-            "karmaScore": karma.points if karma else None,
+            "karmaScore": karma.score if karma else None,
             "karmaRank": karma.rank if karma else None
         }

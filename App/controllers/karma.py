@@ -4,6 +4,13 @@ from .review import (
     get_total_points
 )
 
+def get_karma(karmaID):
+    karma = Karma.query.filter_by(karmaID=karmaID).first()
+    if karma:
+        return karma
+    else:
+        return None
+
 def create_karma(student):
     newKarma = Karma(student, student.ID, points=0.0, rank=-99)
     db.session.add(newKarma)
