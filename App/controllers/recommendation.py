@@ -1,7 +1,7 @@
-from App.models import recommendation
+from App.models import Recommendation
 from App.database import db 
 
-def create_Recommendation(studentID, staffID, approved):
+def create_recommendation(studentID, staffID, approved):
     newRec = Recommendation(studentID, staffID, approved)
     db.session.add(newRec)
 

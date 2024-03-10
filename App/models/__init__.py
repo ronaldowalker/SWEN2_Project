@@ -7,3 +7,4 @@ from .recommendation import *
 from .accomplishment import *
 from .karma import *
 from .incidentReport import *
+from .grades import *
