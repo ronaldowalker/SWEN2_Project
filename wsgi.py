@@ -114,4 +114,55 @@ def user_tests_command(type):
         sys.exit(pytest.main(["-k", "KarmaIntegrationTests"]))
     else:
         sys.exit(pytest.main(["-k", "App"]))
+
+@test.command("incidentreport", help="Run Incident Report tests")
+@click.argument("type", default="all")
+def user_tests_command(type):
+    if type == "unit":
+        sys.exit(pytest.main(["-k", "IncidentReportUnitTests"]))
+    elif type == "int":
+        sys.exit(pytest.main(["-k", "IncidentReportIntegrationTests"]))
+    # else:
+    #     sys.exit(pytest.main(["-k", "App"]))
+
+@test.command("accomplishment", help="Run Accomplishment tests")
+@click.argument("type", default="all")
+def user_tests_command(type):
+    if type == "unit":
+        sys.exit(pytest.main(["-k", "AccomplishmentUnitTests"]))
+    elif type == "int":
+        sys.exit(pytest.main(["-k", "AccomplishmentIntegrationTests"]))
+    # else:
+    #     sys.exit(pytest.main(["-k", "App"]))
+
+@test.command("grades", help="Run Grades tests")
+@click.argument("type", default="all")
+def user_tests_command(type):
+    if type == "unit":
+        sys.exit(pytest.main(["-k", "GradesUnitTests"]))
+    elif type == "int":
+        sys.exit(pytest.main(["-k", "GradesIntegrationTests"]))
+    # else:
+    #     sys.exit(pytest.main(["-k", "App"]))
+
+@test.command("admin", help="Run Admin tests")
+@click.argument("type", default="all")
+def user_tests_command(type):
+    if type == "unit":
+        sys.exit(pytest.main(["-k", "AdminUnitTests"]))
+    elif type == "int":
+        sys.exit(pytest.main(["-k", "AdminIntegrationTests"]))
+    # else:
+    #     sys.exit(pytest.main(["-k", "App"]))
+
+@test.command("karma", help="Run karma tests")
+@click.argument("type", default="all")
+def user_tests_command(type):
+    if type == "unit":
+        sys.exit(pytest.main(["-k", "KarmaUnitTests"]))
+    elif type == "int":
+        sys.exit(pytest.main(["-k", "KarmaIntegrationTests"]))
+    # else:
+    #     sys.exit(pytest.main(["-k", "App"]))
+
 app.cli.add_command(test)
