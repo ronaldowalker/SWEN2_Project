@@ -14,8 +14,7 @@ class Review(db.Model):
 
   def __init__(self, staff, student, isPositive, points,details):
     self.createdByStaffID = staff.ID
-    self.reviewer = staff
-    self.student= student
+    # self.student= student
     self.studentID = student.ID
     self.isPositive = isPositive
     self.points= points
@@ -25,21 +24,20 @@ class Review(db.Model):
   def get_id(self):
     return self.ID
 
-  def deleteReview(self, staff):
-    if self.reviewer == staff:
-      db.session.delete(self)
-      db.session.commit()
-      return True
-    return None
+  # def deleteReview(self, staff):
+  #   if self.reviewer == staff:
+  #     db.session.delete(self)
+  #     db.session.commit()
+  #     return True
+  #   return None
     
-  def to_json(self):
+  def to_json(self, student, staff):
     return {
         "reviewID": self.ID,
-        "reviewer": self.reviewer.firstname + " " + self.reviewer.lastname,
-        "studentID": self.student.ID,
-        "studentName": self.student.firstname + " " + self.student.lastname,
-        "created":
-        self.dateCreated.strftime("%d-%m-%Y %H:%M"),  #format the date/time
+        "reviewer": staff.firstname + " " + staff.lastname,
+        "studentID": student.ID,
+        "studentName": student.firstname + " " + student.lastname,
+        "created":self.dateCreated.strftime("%d-%m-%Y %H:%M"),  #format the date/time
         "isPositive": self.isPositive,
         "points": self.points,
         "details": self.details

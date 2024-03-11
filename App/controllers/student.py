@@ -1,9 +1,9 @@
 from App.models import Student
 from App.database import db 
 
-def create_student(username, firstname, lastname, email, password, faculty, admittedTerm, yearofStudy, degree):
-    newStudent = Student(username, firstname, lastname, email, password, faculty, admittedTerm, yearofStudy, degree)
-    db.session.add(student)
+def create_student(username, firstname, lastname, email, password, faculty, admittedTerm, yearofStudy, degree, gpa):
+    newStudent = Student(username, firstname, lastname, email, password, faculty, admittedTerm, yearofStudy, degree, gpa)
+    db.session.add(newStudent)
     try:
         db.session.commit()
         return True
@@ -69,7 +69,7 @@ def update_admittedTerm(studentID, newAdmittedTerm):
             db.session.rollback()
             return False
     else:
-        print("[student.update_admittedTerm] Error occurred while updating student admittedTerm: Student "+studentID+" not found")
+        print("[student.update_admittedTerm] Error occurred while updating student admittedTerm: Student "+str(studentID)+" not found")
         return False
 
 def update_yearofStudy(studentID, newYearofStudy):
@@ -84,7 +84,7 @@ def update_yearofStudy(studentID, newYearofStudy):
             db.session.rollback()
             return False
     else:
-        print("[student.update_yearofStudy] Error occurred while updating student yearofStudy: Student "+studentID+" not found")
+        print("[student.update_yearofStudy] Error occurred while updating student yearofStudy: Student "+str(studentID)+" not found")
         return False
 
 def update_degree(studentID, newDegree):
@@ -99,5 +99,5 @@ def update_degree(studentID, newDegree):
             db.session.rollback()
             return False
     else:
-        print("[student.update_degree] Error occurred while updating student degree: Student "+studentID+" not found")
+        print("[student.update_degree] Error occurred while updating student degree: Student "+str(studentID)+" not found")
         return False

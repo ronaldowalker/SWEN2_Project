@@ -8,6 +8,7 @@ class Student(User):
     admittedTerm = db.Column(db.String(120), nullable=False)
     yearOfStudy = db.Column(db.Integer, nullable=False)
     gpa = db.Column(db.String(120), nullable=True)
+    
     reviews = db.relationship('Review', backref='studentReviews', lazy='joined')
     accomplishments = db.relationship('Accomplishment', backref='studentAccomplishments', lazy='joined')
     incidents = db.relationship('IncidentReport', backref='studentincidents', lazy='joined')
@@ -15,11 +16,11 @@ class Student(User):
     karmaID = db.Column(db.Integer, db.ForeignKey('karma.karmaID'))
 
     def __init__(self, username, firstname, lastname, email, password, faculty, admittedTerm, yearofStudy, degree, gpa):
-        super().__init__(username, firstname, lastname, email, password, faculty)
+        super().__init__(username=username, firstname=firstname, lastname=lastname, email=email, password=password, faculty=faculty)
         self.admittedTerm = admittedTerm
         self.yearOfStudy = yearofStudy
         self.degree = degree
-        self.gap = gpa
+        self.gpa = gpa
         self.reviews = []
         self.accomplishments = []
         self.incidents = []
@@ -29,8 +30,8 @@ class Student(User):
         return self.ID
 
     # Gets the student details and returns in JSON format
-    def to_json(self):
-        karma = self.getKarma()
+    def to_json(self, karma):
+        
         return {
             "studentID": self.ID,
             "username": self.username,

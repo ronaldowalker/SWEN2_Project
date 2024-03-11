@@ -7,6 +7,7 @@ class Accomplishment(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   verified = db.Column(db.Boolean, nullable=False)
   taggedStaffId = db.Column(db.String(10), db.ForeignKey('staff.ID'))
+  createdByStudentID = db.Column(db.String(10), db.ForeignKey('student.ID'))
   details = db.Column(db.String(400), nullable=False)
 
   def __init__(self,studentID ,verified, taggedStaffId, details):

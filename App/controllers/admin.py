@@ -20,8 +20,8 @@ def add_teacher(username,firstname, lastname, email, password, faculty):
         print("[admin.add_teacher] Error occurred while creating new staff: ")
         return False
 
-def add_student(username, firstname, lastname, email, password, faculty, admittedTerm, yearofStudy, degree):
-    if create_student(username, firstname, lastname, email, password, faculty, admittedTerm, yearofStudy, degree):
+def add_student(username, firstname, lastname, email, password, faculty, admittedTerm, yearofStudy, degree, gpa):
+    if create_student(username, firstname, lastname, email, password, faculty, admittedTerm, yearofStudy, degree, gpa):
         return True
     else:
         print("[admin.add_student] Error occurred while creating new student: ")
