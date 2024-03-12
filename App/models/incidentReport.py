@@ -21,7 +21,7 @@ class IncidentReport(db.Model):
 
   def to_json(self):
     return {"id": self.id,
-        "studentID": self.createdByStudentID,
+        "studentID": self.studentID,
       "madeByStaffId": self.madeByStaffId,
       "pointsDeducted": self.pointsDeducted,
       "dateCreated": self.dateCreated.strftime("%d-%m-%Y %H:%M"),

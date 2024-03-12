@@ -11,8 +11,8 @@ def get_karma(karmaID):
     else:
         return None
 
-def create_karma(student):
-    newKarma = Karma(student, student.ID, points=0.0, rank=-99)
+def create_karma(studentID):
+    newKarma = Karma(points=0.0, rank=-99, studentID=studentID)
     db.session.add(newKarma)
     try:
         db.session.commit()
@@ -21,14 +21,14 @@ def create_karma(student):
         print("[karma.create_karma] Error occurred while creating new karma: ", str(e))
         return False
 
-def calculate_karma(student):
-    karma = get_total_points(student.ID)
+def calculate_karma(studentID):
+    karma = get_total_points(studentID)
     return karma
 
-def update_karma(student):
-    karmaScore = Karma.query.filter_by(studentID=student.ID).first()
+def update_karma(studentID):
+    karmaScore = Karma.query.filter_by(studentID=studentID).first()
     if karmaScore:
-        karmaScore.points = calculate_karma(student)
+        karmaScore.points = calculate_karma(studentID)
         try:
             db.session.commit()
             return True
@@ -37,6 +37,6 @@ def update_karma(student):
             db.session.rollback()
             return False
     else:
-        print("Karma score not found for student:", student.ID)
+        print("Karma score not found for student:", studentID)
         return False
 

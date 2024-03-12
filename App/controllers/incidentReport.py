@@ -10,7 +10,7 @@ from .staff import(
 
 def create_incident_report(studentUsername, staffUsername, report, points):
     student = get_student_by_username(studentUsername)
-    staff = get_staff_by_username(taggedStaffUsername)
+    staff = get_staff_by_username(staffUsername)
     if student is None:
         print("[incidentReport.create_incident_report] Error occurred while creating new incident report: No student found.")
         return False
@@ -43,3 +43,16 @@ def delete_incident_report(reportID):
     else:
         print("[incidentReport.delete_incident_report] Error occurred while deleting incident report: Report not found.")
         return False
+def get_incident_report(id):
+    report = IncidentReport.query.filter_by(id=id).first()
+    if report:
+        return report
+    else:
+        return None
+        
+def get_incident_reports(staffID):
+    reports = IncidentReport.query.filter_by(madeByStaffId=staffID).all()
+    if reports:
+        return reports
+    else:
+        return []

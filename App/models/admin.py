@@ -7,7 +7,7 @@ class Admin(User):
   ID = db.Column(db.String(10) ,db.ForeignKey('user.ID') , primary_key=True)
 
   def __init__(self,username,firstname, lastname, email, password, faculty):
-     super().__init__(username,firstname, lastname, email, password, faculty) 
+     super().__init__(username=username,firstname=firstname, lastname=lastname, email=email, password=password, faculty=faculty) 
 
 #return admin details on json format
 

@@ -42,7 +42,13 @@ def delete_accomplishment(accomplishmentID):
     else:
         print("[accomplishment.delete_accomplishment] Error occurred while deleting accomplishment: Accomplishment not found.")
         return False
-
+def get_accomplishment(id):
+    accomplishment = Accomplishment.query.filter_by(id=id).first()
+    if accomplishment:
+        return accomplishment
+    else:
+        return None
+        
 def get_accomplishments_by_studentID(studentID):
     accomplishments = Accomplishment.query.filter_by(createdByStudentID=studentID).all()
     if accomplishments:
