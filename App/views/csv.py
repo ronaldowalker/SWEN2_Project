@@ -1,6 +1,6 @@
-from flask import Blueprint, redirect, render_template, request, send_from_directory, jsonify
+from flask import Blueprint, jsonify, request
 from werkzeug.utils import secure_filename
-from App.controllers.csv import *
+from App.controllers.csv import populate_db_from_csv
 import os
 
 csv_views = Blueprint('csv_views', __name__, template_folder='../templates')
@@ -16,7 +16,8 @@ def upload_csv():
 
     if file and file.filename.endswith('.csv'):
         filename = secure_filename(file.filename)
-        file_path = os.path.join('App', 'Csv', filename)  # Assuming 'App/Csv' is the path to save CSV files
+        # Update the file_path to store in the desired directory
+        file_path = os.path.join('/workspaces/Info3604_Project/App/Csv', filename)
         file.save(file_path)
         try:
             populate_db_from_csv(file_path)
