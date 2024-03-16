@@ -62,25 +62,41 @@
     color: #051d3c;
 }
 
-/* Style for file upload button */
-.file-upload-container {
-    padding: 20px;
-    margin-top: 50px;
-    text-align: center;
-}
+.upload-btn-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            margin-top: 20px;
+        }
 
-.file-upload-container input[type="file"] {
-    display: none;
-}
+        .btn {
+            border: 2px solid #051d3c;
+            color: #051d3c;
+            background-color: white;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+        }
 
-.file-upload-container label {
-    cursor: pointer;
-    padding: 10px 20px;
-    background-color: #051d3c;
-    color: white;
-    border-radius: 5px;
-}
+        .upload-btn-wrapper input[type=file] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
 
+.button {
+    position: absolute;
+    top: 200px;
+    right: 500px;
+}
+        
 </style>
 </head>
 <body>
@@ -98,14 +114,15 @@
   </ul>
 </header>
 
-<!-- File upload area in the body -->
-<div class="file-upload-container">
-    <label for="csv-upload">Upload CSV File</label>
-    <input type="file" id="csv-upload" accept=".csv">
+<!-- Rest of your content -->
+<div class = "button">
+<img src="CSV.png" alt="Image" width="250">
+    <div class="upload-btn-wrapper">
+        <button class="btn">Upload CSV</button>
+        <input type="file" id="csv-upload" name="myfile" accept=".csv">
+    </div>
 </div>
 
-
-<!-- Rest of your content -->
 <script>
     document.getElementById('csv-upload').addEventListener('change', function(event) {
         const file = event.target.files[0];
