@@ -116,7 +116,7 @@
 
 <!-- Rest of your content -->
 <div class = "button">
-<img src="CSV.png" alt="Image" width="250">
+  <img src="{{ url_for('index_views.serve_image', filename='CSV.png') }}" alt="Image" width="250">
     <div class="upload-btn-wrapper">
         <button class="btn">Upload CSV</button>
         <input type="file" id="csv-upload" name="myfile" accept=".csv">
