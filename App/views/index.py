@@ -18,3 +18,7 @@ def init():
 @index_views.route('/health', methods=['GET'])
 def health_check():
     return jsonify({'status':'healthy'})
+
+@index_views.route('/images/<path:filename>', methods=['GET'])
+def serve_image(filename):
+    return send_from_directory('/workspaces/Info3604_Project/images', filename)
