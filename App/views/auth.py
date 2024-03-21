@@ -3,7 +3,7 @@ from flask_jwt_extended import jwt_required, current_user as jwt_current_user
 from flask_login import login_required, login_user, current_user, logout_user
 
 from.index import index_views
-
+from App.models import Staff, Student, User
 from App.controllers import (
     create_user,
     jwt_authenticate,
@@ -33,9 +33,20 @@ def login_action():
     data = request.form
     user = login(data['username'], data['password'])
     if user:
+        user_type = type(user)
+        print("User type:", user_type)
         login_user(user)
-        return 'user logged in!'
+        if (user.user_type == "staff"):
+            return redirect("/student_dashboard")  # Redirect to student dashboard
+        elif (user.user_type == "student"):
+            return redirect("/test")  # Redirect to staff dashboard
+        # return redirect("/test")
+        return 'cannot find type', 401
     return 'bad username or password given', 401
+
+@auth_views.route('/test', methods=['GET'])
+def home_page():
+    return render_template('Student-Home.html')
 
 @auth_views.route('/logout', methods=['GET'])
 def logout_action():

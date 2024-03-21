@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Lilita+One&family=Titan+One&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Tracker</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: #fff;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 999;
+            background: #fff;
+        }
+        .logo {
+            background-color: #051d3c;
+            border-bottom-right-radius: 50px;
+            border-top-right-radius: 50px;
+            padding: 10px 20px;
+            padding-left: 50px;
+            font-family: "Titan One", sans-serif;
+            font-weight: bold;
+        }
+        .logo h1 {
+            margin: 0;
+            color: white;
+            font-size: 30px;
+        }
+        .nav-bar {
+            list-style: none;
+            display: flex;
+            padding: 10px 20px;
+            background-color: #051d3c;
+            border-bottom-left-radius: 40px;
+            border-top-left-radius: 40px;
+            font-family: "Titan One", sans-serif;
+            font-weight: bold;
+        }
+        .nav-bar li {
+            padding: 0 20px;
+        }
+        .nav-bar li a {
+            text-decoration: none;
+            color: white;
+        }
+        .logo2 {
+            position: absolute;
+            left: 140px;
+            color: #051d3c;
+        }
+        .leaderboard {
+            margin-top: 100px;
+            padding: 20px;
+        }
+        .student-strip {
+            display: flex;
+            align-items: center;
+            background-color: #f2f2f2;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            position: relative; /* Added for animated border */
+        }
+        .student-strip::before {
+            content: "";
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            animation: borderAnimation 3s infinite;
+        }
+        @keyframes borderAnimation {
+            0% {
+                border-color: #051d3c;
+            }
+            50% {
+                border-color: #032741;
+            }
+            100% {
+                border-color: #051d3c;
+            }
+        }
+        .student-strip .button {
+            background-color: #051d3c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .student-strip .name {
+            flex-grow: 1;
+            text-align: center;
+            padding: 10 30px;
+            line-height: 50px;
+        }
+        .student-strip .image {
+            margin-left: 10px;
+            width: 50px;
+            height: 50px;
+        }
+        .student-strip .image img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        .student-strip .rank {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>UWI</h1>
+        </div>
+        <div class="logo2"><h2>Your Number One Tracker</h2></div>
+        <ul class="nav-bar">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Profile</a></li>
+            <li><a href="#">Logout</a></li>
+        </ul>
+    </header>
+
+    <div class="leaderboard">
+        <h2>Leaderboard</h2>
+        <div class="student-strip">
+            <button class="button">View Profile</button>
+            <div class="name">John Doe</div>
+            <div class="image"><img src="1st.png" alt="1st Place"></div>
+        </div>
+        <div class="student-strip">
+            <button class="button">View Profile</button>
+            <div class="name">Jane Smith</div>
+            <div class="image"><img src="2nd.png" alt="2nd Place"></div>
+        </div>
+        <div class="student-strip">
+            <button class="button">View Profile</button>
+            <div class="name">Bob Johnson</div>
+            <div class="image"><img src="3rd.png" alt="3rd Place"></div>
+        </div>
+        <div class="student-strip">
+            <button class="button">View Profile</button>
+            <div class="name">Alice Williams</div>
+            <div class="rank">4th</div>
+        </div>
+        <div class="student-strip">
+            <button class="button">View Profile</button>
+            <div class="name">Michael Brown</div>
+            <div class="rank">5th</div>
+        </div>
+        <!-- Add more student strips as needed -->
+    </div>
+</body>
+</html>
