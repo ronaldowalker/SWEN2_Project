@@ -11,6 +11,12 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(120), nullable=False)
     email = db.Column(db.String(120), nullable=False)
     faculty = db.Column(db.String(120), nullable=False)
+    user_type = db.Column(db.String(20), nullable=False)
+    
+    __mapper_args__ = {
+        "polymorphic_identity": "user",
+        "polymorphic_on": user_type,
+    }
 
     def __init__(self, username, firstname,lastname , password, email, faculty):
         self.username= username
@@ -29,6 +35,9 @@ class User(db.Model, UserMixin):
             'email': self.email,
             'faculty': self.faculty
         }
+    
+    def get_id(self):
+        return self.ID
 
     def set_password(self, password):
         """Create hashed password."""

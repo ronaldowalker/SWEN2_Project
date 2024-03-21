@@ -10,6 +10,10 @@ class Staff(User):
   reports = db.relationship('IncidentReport', backref='staffReports', lazy='joined')
   pendingAccomplishments = db.relationship('Accomplishment', backref='studentaccomplishments', lazy='joined')
 
+  __mapper_args__ = {
+        "polymorphic_identity": "staff"
+    }
+
   def __init__(self,username,firstname, lastname, email, password, faculty):
     super().__init__(username=username, firstname=firstname, lastname=lastname, email=email, password=password, faculty=faculty) 
     self.reviews = []

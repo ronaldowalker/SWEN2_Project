@@ -15,6 +15,10 @@ class Student(User):
     grades = db.relationship('Grades', backref='studentGrades', lazy='joined')
     karmaID = db.Column(db.Integer, db.ForeignKey('karma.karmaID'))
 
+    __mapper_args__ = {
+        "polymorphic_identity": "student"
+    }
+    
     def __init__(self, username, firstname, lastname, email, password, faculty, admittedTerm, yearofStudy, degree, gpa):
         super().__init__(username=username, firstname=firstname, lastname=lastname, email=email, password=password, faculty=faculty)
         self.admittedTerm = admittedTerm
