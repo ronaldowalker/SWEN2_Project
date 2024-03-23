@@ -1,170 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Lilita+One&family=Titan+One&display=swap" rel="stylesheet">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Student Tracker</title>
-<style>
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    background: #fff;
-  }
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 999;
-    background: #fff;
-  }
-  .logo {
-    background-color:#051d3c;
-    border-bottom-right-radius: 50px;
-    border-top-right-radius: 50px;
-    padding: 10px 20px;
-    padding-left: 50px;
-    font-family: "Titan One", sans-serif;
-    font-weight: bold;
-  }
-  .logo h1 {
-    margin: 0;
-    color: white;
-    font-size: 30px;
-  }
-  .nav-bar {
-    list-style: none;
-    display: flex;
-    padding: 10px 20px;
-    background-color: #051d3c;
-    border-bottom-left-radius: 40px;
-    border-top-left-radius: 40px;
-    font-family: "Titan One", sans-serif;
-    font-weight: bold;
-  }
-  .nav-bar li {
-    padding: 0 20px;
-  }
-  .nav-bar li a {
-    text-decoration: none;
-    color: white;
-  }
-  .logo2 {
-    position: absolute;
-    left: 140px;
-    color: #051d3c;
-  }
-  .recommendation-section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-top: 100px; /* Adjust this value based on your header's height */
-  }
-  .recommendation-text {
-    font-size: 42px; /* Adjust based on your preference */
-    margin-left: 20px; /* Space between image and text */
-    transform-origin: center; /* Ensures the text rotates around its center */
-  background: -webkit-linear-gradient(#084f71, #051d3c); /* For Safari 5.1 to 6.0 */
-  background: linear-gradient(#084f71, #051d3c); /* Standard syntax; top to bottom gradient */
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent; /* Makes the text color transparent so the gradient shows through */
-  -webkit-text-fill-color: transparent; /* Needed for Safari */
-  
-   /* Assuming you want bold text */
-  color: #0056b3; /* Adjust the color to match your design */
-  font-family: "Titan One", sans-serif;
-  }
-  .recommendation-image {
-    height: 100px; /* Adjust based on your image */
-    width: 100px;
-     }
-     .student-card {
-          width: 1400px;
-          height: 100px;
-          right: 150px;
-            background-color: #fff;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Tracker</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: #fff;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 999;
+            background: #fff;
+        }
+        .logo {
+            background-color:#051d3c;
+            border-bottom-right-radius: 50px;
+            border-top-right-radius: 50px;
+            padding: 10px 20px;
+            padding-left: 50px;
+            font-family: "Titan One", sans-serif;
+            font-weight: bold;
+        }
+        .logo h1 {
+            margin: 0;
+            color: white;
+            font-size: 30px;
+        }
+        .nav-bar {
+            list-style: none;
+            display: flex;
+            padding: 10px 20px;
+            background-color: #051d3c;
+            border-bottom-left-radius: 40px;
+            border-top-left-radius: 40px;
+            font-family: "Titan One", sans-serif;
+            font-weight: bold;
+        }
+        .nav-bar li {
+            padding: 0 20px;
+        }
+        .nav-bar li a {
+            text-decoration: none;
+            color: white;
+        }
+        .logo2 {
+            position: absolute;
+            left: 140px;
+            color: #051d3c;
+        }
+        .recommendation-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 100px; /* Adjust this value based on your header's height */
+        }
+        .recommendation-text {
+            font-size: 42px; /* Adjust based on your preference */
+            margin-left: 20px; /* Space between image and text */
+            transform-origin: center; /* Ensures the text rotates around its center */
+            background: -webkit-linear-gradient(#084f71, #051d3c); /* For Safari 5.1 to 6.0 */
+            background: linear-gradient(#084f71, #051d3c); /* Standard syntax; top to bottom gradient */
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent; /* Makes the text color transparent so the gradient shows through */
+            -webkit-text-fill-color: transparent; /* Needed for Safari */
+            /* Assuming you want bold text */
+            color: #0056b3; /* Adjust the color to match your design */
+            font-family: "Titan One", sans-serif;
+        }
+        .recommendation-image {
+            height: 100px; /* Adjust based on your image */
+            width: 100px;
+        }
+        .student-card {
+            width: 150%;
+            max-width: 1200px; /* Adjust this value based on your design */
             padding: 20px;
             display: flex;
-            position: absolute;
+            position: relative; /* Positioned Ancestor */
             align-items: center;
             border: 2px solid #051d3c;
             border-radius: 10px;
+            margin: 20px auto; /* Center the card */
         }
-
         .student-info {
-            display: flex;
-            align-items: flex-start;
-            flex-direction: column;
+            flex: 1;
             margin-right: 20px;
         }
-
         .student-info h3 {
             margin: 0 0 5px;
-            font-size: 30px;
+            font-size: 24px; /* Adjust based on your preference */
         }
-
         .student-info p {
             margin: 0;
-            font-size: 24px;
+            font-size: 18px; /* Adjust based on your preference */
             color: #666;
         }
-
         .student-info span {
             font-weight: bold;
             margin-right: 5px;
         }
-
-      
-        .student-buttons2 {
-           position: absolute;
-           right: 275px;
-        top: 55px;
-        }
-        .student-buttons3 {
-             /* accept */
-           position: absolute;
-           right: 100px;
-        top: 25px;
-        }
         .student-buttons {
-           position: absolute;
-           right: 100px;
-           top: 75px;
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
         }
         .student-buttons button {
-           /* decline */
-            padding: 16px 28px;
-            background-color: red;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .student-buttons2 button{
-            /* margin-bottom: 10px; */
-            padding: 14px 25px;
+            padding: 12px 20px; /* Adjust button padding */
             background-color: #051d3c;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .student-buttons3 button{
-            /* margin-bottom: 10px; */
-            padding: 16px 30px;
-            background-color: green;
             color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
         }
+        @media screen and (max-width: 768px) {
+            /* Adjust button positions for smaller screens */
+            .student-buttons {
+                bottom: 10px;
+                right: 10px;
+            }
+        }
+        .student-buttons button.accept {
+            background-color: green; /* Green background for Accept button */
+        }
+        .student-buttons button.decline {
+            background-color: red; /* Red background for Decline button */
+             }
     </style>
 </head>
 <body>
@@ -192,15 +164,10 @@
             <h3>John Doe</h3>
             <p>ID: 12345 | Points: 500</p>
         </div>
-        <div class="student-buttons2">
-        <button>Student Profile</button>
-        </div>
-        <div class="student-buttons3">
-        <button>Accept</button>
-        </div>
         <div class="student-buttons">
-          
-            <button>Decline</button>
+        <button >Student Profile</button>
+            <button class="accept">Accept</button>
+            <button class="decline">Decline</button>
         </div>
     </div>
 
