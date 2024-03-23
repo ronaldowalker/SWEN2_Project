@@ -75,7 +75,7 @@
             background-color: white;
             padding: 8px 20px;
             border-radius: 8px;
-            font-size: 16px;
+            font-size: 26px;
             font-weight: bold;
             cursor: pointer;
             display: block;
@@ -91,10 +91,11 @@
             cursor: pointer;
         }
 
+  
 .button {
     position: absolute;
     top: 200px;
-    right: 500px;
+    right: 750px;
 }
         
 </style>
@@ -116,7 +117,7 @@
 
 <!-- Rest of your content -->
 <div class = "button">
-  <img src="{{ url_for('index_views.serve_image', filename='CSV.png') }}" alt="Image" width="250">
+<img src="CSV.png" alt="Image" width="450">
     <div class="upload-btn-wrapper">
         <button class="btn">Upload CSV</button>
         <input type="file" id="csv-upload" name="myfile" accept=".csv">
