@@ -30,7 +30,8 @@ jobs:
     
     - name: Setup NLTK
       run: |
-        python -m nltk.downloader vader_lexicon
+        python -m nltk.downloader punkt vader_lexicon
+        export NLTK_DATA="$(pwd)/nltk_data"
         echo "NLTK Data Path: $NLTK_DATA"
         ls -la $NLTK_DATA  # Check NLTK data directory contents
 
