@@ -8,3 +8,4 @@ from .test_accomplishment import *
 from .test_grades import *
 from .test_admin import *
 from .test_karma import *
+from .test_nltk import *
