@@ -30,7 +30,7 @@ jobs:
     
     - name: Setup NLTK
       run: |
-        python -m nltk.downloader punkt vader_lexicon
+        python -m nltk.downloader all
 
     - name: Run Tests
       run: pytest
