@@ -31,6 +31,12 @@ jobs:
     - name: Setup NLTK
       run: |
         python -m nltk.downloader vader_lexicon
-  
+        echo "NLTK Data Path: $NLTK_DATA"
+        ls -la $NLTK_DATA  # Check NLTK data directory contents
+
+    - name: Print NLTK Installation Info
+      run: |
+        python -c "import nltk; print(nltk.__version__); print(nltk.data.path)"
+
     - name: Run Tests
       run: pytest
