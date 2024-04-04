@@ -163,48 +163,52 @@
         </div>
         <div class="logo2"><h2>Your Number One Tracker</h2></div>
         <ul class="nav-bar">
-            <li><a href="#">Home</a></li>
+            <li><a href="/staffhome">Home</a></li>
             <li><a href="#">Profile</a></li>
-            <li><a href="#">Logout</a></li>
+            <li><a href="/logout">Logout</a></li>
         </ul>
     </header>
 
     <div class="recommendation-section">
         <img src="FR.png" alt="Recommendation Icon" class="recommendation-image">
-        <div class="recommendation-text">Full Review</div>
+        <div class="recommendation-text">Proposed Achievement</div>
         <img src="FR.png" alt="Recommendation Icon" class="recommendation-image">
     </div>
 
     <!-- New student card -->
     <div class="student-card">
         <div class="student-info">
-            <h3>John Doe</h3>
-            <p>ID: 12345</p>
-                <p>Topic: Shiii idk</p>
+            <h3>{{student.firstname}} {{student.lastname}}</h3>
+            <p>ID: {{student.UniId}}</p>
+                <p>Topic: {{accomplishment.topic}}</p>
             <div class="description-box">
                 <h3>Description</h3>
-                <p>Some shi</p>
+                <p>{{accomplishment.details}}</p>
             </div>
         </div>
     </div>
 
-    <!-- Points dropdown -->
-    <div class="points-dropdown">
-    <label for="points">Award Points:</label>
-        <select name="points" id="points">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-        </select>
-    </div>
-
-    <!-- Accept and Decline buttons -->
-    <div class="student-buttons">
-        <button class="accept">Accept</button>
-        <button class="decline">Decline</button>
-    </div>
+    <form method="POST" action="/acceptAccomplishment/{{accomplishment.id}}">
+        <div class="points-dropdown">
+            <label for="points">Award Points:</label>
+            <select name="points" id="points">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+    
+        <!-- Accept and Decline buttons -->
+        <div class="student-buttons">
+            <button type="submit" class="accept">Accept</button>
+                   
+    </form>
+    <form method="POST" action="/declineAccomplishment/{{accomplishment.id}}">
+        <button class="decline" href="/declineAccomplishment/{{accomplishment.id}}">Decline</button>
+    </form>
+</div>
 
 </body>
 </html>

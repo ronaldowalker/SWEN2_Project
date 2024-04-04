@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to PDF Converter</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: #fff;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 999;
+            background: #fff;
+        }
+
+        .logo {
+            background-color:#051d3c;
+            border-bottom-right-radius: 50px;
+            border-top-right-radius: 50px;
+            padding: 10px 20px;
+            padding-left: 50px;
+            font-family: "Titan One", sans-serif;
+            font-weight: bold;
+        }
+
+        .logo h1 {
+            margin: 0;
+            color: white;
+            font-size: 30px;
+        }
+
+        .nav-bar {
+            list-style: none;
+            display: flex;
+            padding: 10px 20px;
+            background-color: #051d3c;
+            border-bottom-left-radius: 40px;
+            border-top-left-radius: 40px;
+            font-family: "Titan One", sans-serif;
+            font-weight: bold;
+        }
+
+        .nav-bar li {
+            padding: 0 20px;
+        }
+
+        .nav-bar li a {
+            text-decoration: none;
+            color: white;
+        }
+
+        .logo2 {
+            position: absolute;
+            left: 140px;
+            color: #051d3c;
+        }
+
+        .recommendation-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 100px;
+            margin-bottom: 50px;
+        }
+
+        .recommendation-text {
+            font-size: 42px;
+            margin-left: 20px;
+            transform-origin: center;
+            background: -webkit-linear-gradient(#084f71, #051d3c);
+            background: linear-gradient(#084f71, #051d3c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+            color: #0056b3;
+            font-family: "Titan One", sans-serif;
+        }
+
+        .recommendation-image {
+            height: 120px;
+            width: 120px;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 20px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .dropdown span {
+            background-color: #051d3c;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-block;
+            width: 200px;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            width: 200px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 1px solid #051d3c;
+            border-radius: 5px;
+            padding: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 8px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #ddd;
+            border-radius: 5px;
+        }
+
+        .dropdown-content a.selected {
+            color: green;
+            font-weight: bold;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .button {
+            background-color: #051d3c;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            width: 200px;
+            text-align: center;
+            margin: 0 auto;
+            margin-bottom: 20px;
+        }
+
+        .button:hover {
+            background-color: #084f71;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: calc(100vh - 500px);
+        }
+
+        .card {
+            width: 80%;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        #userInput {
+            width: 100%;
+            height: 300px;
+            font-size: 16px;
+            font-family: Arial, sans-serif;
+            padding: 10px;
+            box-sizing: border-box;
+            resize: none;
+        }
+        .position{
+            position: absolute;
+            top: 75vh;
+            right: 155vh;
+        }
+        .position2{
+            position: absolute;
+            top: 75vh;
+            right: -4vw;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+          <h1>UWI</h1>
+        </div>
+        <div class="logo2"><h2>Your Number One Tracker</h2></div>
+        <ul class="nav-bar">
+          <li><a href="/staffhome">Home</a></li>
+          <li><a href="#">Profile</a></li>
+          <li><a href="/logout">Logout</a></li>
+        </ul>
+    </header>
+
+    <div class="recommendation-section">
+        <img src="proposed.png" alt="Recommendation Icon" class="recommendation-image">
+        <div class="recommendation-text">Student Recommendation Form!</div>
+        <img src="proposed.png" alt="Recommendation Icon" class="recommendation-image">
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <textarea id="userInput" placeholder="Enter your text">Date
+
+TO WHOMSOEVER IT MAY CONCERN
+
+I am writing this letter of reference to XXXX whom I have known for the last year as a student in our BSc Computer Science special. Being a lecturer COMP 2604 Operating Systems course, I found her to be a good learner, sincere, and a good communicator. She is an exceptional student who has consistently demonstrated outstanding academic performance. Her dedication to her studies is truly commendable, as evidenced by her exemplary grades and her regular attendance in class. She is diligent in taking notes during lectures, ensuring that she captures key concepts and ideas effectively.
+I am confident that XXXX has the academic prowess, motivation, and determination to excel in her chosen field of study at the postgraduate level. Her drive for excellence, coupled with her exceptional work ethic and passion for learning, make her an ideal candidate for further academic pursuits.
+I wholeheartedly strongly support XXXX 's aspirations to study abroad, and I am certain that she will be a valuable asset to any academic institution fortunate enough to have her as a student.
+Please do not hesitate to contact me if you require any further information regarding XXXX or her academic achievements.
+
+With regards,
+            </textarea>
+        </div>
+    </div>
+<div class="position2">
+    <div class="dropdown">
+        <span>Choose Greeting:</span>
+        <div class="dropdown-content">
+            <input type="checkbox" id="checkboxHello" value=" Hello " onclick="updateTextArea(this)">
+            <label for="checkboxHello">Hello</label><br>
+
+            <input type="checkbox" id="checkboxHi" value=" Hi " onclick="updateTextArea(this)">
+            <label for="checkboxHi">Hi</label><br>
+
+            <input type="checkbox" id="checkboxHey" value=" Hey " onclick="updateTextArea(this)">
+            <label for="checkboxHey">Hey</label><br>
+
+            <input type="checkbox" id="checkboxBye" value=" Bye " onclick="updateTextArea(this)">
+            <label for="checkboxBye">Bye</label><br>
+
+            <input type="checkbox" id="checkboxLater" value=" Later " onclick="updateTextArea(this)">
+            <label for="checkboxLater">Later</label><br>
+        </div>
+    </div>
+
+    <!-- Upload image -->
+
+
+    <div class="dropdown">
+        <span>Select Review:</span>
+        <div class="dropdown-content">
+            <a href="#" data-value="good">Good</a>
+            <a href="#" data-value="satisfactory">Satisfactory</a>
+            <a href="#" data-value="needs-improvement">Needs Improvement</a>
+        </div>
+    </div>
+
+    <!-- Dropdown for selecting achievement -->
+    <div class="dropdown">
+        <span>Select Achievement:</span>
+        <div class="dropdown-content">
+            <a href="#" data-value="excellent">Excellent</a>
+            <a href="#" data-value="commendable">Commendable</a>
+            <a href="#" data-value="average">Average</a>
+        </div>
+    </div>
+</div>
+    <div class ="position">
+    <p>Insert Signature</p>
+    <input type="file" id="uploadImage" accept="image/*" class="button"> <br>
+
+    <button onclick="generatePDF()" class="button">Convert to PDF</button>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.debug.js"></script>
+    <script>
+        function updateTextArea(checkbox) {
+            const userInput = document.getElementById('userInput');
+            const wordToAdd = checkbox.value;
+            const cursorPosition = userInput.selectionStart;
+            const startText = userInput.value.substring(0, cursorPosition);
+            const endText = userInput.value.substring(cursorPosition);
+            userInput.value = startText + wordToAdd + endText;
+            userInput.setSelectionRange(cursorPosition + wordToAdd.length, cursorPosition + wordToAdd.length);
+        }
+
+        function generatePDF() {
+            const userText = document.getElementById('userInput').value;
+            const doc = new jsPDF({
+                orientation: 'portrait',
+                unit: 'px',
+                format: 'a4',
+            });
+            doc.setFontSize(12);
+            doc.setFont('times', 'normal');
+            const lines = doc.splitTextToSize(userText, doc.internal.pageSize.width - 20);
+            let y = 20;
+            lines.forEach(line => {
+                doc.text(line, 10, y);
+                y += 15;
+            });
+            const fileInput = document.getElementById('uploadImage');
+            const file = fileInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onloadend = function() {
+                    const base64data = reader.result;
+                    doc.addImage(base64data, 'PNG', 80, y - 45, 100, 50);
+                    doc.save('myPDF.pdf');
+                };
+            } else {
+                doc.save('myPDF.pdf');
+            }
+        }
+
+        const dropdownLinks = document.querySelectorAll('.dropdown-content a');
+        dropdownLinks.forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+                const selectedValue = this.getAttribute('data-value');
+                console.log(selectedValue);
+            });
+        });
+    </script>
+
+</body>
+</html>

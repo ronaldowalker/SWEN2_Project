@@ -92,11 +92,11 @@
         }
 
   
-.button {
-    position: absolute;
-    top: 200px;
-    right: 750px;
-}
+  .button {
+  position: absolute;
+  top: 20vh; /* 20% of the viewport height */
+  right: 37vw; /* 20% of the viewport width */
+  }
         
 </style>
 </head>
@@ -111,15 +111,15 @@
     <!-- Adjusted to only have the left side curved -->
     <li><a href="#">Home</a></li>
     <li><a href="#">Profile</a></li>
-    <li><a href="#">Logout</a></li>
+    <li><a href="/logout">Logout</a></li>
   </ul>
 </header>
 
 <!-- Rest of your content -->
 <div class = "button">
-<img src="CSV.png" alt="Image" width="450">
+<img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/CSV.png?raw=true" alt="Image" width="450">
     <div class="upload-btn-wrapper">
-        <button class="btn">Upload CSV</button>
+        <button class="btn">Upload Student CSV</button>
         <input type="file" id="csv-upload" name="myfile" accept=".csv">
     </div>
 </div>

@@ -25,34 +25,39 @@ def get_user_page():
 @auth_views.route('/identify', methods=['GET'])
 @login_required
 def identify_page():
-    return jsonify({'message': f"username: {current_user.username}, id : {current_user.id}"})
+    return jsonify({'message': f"username: {current_user.username}, id : {current_user.ID}"})
 
 
 @auth_views.route('/login', methods=['POST'])
 def login_action():
     data = request.form
+
     user = login(data['username'], data['password'])
     if user:
         user_type = type(user)
         print("User type:", user_type)
         login_user(user)
         if (user.user_type == "staff"):
-            return redirect("/student_dashboard")  # Redirect to student dashboard
+            return redirect("/staff_dashboard")  # Redirect to student dashboard
         elif (user.user_type == "student"):
-            return redirect("/test")  # Redirect to staff dashboard
+            return redirect("/Student-Home")  # Redirect to staff dashboard
+        elif (user.user_type == "admin"):
+            return redirect("/admin")
         # return redirect("/test")
         return 'cannot find type', 401
     return 'bad username or password given', 401
 
-@auth_views.route('/test', methods=['GET'])
-def home_page():
-    return render_template('Student-Home.html')
+@auth_views.route('/staff_dashboard', methods=['GET'])
+def staff_home_page():
+    return render_template('Staff-Home.html')
 
 @auth_views.route('/logout', methods=['GET'])
 def logout_action():
-    data = request.form
-    user = login(data['username'], data['password'])
-    return 'logged out!'
+    logout_user()
+    # data = request.form
+    # user = login(data['username'], data['password'])
+    #return 'logged out!'
+    return redirect("/")
 
 '''
 API Routes

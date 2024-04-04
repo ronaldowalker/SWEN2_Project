@@ -61,7 +61,7 @@
     bottom: -430px; /* Let it overlap into the body */
     border: 4px solid white; 
     
-    background: url('AV2.png') center/cover no-repeat; /* Replace 'AV1.png' with your image path */
+    background: url("https://github.com/RichardR963/Info3604_Project/blob/main/images/AV2.png?raw=true") center/cover no-repeat;
   }
 
 
@@ -76,8 +76,8 @@
 
 .text {
   /* "Student" */
-  top: 120px; /* Adjust as needed */
-  left: 100px; /* Adjust as needed */
+  top: 12vh; /* Adjust as needed */
+  left: 10vw; /* Adjust as needed */
   color: #051d3c;
 }
 
@@ -184,6 +184,76 @@ body > *:not(footer) {
   justify-content: space-between; /* To separate contact and social media to each side */
 }
 
+@media (min-width: 1920px) and (max-height: 1080px) {
+  .text, .text2, .text3 {
+    font-size: 130px;  /* Adjust font size as needed */
+  }
+
+  .user-avatar {
+    width: 732px;
+    height: 646px;
+    right: 641px;
+    bottom: -410px;
+  }
+  .text {
+  /* "Student" */
+  top: 140px; /* Adjust as needed */
+  left: 100px; /* Adjust as needed */
+  }
+  .text2 {
+  /* "Student" */
+  top: 230px; /* Adjust to align with .text if necessary */
+  right: 180px; /* Adjust as needed */
+  }
+  .text3{
+  /* "Student" */
+  top: 340px; /* Adjust as needed */
+  left: 100px; /* Centers the text */
+  }
+}
+
+/* 1600x900 */
+@media (min-width: 1600px) and (max-height: 900px) {
+  .text, .text2, .text3 {
+    font-size: 100px; 
+  }
+
+  .user-avatar {
+    width: 40vw;
+    height: 40vw;
+    right: 32vw;
+    bottom: -28vw;
+  }
+  .text {
+  /* "Student" */
+  top: 120px; /* Adjust as needed */
+  left: 100px; 
+  }
+  .text2 {
+  /* "Student" */
+  top: 170px; /* Adjust as needed */
+  left: 1000px; 
+  }
+  .text3{
+  /* "Conduct" */
+  top: 240px; /* Adjust as needed */
+  left: 100px; 
+  }
+}
+
+/* 1280x1720 */
+@media (min-width: 1280px) and (max-height: 720px) {
+  .text, .text2, .text3 {
+    font-size: 4.5rem;
+  }
+
+  .user-avatar {
+    width: 45vw;
+    height: 45vw;
+    right: 35vw;
+    bottom: -30vw;
+  }
+}
 /* ... your other styles ... */
 
 </style>
@@ -197,9 +267,9 @@ body > *:not(footer) {
   <div class="logo2"><h2>Your Number One Tracker</h2></div>
   <ul class="nav-bar">
     <!-- Adjusted to only have the left side curved -->
-    <li><a href="#">Home</a></li>
-    <li><a href="#">Profile</a></li>
-    <li><a href="#">Logout</a></li>
+    <li><a href="/Student-Home">Home</a></li>
+    <li><a href="/student-page">Profile</a></li>
+    <li><a href="/logout">Logout</a></li>
   </ul>
   <div class="user-avatar"></div> <!-- Changed to a div with background for better control -->
 </header>
@@ -215,17 +285,17 @@ body > *:not(footer) {
 </main>
 
 <div class="gradient-box">
-  <a href="/student-page" class="image-link">
-    <img src="user.png" alt="Student Page">
-    <span class="text4"> Profile </span>
+  <a href="/propose-achievement" class="image-link">
+    <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/Achivement.png?raw=true" alt="Student Page">
+    <span class="text4"> Propose Achievement </span>
   </a>
   <a href="/leaderboard" class="image-link">
-    <img src="Leaderboard.png" alt="Leaderboard">
+    <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/Leaderboard.png?raw=true" alt="Leaderboard">
     <span class="text4"> Leaderboard </span>
   </a>
   <a href="/upload-transcript" class="image-link">
-    <img src="Upload.png" alt="Upload Transcript">
-    <span class="text4"> Upload Transcript</span>
+    <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/Upload.png?raw=true" alt="Upload Transcript">
+    <span class="text4"> Upload Transcripts</span>
   </a>
 </div>
 

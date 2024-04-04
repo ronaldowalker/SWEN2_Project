@@ -22,7 +22,7 @@ from App.controllers import (
 class IncidentReportUnitTests(unittest.TestCase):
 
     def test_new_report(self):
-        newReport = IncidentReport(studentID=1, madeByStaffId=2, report="Bad report", points=-3)
+        newReport = IncidentReport(studentID=1, madeByStaffId=2, report="Bad report",topic="Badness", points=-3)
         assert newReport is not None
     
 '''
@@ -46,7 +46,7 @@ class IncidentReportIntegrationTests(unittest.TestCase):
         student = get_student_by_username("billy")
         staff = get_staff_by_username("joe")
 
-        assert create_incident_report(student.username, staff.username, "Bad Report", points=-3) == True
+        assert create_incident_report(student.username, staff.username, "Bad Report", "Badness", points=-3) == True
 
     def test_delete_report(self):
         self.test_create_report()
