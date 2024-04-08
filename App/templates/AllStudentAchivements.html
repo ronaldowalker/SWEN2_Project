@@ -169,12 +169,7 @@
         <div class="logo">
             <h1>UWI</h1>
         </div>
-        <div class="logo2"><h2>Your Number One Tracker</h2></div>
-        <ul class="nav-bar">
-          <li><a href="/Student-Home">Home</a></li>
-          <li><a href="/leaderboard">LeaderBoard</a></li>
-          <li><a href="/logout">Logout</a></li>
-        </ul>
+        <div class="logo2"><h2>Your Number One Tracker</h2></div>        
     </header>
 
     <div class="recommendation-section">
@@ -190,8 +185,8 @@
         <div class="student-info">
           
             <h3>Topic: {{ accomplishment.topic }}</h3>
-            <p>Assigned Teacher id: {{ accomplishment.taggedStaffId }} </p>
-              <p>Points: {{ accomplishment.points }}</p>
+             <!-- <p>Assigned Teacher id: {{ accomplishment.taggedStaffId }} </p> -->
+              <p>Points: {{ accomplishment.points }}</p> 
             <div class="description-box">
                 <h3>Details:</h3>
                 <a> {{ accomplishment.details }}</a>
@@ -201,11 +196,8 @@
           <br><br>
            {% endfor %}
             <div>
-            <!-- <p>Supporting Image:</p>
-        <img src="imageUrl" alt="Supporting Image"> -->
             
-    </div>
-          
+    </div>         
         </div>
     </div>
 

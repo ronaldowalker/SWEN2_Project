@@ -68,20 +68,20 @@
             color: #051d3c;
         }
 
-        /* Login card styling */
-        .login-card {
-            position: absolute;
-            top: 50%;
-            right: 40vw; /* Adjust position from right */
-            transform: translateY(-50%);
-            width: 400px;
-            height: 450px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            animation: borderAnimation 3s infinite;
-        }
+      .login-card {
+          position: fixed; /* Fixed position to stay centered even when scrolling */
+          top: 50%; /* Center vertically */
+          left: 50%; /* Center horizontally */
+          transform: translate(-50%, -50%); /* Move the card back up and left by 50% of its own width and height */
+          width: 400px; /* Adjust the width of the login card */
+          height: 450px; /* Adjust the height of the login card */
+          background-color: #fff;
+          border-radius: 10px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          padding: 20px;
+          animation: borderAnimation 3s infinite;
+      }
+
 
         /* Animated border */
         @keyframes borderAnimation {
@@ -163,11 +163,7 @@
         right: 1000px; /* Adjust the right position of the second image */
     }
 
-    .login-card {
-        right: 600px; /* Adjust the right position of the login card */
-        width: 350px; /* Adjust the width of the login card */
-        height: 400px; /* Adjust the height of the login card */
-    }
+    
 }
     </style>
 </head>

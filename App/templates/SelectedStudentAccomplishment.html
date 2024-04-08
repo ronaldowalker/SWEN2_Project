@@ -84,7 +84,7 @@
         }
         .student-card {
             width: 100%;
-            max-width: 600px; /* Adjust this value based on your design */
+            max-width: 800px; /* Adjust this value based on your design */
             padding: 20px;
             display: flex;
             position: relative; /* Positioned Ancestor */
@@ -111,10 +111,15 @@
             font-weight: bold;
             margin-right: 5px;
         }
+
+        textarea{
+          width: 100%;
+          height: 60px;
+        }
         .description-box {
             width: 100%;
             background-color: #f9f9f9;
-           margin-top: 10px;
+           margin-top: 30px;
             border-radius: 8px;
             margin-bottom: 10px;
         }
@@ -170,9 +175,9 @@
     </header>
 
     <div class="recommendation-section">
-        <img src="FR.png" alt="Recommendation Icon" class="recommendation-image">
+        <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/FR.png?raw=true" alt="Recommendation Icon" class="recommendation-image">
         <div class="recommendation-text">Proposed Achievement</div>
-        <img src="FR.png" alt="Recommendation Icon" class="recommendation-image">
+        <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/FR.png?raw=true" alt="Recommendation Icon" class="recommendation-image">
     </div>
 
     <!-- New student card -->
@@ -185,30 +190,37 @@
                 <h3>Description</h3>
                 <p>{{accomplishment.details}}</p>
             </div>
+          <div class="description-box">
+              <h3>+ Add a Comment</h3>
+              <textarea placeholder="Comments" name="commentEntered" id="commentEntered"></textarea>
+          </div>
         </div>
     </div>
 
-    <form method="POST" action="/acceptAccomplishment/{{accomplishment.id}}">
-        <div class="points-dropdown">
-            <label for="points">Award Points:</label>
-            <select name="points" id="points">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
-        </div>
-    
-        <!-- Accept and Decline buttons -->
+    <form method="POST" action="/acceptAccomplishment/{{accomplishment.id}}" onsubmit="updateAcceptInput()">  
+      <input type="hidden" id="acceptcomment" name="acceptcomment" value="">
         <div class="student-buttons">
-            <button type="submit" class="accept">Accept</button>
-                   
+        <button type="submit" class="accept">Accept</button>                   
     </form>
-    <form method="POST" action="/declineAccomplishment/{{accomplishment.id}}">
+  
+    <form method="POST" action="/declineAccomplishment/{{accomplishment.id}}" onsubmit="updateDeclineInput()">
+        <input type="hidden" id="declinecomment" name="declinecomment" value="">
         <button class="decline" href="/declineAccomplishment/{{accomplishment.id}}">Decline</button>
     </form>
 </div>
 
 </body>
+
+  <script>
+      // JavaScript function to update hidden input with textarea value
+      function updateAcceptInput() {
+          var commentEntered = document.getElementById('commentEntered').value; // Get textarea value
+          document.getElementById('acceptcomment').value = commentEntered; // Update hidden input value
+      }
+
+    function updateDeclineInput() {
+        var commentEntered = document.getElementById('commentEntered').value; // Get textarea value
+        document.getElementById('declinecomment').value = commentEntered; // Update hidden input value
+    }
+  </script>
 </html>

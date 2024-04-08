@@ -251,8 +251,26 @@
       bottom: -30vw;
     }
   }
-  /* ... your other styles ... */
+    .icon-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
 
+    .icon-number {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 24px;
+      font-weight: bold;
+      color: white;
+      background-color: red; /* Change the background color to red */
+      padding: 5px 10px;
+      border-radius: 50%;
+    }
+
+    
   </style>
 </head>
 <body>
@@ -283,11 +301,11 @@
 
 <div class="gradient-box">
   <a href="/mainReviewPage" class="image-link">
-    <img src=" https://github.com/RichardR963/Info3604_Project/blob/main/images/CR.png?raw=true" alt="Student Page">
+    <img src=" https://github.com/RichardR963/Info3604_Project/blob/main/images/CR.png?raw=true" alt="Create Review">
     <span class="text4"> Create Review </span>
   </a>
   <a href="/studentSearch" class="image-link">
-    <img src=" https://github.com/RichardR963/Info3604_Project/blob/main/images/SS.png?raw=true" alt="Leaderboard">
+    <img src=" https://github.com/RichardR963/Info3604_Project/blob/main/images/SS.png?raw=true" alt="Student Search">
     <span class="text4"> Student Search </span>
   </a>
   <!-- <a href="/reviewSearch" class="image-link">
@@ -295,14 +313,20 @@
     <span class="text4"> Review Search </span>
   </a> -->
   <a href="/incidentReport" class="image-link">
-    <img src=" https://github.com/RichardR963/Info3604_Project/blob/main/images/IR.png?raw=true" alt="Upload Transcript">
+    <img src=" https://github.com/RichardR963/Info3604_Project/blob/main/images/IR.png?raw=true" alt="Incident Report">
     <span class="text4"> Incident Report</span>
     <a href="/allAchievementApproval" class="image-link">
-    <img src=" https://github.com/RichardR963/Info3604_Project/blob/main/images/ER.png?raw=true" alt="Upload Transcript">
+      <div class="icon-container">
+        <span class="icon-number">{{ numAccProp }}</span>
+      </div>
+    <img src=" https://github.com/RichardR963/Info3604_Project/blob/main/images/ER.png?raw=true" alt="Proposed Achievements">
     <span class="text4"> Proposed Achievements</span>
   </a>
   <a href="/allRecommendationRequests" class="image-link">
-    <img src=" https://github.com/RichardR963/Info3604_Project/blob/main/images/ER.png?raw=true" alt="Upload Transcript">
+    <div class="icon-container">
+      <span class="icon-number">{{ numRRs  }}</span>
+    </div>
+    <img src=" https://github.com/RichardR963/Info3604_Project/blob/main/images/ER.png?raw=true" alt="Recommendation Requests">
     <span class="text4"> Recommendation Requests</span>
   </a>
  

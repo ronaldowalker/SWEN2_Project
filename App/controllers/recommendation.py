@@ -1,13 +1,15 @@
 from App.models import Recommendation
 from App.database import db
-from .student import (get_student_by_UniId, get_student_by_id,get_full_name_by_student_id)
+from .student import (get_student_by_UniId, get_student_by_id,
+                      get_full_name_by_student_id)
 
-def create_recommendation(studentID, staffID, approved, reason, details,status):
-  # print("[recommendation.create_recommendation] Creating new recommendation"
-  # )
-  # print('details:', details, 'reason:', reason, 'approved:', approved, 'staffID:', staffID, 'studentID:', studentID)
+
+def create_recommendation(studentID, staffID, approved, status,
+                          currentYearOfStudy, details):
+
   student = get_student_by_id(studentID)
-  newRec = Recommendation(student, staffID, approved, reason, details,status)
+  newRec = Recommendation(student, staffID, approved, status,
+                          currentYearOfStudy, details)
   db.session.add(newRec)
 
   try:
@@ -29,20 +31,34 @@ def get_recommendations_student(createdByStudentID):
   else:
     return []
 
+
 def get_recommendation(id):
-    recs = Recommendation.query.filter_by(ID=id).first()
-    if recs:
-        return recs
-    else:
-        return []
+  recs = Recommendation.query.filter_by(ID=id).first()
+  if recs:
+    return recs
+  else:
+    return []
+
 
 def get_recommendations_staff(taggedStaffID):
-    recs = Recommendation.query.filter_by(taggedStaffID=taggedStaffID, approved=False).all()
-    if recs:
-        return recs
-    else:
-        return []
+  recs = Recommendation.query.filter_by(taggedStaffID=taggedStaffID,
+                                        approved=False).all()
+  if recs:
+    return recs
+  else:
+    return []
 
+def get_recommendations_student_count(createdByStudentID):
+  count = Recommendation.query.filter_by(createdByStudentID=createdByStudentID,
+                                       approved=True).count()
+
+  return count
+
+def get_recommendations_staff_count(taggedStaffID):
+  count = Recommendation.query.filter_by(taggedStaffID=taggedStaffID,
+                                         approved=False).count()
+
+  return count
 
 
 def approve_recommendation(ID):

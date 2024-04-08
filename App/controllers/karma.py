@@ -12,6 +12,13 @@ def get_karma(studentID):
   else:
     return None
 
+def get_karma_student(student):
+  karma = Karma.query.filter_by(studentID=student.ID).first()
+  if karma:
+    return karma
+  else:
+    return None
+
 
 def create_karma(studentID):
   newKarma = Karma(points=0.0,

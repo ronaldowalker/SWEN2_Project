@@ -4,8 +4,8 @@ from .user import User
 
 class Student(User):
   __tablename__ = 'student'
-  ID = db.Column(db.String(10), db.ForeignKey('user.ID'), primary_key=True)
-  UniId = db.Column(db.String(10), nullable=False)
+  ID = db.Column(db.Integer, db.ForeignKey('user.ID'), primary_key=True)
+  UniId = db.Column(db.String(10), nullable=False, unique=True)
   degree = db.Column(db.String(120), nullable=False)
   fullname = db.Column(db.String(255), nullable=True)
   degree = db.Column(db.String(120), nullable=False)
@@ -42,7 +42,7 @@ class Student(User):
     self.degree = degree
     self.gpa = gpa
     self.reviews = []
-    #self.fullname = fullname
+    self.fullname = firstname + ' ' + lastname
     self.accomplishments = []
     self.incidents = []
     self.grades = []

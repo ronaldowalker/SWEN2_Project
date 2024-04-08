@@ -1,9 +1,12 @@
 from App.models import Accomplishment
 from App.database import db
 from .staff import (get_staff_by_name, get_staff_by_id)
-from .student import (get_student_by_UniId, get_student_by_id,get_full_name_by_student_id)
+from .student import (get_student_by_UniId, get_student_by_id,
+                      get_full_name_by_student_id)
 
-def create_accomplishment(studentID, verified, taggedStaffName, topic, details, points,status):
+
+def create_accomplishment(studentID, verified, taggedStaffName, topic, details,
+                          points, status):
 
   student = get_student_by_id(studentID)
   firstname, lastname = taggedStaffName.split(' ')
@@ -19,7 +22,13 @@ def create_accomplishment(studentID, verified, taggedStaffName, topic, details, 
     )
     return False
 
-  newAccomplishment = Accomplishment(student=student, verified=False, taggedStaffId=staff.ID, topic=topic, details=details, points=points, status=status)
+  newAccomplishment = Accomplishment(student=student,
+                                     verified=False,
+                                     taggedStaffId=staff.ID,
+                                     topic=topic,
+                                     details=details,
+                                     points=points,
+                                     status=status)
 
   db.session.add(newAccomplishment)
 
@@ -80,20 +89,52 @@ def get_accomplishments_by_studentID(studentID):
   else:
     return []
 
-def get_requested_accomplishments(teacherID):
+
+def get_all_verified(studentID):
   accomplishments = Accomplishment.query.filter(
-        (Accomplishment.taggedStaffId == teacherID) &
-        (Accomplishment.verified == False)
-    ).all()
+      (Accomplishment.createdByStudentID == studentID)
+      & (Accomplishment.verified == True)).all()
   if accomplishments:
     return accomplishments
   else:
     return []
 
+
+def get_requested_accomplishments(teacherID):
+  accomplishments = Accomplishment.query.filter(
+      (Accomplishment.taggedStaffId == teacherID)
+      & (Accomplishment.verified == False)).all()
+  if accomplishments:
+    return accomplishments
+  else:
+    return []
+
+
+def get_verified_accomplishments_count(studentID):
+
+  count = Accomplishment.query.filter(
+      (Accomplishment.createdByStudentID == studentID)
+      & (Accomplishment.verified == True)).count()
+
+  return count
+
+
+def get_requested_accomplishments_count(teacherID):
+
+  count = Accomplishment.query.filter(
+      (Accomplishment.taggedStaffId == teacherID)
+      & (Accomplishment.verified == False)).count()
+
+  return count
+
+
 def get_student_ids_by_tagged_staff_id(tagged_staff_id):
-    accomplishments = Accomplishment.query.filter_by(taggedStaffId=tagged_staff_id).all()
-    if accomplishments:
-        student_ids = [accomplishment.createdByStudentID for accomplishment in accomplishments]
-        return student_ids
-    else:
-        return []
+  accomplishments = Accomplishment.query.filter_by(
+      taggedStaffId=tagged_staff_id).all()
+  if accomplishments:
+    student_ids = [
+        accomplishment.createdByStudentID for accomplishment in accomplishments
+    ]
+    return student_ids
+  else:
+    return []

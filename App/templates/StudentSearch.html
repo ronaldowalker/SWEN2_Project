@@ -130,6 +130,24 @@
             width: 100%;
             margin-top: 10px; /* Add some margin at the top */
         }
+
+      /* Add styles for the message container */
+      .message-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        margin-top: 10px;
+      }
+
+      /* Add styles for the message box */
+      .message {
+        color: red;
+          border: 2px solid #051d3c;
+          padding: 10px;
+          border-radius: 8px;
+          text-align: center;
+      }
+
     </style>
 </head>
 <body>
@@ -146,17 +164,23 @@
     </header>
 
     <div class="recommendation-form">
-        <img src="SS.png" alt="Student Conduct Tracker">
+        <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/SS.png?raw=true" alt="Student Conduct Tracker">
         <h2>Student Search</h2>
         <form class = "sm" action="/searchStudent" method="get">
-            <input type="text" id="name" name="name" placeholder="Name" required>
+            <input type="text" id="name" name="name" placeholder="Name">
             <input type="text" id="studentID" name="studentID" placeholder="Student ID" >
             <input type="text" id="faculty" name="faculty" placeholder="Faculty" >
             <input type="text" id="degree" name="degree" placeholder="Degree" >
         <button type="submit">Search</button>
+          {% if message %}
+          <div class="message-container">
+              <div class="message">
+                  <p>{{ message }}</p>
+              </div>
+          </div>
+          {% endif %}
 </div>
+  
 </form>
-
-
 </body>
 </html>

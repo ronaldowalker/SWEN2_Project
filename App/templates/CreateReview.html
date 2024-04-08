@@ -61,7 +61,7 @@
             color: #051d3c;
         }
         .recommendation-form {
-            max-width: 500px;
+            max-width: 800px;
             margin: 16vh auto 100px;
             padding: 20px;
             background-color: #fff;
@@ -82,6 +82,10 @@
             border-radius: 3px;
             box-sizing: border-box;
         }
+
+        textarea{
+          height: 200px;
+        }
         .recommendation-form button {
             background-color: #051d3c;
             color: white;
@@ -90,6 +94,7 @@
             border-radius: 3px;
             cursor: pointer;
             width: 100%;
+          margin-top: 50px;
         }
 
         .recommendation-form img{
@@ -153,6 +158,26 @@
         .dropdown:hover .dropdown-content {
             display: block;
         }
+
+      .reviewStuff {
+          display: flex;
+        margin-top: 40px;
+        margin-bottom: 100px;
+      }
+
+      .positive,
+      .negative {
+          flex: 1;
+          margin-right: 20px; /* Adjust spacing between positive and negative reviews */
+      }
+
+      #create-review-btn{
+        margin-bottom: 50px;
+      }
+
+      .heads{
+          margin-left: 140px;
+      }
     </style>
 </head>
 <body>
@@ -169,12 +194,15 @@
     </header>
 
     <div class="recommendation-form">
-        <img src="Recommendation.png" alt="Student Conduct Tracker">
-        <h2>Positive Review Survey</h2>
+        <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/fullreview.png?raw=true" alt="Student Conduct Tracker">
+        <h2>Student Review Survey</h2>
 
-        <form id="positive-review-form" action="/createPositiveReview" method="post">
+        <form id="review-form" action="/createReview" method="post">
             <input type="text" id="name" name="name" placeholder="Student Name" required>
             <input type="text" id="studentID" name="studentID" placeholder="Student ID" required>
+            <div class="reviewStuff">
+            <div class="positive">
+              <h3 class="heads">Positive</h3>
             <div class="dropdown">
                 <span>Leadership</span>
                 <div class="dropdown-content">
@@ -224,11 +252,67 @@
                     <a href="#" data-value="3">Willingness to help classmates</a>
                 </div>
             </div>
+            </div>
+            <div class="negative">
+              <h3 class="heads">Negative</h3>
+              <div class="dropdown">
+                  <span>Disruption</span>
+                  <div class="dropdown-content">
+                      <a href="#" data-value="-3">Disrupting class by talking out of turn </a>
+                      <a href="#" data-value="-3">Making disruptive noises during class </a>
+                      <a href="#" data-value="-2">Creating distractions during class </a>
+                  </div>
+              </div>
+
+              <div class="dropdown">
+                  <span>Attendance and Preparedness</span>
+                  <div class="dropdown-content">
+                      <a href="#" data-value="-3">Being consistently late or frequently absent</a>
+                      <a href="#" data-value="-1">Being unprepared for class or failing to bring necessary materials</a>
+                  </div>
+              </div>
+
+              <div class="dropdown">
+                  <span>Respect for Authority and Rules</span>
+                  <div class="dropdown-content">
+                      <a href="#" data-value="-3">Using electronic devices inappropriately during class </a>
+                      <a href="#" data-value="-3">Displaying defiance towards authority figures </a>
+                      <a href="#" data-value="-3">Refusing to follow instructions or complete assignments </a>
+                      <a href="#" data-value="-3">Showing disrespect towards school property </a>
+                      <a href="#" data-value="-4">Using inappropriate language or gestures </a>
+                      <a href="#" data-value="-2">Engaging in gossip or spreading rumors </a>
+                      <a href="#" data-value="-2">Exhibiting a lack of remorse for negative behavior</a>
+                      <a href="#" data-value="-3">Being uncooperative during group activities or projects</a>
+                  </div>
+              </div>
+
+              <div class="dropdown">
+                  <span>Interpersonal Behavior</span>
+                  <div class="dropdown-content">
+                      <a href="#" data-value="-5">Engaging in disrespectful behavior towards peers or teachers</a>
+                      <a href="#" data-value="-5">Exhibiting bullying behavior towards peers</a>
+                      <a href="#" data-value="-5">Engaging in cheating or dishonest behavior</a>
+                      <a href="#" data-value="-4">Exhibiting aggressive behavior towards peers </a>
+                      <a href="#" data-value="-3">Engaging in behavior that poses a safety risk to oneself or others </a>
+                      <a href="#" data-value="-3">Exhibiting a lack of empathy towards others</a>
+                      <a href="#" data-value="-4">Exhibiting a negative attitude towards learning or assignments </a>
+                  </div>
+              </div>
+            </div>
+              </div>
+          <input type="hidden" id="num" name="num" value="0">
             <input type="hidden" id="points" name="points" value="0">
             <input type="hidden" id="details" name="details" value="">
 
-            <p >Total Points: <span id="total-points">0</span></p>
-            <p >Details: <span id="selected-details">0</span></p>
+          <button id="create-review-btn" type="button">Create Personal Review</button>
+
+
+            <h3 id="pr" style="display: none;">Personal Review</h3>
+            <textarea name="manual-review" id="manual-review" placeholder="Personal Review" style="display: none;"></textarea>
+
+          <h3 class="sr">Selected Reviews</h3>
+          
+            <textarea name="selected-details" id="selected-details" placeholder="Selected Reviews"></textarea>
 
             <button type="submit">Submit</button>
         </form>
@@ -238,11 +322,11 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
     const dropdownLinks = document.querySelectorAll('.dropdown-content a');
-    const totalPointsDisplay = document.getElementById('total-points');
-    const form = document.getElementById('positive-review-form');
+    const form = document.getElementById('review-form');
     const detailsDisplay = document.getElementById('selected-details');
     const sendPoints = document.getElementById('points');
     const sendDetails = document.getElementById('details');
+    const sendNum = document.getElementById('num');
 
     let details = ''; // Variable to store selected items
 
@@ -259,16 +343,28 @@
                     details += count + '. ' + selectedLink.textContent.trim() + '\n';
                     totalPoints += parseInt(selectedLink.getAttribute('data-value')); // Use selectedLink here
                     count++;
+        
                 }
             });
+            sendNum.value = count;
             detailsDisplay.textContent = details;
-            totalPointsDisplay.textContent = totalPoints;
             sendDetails.value = details;
             sendPoints.value = totalPoints;
 
         });
     });
 });
+
+      const createReviewBtn = document.getElementById('create-review-btn');
+      const detailsDisplay = document.getElementById('manual-review');
+      const pr = document.getElementById('pr');
+
+      // Toggle visibility of button and textarea
+      createReviewBtn.addEventListener('click', function() {
+          createReviewBtn.style.display = 'none';
+          detailsDisplay.style.display = 'block';
+          pr.style.display = 'block';
+      });
     </script>
 </body>
 </html>

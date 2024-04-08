@@ -40,4 +40,5 @@ def analyze_sentiment(text):
       points = scores['neg'] * -10
     print("points: "+ str(points))
     # return points
-    return 
+  
+    return points

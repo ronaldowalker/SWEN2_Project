@@ -9,3 +9,5 @@ from .karma import *
 from .incidentReport import *
 from .grades import *
 from .transcript import *
+from .schoolRecommendation import *
+from .jobRecommendation import *

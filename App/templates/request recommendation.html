@@ -73,14 +73,17 @@
             text-align: center;
             color: #051d3c;
         }
-        .recommendation-form input,
-        .recommendation-form textarea {
-            width: 100%;
+        .recommendation-form input[type="text"],
+        .recommendation-form input[type="radio"],
+         .recommendation-form input[type="email"],
+          textarea{
+            width: calc(100% - 22px); /* Adjusted width to accommodate radio buttons */
             padding: 10px;
             margin-bottom: 15px;
             border: 1px solid #ccc;
             border-radius: 3px;
             box-sizing: border-box;
+            display: inline-block; /* Ensures inline display */
         }
         .recommendation-form button {
             background-color: #051d3c;
@@ -90,7 +93,9 @@
             border-radius: 3px;
             cursor: pointer;
             width: 100%;
+         margin: top 20px;x;
         }
+
        
         .recommendation-form img{
             width: 100px;
@@ -99,6 +104,21 @@
             position: relative;
             right: -185px;
         }
+
+      .recommendation-form input[type="radio"] {
+          display: inline-block; /* Change display to inline-block */
+      }
+
+      .recommendation-form label {
+          display: inline-block; /* Ensures labels and radio buttons appear in line */
+          margin-right: 15px; /* Add some space between label and radio button */
+      }
+
+      #jobRadio,#schoolRadio{
+        margin-left:120px;
+        margin-bottom:20px;
+      }
+       
     </style>
 </head>
 <body>
@@ -114,17 +134,69 @@
         </ul>
     </header>
 
-  <div class="recommendation-form">
-      <img src="Recommendation.png" alt="Student Conduct Tracker">
-      <h2>Request Recommendation</h2>
-      <form id="recommendation-form" action="/api/request-recommendation" method="POST">
-          <!-- <input type="text" placeholder="Name" required> -->
-          <input type="text" placeholder="Teacher Name" name="teacherName" required>
-          <input type="text" placeholder="Reason" name="reason" required>
-          <textarea placeholder="Details" rows="5" name="details" required></textarea>
+<div class="recommendation-form">
+  <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/Recommendation.png?raw=true" alt="Student Conduct Tracker">
+  <h2>Request Recommendation</h2>
+  <form id="recommendation-form" action="/request-recommendation" method="POST">
+      <input type="text" placeholder="Teacher Name" name="teacherName" required>
+      <input type="text" placeholder="Current Year Of Study" name="cyos" required>
+      <label id="jobRadio">
+          <input type="radio" name="recommendationType" value="Job" required onclick="toggleFields('job')"> Job
+      </label>
+      <label id="schoolRadio">
+          <input type="radio" name="recommendationType" value="School" required onclick="toggleFields('school')"> School
+      </label>
+      <div id="schoolFields" style="display: none;">
+          <input type="text" placeholder="School Name" name="schoolName">
+          <input type="text" placeholder="Program" name="program">
+          <input type="email" placeholder="School Email" name="schoolEmail">
+          <textarea placeholder="Details" name="schooldetails"></textarea>
+      </div>
+      <div id="jobFields" style="display: none;">
+          <input type="text" placeholder="Company Name" name="companyName">
+          <input type="text" placeholder="Position" name="position">
+          <input type="email" placeholder="Company Email" name="companyEmail">
+        <textarea placeholder="Details" name="jobdetails"></textarea>
+      </div>
+      <button type="submit">Submit</button>
+  </form>
+</div>
 
-          <button type="submit">Submit</button>
-      </form>
-  </div>
+<script>
+  function toggleFields(type) {
+      if (type === 'school') {
+          document.getElementById('schoolFields').style.display = 'block';
+          document.getElementById('jobFields').style.display = 'none';
+
+          // Set input fields in schoolFields as required
+          document.getElementById('schoolName').setAttribute('required', true);
+          document.getElementById('program').setAttribute('required', true);
+          document.getElementById('schoolEmail').setAttribute('required', true);
+        document.getElementById('details').setAttribute('required', true);
+
+          // Remove required attribute from jobFields
+          document.getElementById('companyName').removeAttribute('required');
+          document.getElementById('position').removeAttribute('required');
+          document.getElementById('companyEmail').removeAttribute('required');
+        document.getElementById('details').removeAttribute('required');
+      } else if (type === 'job') {
+          document.getElementById('schoolFields').style.display = 'none';
+          document.getElementById('jobFields').style.display = 'block';
+
+          // Set input fields in jobFields as required
+          document.getElementById('companyName').setAttribute('required', true);
+          document.getElementById('position').setAttribute('required', true);
+          document.getElementById('companyEmail').setAttribute('required', true);
+        document.getElementById('details').setAttribute('required', true);
+
+          // Remove required attribute from schoolFields
+          document.getElementById('schoolName').removeAttribute('required');
+          document.getElementById('program').removeAttribute('required');
+          document.getElementById('schoolEmail').removeAttribute('required');
+        document.getElementById('details').removeAttribute('required');
+      }
+  }
+
+</script>
 </body>
 </html>

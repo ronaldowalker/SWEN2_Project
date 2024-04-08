@@ -2,15 +2,20 @@ from flask import Blueprint, render_template, jsonify, request, send_from_direct
 from flask_jwt_extended import jwt_required, current_user as jwt_current_user
 from App.database import db
 from flask_login import login_required, current_user
+from sqlalchemy import or_
+from datetime import datetime
 
 from App.models import Student, Staff, User, IncidentReport
 from App.controllers import (
-    jwt_authenticate, login, create_incident_report, get_student_by_UniId,
+    jwt_authenticate, create_incident_report, get_student_by_UniId,
     get_accomplishment, get_student_by_id, get_recommendations_staff,
     get_recommendation, get_student_by_name, get_students_by_faculty,
-    get_staff_by_id, get_requested_accomplishments,
-    get_student_ids_by_tagged_staff_id, get_students_by_ids, get_transcript,
-    get_total_As, get_student_for_ir, create_review, get_karma)
+    get_staff_by_id, get_requested_accomplishments, get_transcript,
+    get_total_As, get_student_for_ir, create_review, get_karma,
+    analyze_sentiment, get_requested_accomplishments_count,
+    get_recommendations_staff_count, calculate_ranks, update_total_points,
+    calculate_academic_points, calculate_accomplishment_points,
+    calculate_review_points,get_all_verified)
 
 staff_views = Blueprint('staff_views',
                         __name__,
@@ -22,7 +27,14 @@ Page/Action Routes
 
 @staff_views.route('/staffhome', methods=['GET'])
 def get_staffHome_page():
-  return render_template('Staff-Home.html')
+
+  staff_id = current_user.get_id()
+  numAccProp = get_requested_accomplishments_count(staff_id)
+  numRRs = get_recommendations_staff_count(staff_id)
+
+  return render_template('Staff-Home.html',
+                         numAccProp=numAccProp,
+                         numRRs=numRRs)
 
 
 @staff_views.route('/incidentReport', methods=['GET'])
@@ -42,60 +54,44 @@ def review_search_page():
 
 @staff_views.route('/mainReviewPage', methods=['GET'])
 def mainReviewPage():
-  return render_template('P-N-Review.html')
+  return render_template('CreateReview.html')
 
 
-@staff_views.route('/positiveReviewPage', methods=['GET'])
-def positiveReviewPage():
-  return render_template('preview.html')
-
-
-@staff_views.route('/negativeReviewPage', methods=['GET'])
-def negativeReviewPage():
-  return render_template('nreview.html')
-
-
-@staff_views.route('/createPositiveReview', methods=['POST'])
-def createPositiveReview():
+@staff_views.route('/createReview', methods=['POST'])
+def createReview():
   staff_id = current_user.get_id()
   staff = get_staff_by_id(staff_id)
 
   data = request.form
   studentID = data['studentID']
   studentName = data['name']
-  points = data['points']
-  details = data['details']
+  points = int(data['points'])
+  print("Start points:", points)
+  num = data['num']
+  personalReview = data['manual-review']
+  details = data['selected-details']
   firstname, lastname = studentName.split(' ')
   student = get_student_by_UniId(studentID)
 
+  if personalReview:
+    details += f"{num}. {personalReview}"
+    nltk_points = analyze_sentiment(personalReview)
+    rounded_nltk_points = round(float(nltk_points))
+    points += int(rounded_nltk_points)
+    print("Final points:", points)
+
+  if points > 0:
+    positive = True
+  else:
+    positive = False
+
   if student:
-    review = create_review(staff, student, True, points, details)
-    message = f"You have created a positive review on Student: {studentName}"
+    review = create_review(staff, student, positive, points, details)
+    message = f"You have created a review on Student: {studentName}"
     return render_template('Stafflandingpage.html', message=message)
   else:
     message = f"{studentName} not found"
     return render_template('Stafflandingpage.html', message=message)
-
-
-@staff_views.route('/createNegativeReview', methods=['POST'])
-def createNegativeReview():
-  staff_id = current_user.get_id()
-  staff = get_staff_by_id(staff_id)
-
-  data = request.form
-  studentID = data['studentID']
-  studentName = data['name']
-  points = data['points']
-  details = data['details']
-  firstname, lastname = studentName.split(' ')
-  student = get_student_by_UniId(studentID)
-
-  if student:
-    review = create_review(staff, student, False, points, details)
-    message = f"You have created a negative review on Student: {studentName}"
-    return render_template('Stafflandingpage.html', message=message)
-  else:
-    return "Student not found", 404
 
 
 @staff_views.route('/newIncidentReport', methods=['POST'])
@@ -132,17 +128,19 @@ def studentSearch():
   query = Student.query
 
   if name:
-    firstname, lastname = name.split(' ')
-    # Filtering by firstname and lastname if they are provided
-    query = query.filter_by(firstname=firstname, lastname=lastname)
+    # Check if the name contains both a first name and a last name
+    name_parts = name.split()
+    if len(name_parts) > 1:
+      # If it contains both first name and last name, filter by full name
+      query = query.filter_by(fullname=name)
+    else:
+      # If it contains only one name, filter by either first name or last name
+      query = query.filter(
+          or_(Student.firstname.ilike(f'%{name}%'),
+              Student.lastname.ilike(f'%{name}%')))
 
   if studentID:
-    student = get_student_by_id(studentID)
-    if student:
-      # Render student profile immediately
-      return jsonify(student.serialize())
-    else:
-      return "Student not found", 404
+    query = query.filter_by(UniId=studentID)
 
   if faculty:
     query = query.filter_by(faculty=faculty)
@@ -155,7 +153,8 @@ def studentSearch():
   if students:
     return render_template('ssresult.html', students=students)
   else:
-    return "No matching records", 404
+    message = "No students found"
+    return render_template('StudentSearch.html', message=message)
 
 
 # @staff_views.route('/review_search/<string:reviewID>', methods=['GET'])
@@ -211,7 +210,7 @@ def approveAchievement(accomplishmentID):
   accomplishment = get_accomplishment(accomplishmentID)
   student = get_student_by_id(accomplishment.createdByStudentID)
 
-  return render_template('FullReview.html',
+  return render_template('SelectedStudentAccomplishment.html',
                          accomplishment=accomplishment,
                          student=student)
 
@@ -220,13 +219,18 @@ def approveAchievement(accomplishmentID):
                    methods=['POST'])
 @login_required
 def acceptAccomplishment(accomplishmentID):
-  selected_points = int(request.form.get('points'))
 
   accomplishment = get_accomplishment(accomplishmentID)
 
-  accomplishment.points = selected_points
+  comment = request.form.get('acceptcomment')
+
+  nltk_points = analyze_sentiment(comment)
+  rounded_nltk_points = round(float(nltk_points))
+
+  accomplishment.points = rounded_nltk_points
   accomplishment.verified = True
-  accomplishment.status = "Achievement Verified"
+  accomplishment.status = comment
+
   db.session.add(accomplishment)
   db.session.commit()
 
@@ -242,8 +246,15 @@ def declineAccomplishment(accomplishmentID):
 
   accomplishment = get_accomplishment(accomplishmentID)
 
+  comment = request.form.get('declinecomment')
+
+  nltk_points = analyze_sentiment(comment)
+  rounded_nltk_points = round(float(nltk_points))
+
+  accomplishment.points = rounded_nltk_points
   accomplishment.verified = True
-  accomplishment.status = "Achievement Declined"
+  accomplishment.status = comment
+
   db.session.add(accomplishment)
   db.session.commit()
 
@@ -252,14 +263,57 @@ def declineAccomplishment(accomplishmentID):
   return render_template('Stafflandingpage.html', message=message)
 
 
+@staff_views.route('/view-all-student-reviews/<string:uniID>', methods=['GET'])
+@login_required
+def view_all_student_reviews(uniID):
+
+  student = get_student_by_UniId(uniID)
+  return render_template('AllStudentReviews.html', student=student)
+
+
+@staff_views.route('/view-all-student-incidents/<string:uniID>',
+                   methods=['GET'])
+@login_required
+def view_all_student_incidents(uniID):
+
+  student = get_student_by_UniId(uniID)
+  return render_template('AllStudentIncidents.html', student=student)
+
+
+@staff_views.route('/view-all-student-achievements/<string:uniID>',
+                   methods=['GET'])
+@login_required
+def view_all_student_achievements(uniID):
+  student = Student.query.filter_by(UniId=uniID).first()
+  return render_template('AllStudentAchivements.html', student=student)
+
+
 @staff_views.route('/getStudentProfile/<string:uniID>', methods=['GET'])
 @login_required
 def getStudentProfile(uniID):
-  student = get_student_by_UniId(uniID)
+  student = Student.query.filter_by(UniId=uniID).first()
+
+  if student is None:
+    student = Student.query.filter_by(ID=uniID).first()
+
   user = User.query.filter_by(ID=student.ID).first()
   karma = get_karma(student.ID)
-  transcripts = get_transcript(uniID)
-  numAs = get_total_As(uniID)
+
+  if karma:
+
+    calculate_academic_points(student.ID)
+    calculate_accomplishment_points(student.ID)
+    calculate_review_points(student.ID)
+    #Points: academic (0.4),accomplishment (0,3 shared)
+    #missing points: incident , reivew
+    #calculate the accomplishment - incident for 0.3 shared
+    #assign review based on 1 time reivew max 5pts for 0.3
+    update_total_points(karma.karmaID)
+    #updaing ranks
+    calculate_ranks()
+
+  transcripts = get_transcript(student.UniId)
+  numAs = get_total_As(student.UniId)
 
   return render_template('Student-Profile-forStaff.html',
                          student=student,
@@ -273,8 +327,9 @@ def getStudentProfile(uniID):
 @login_required
 def allRecommendationRequests():
   staffID = current_user.get_id()
-  print(staffID)
   recommendations = get_recommendations_staff(staffID)
+  recommendations_type = type(recommendations)
+  print("recommendations type:", recommendations_type)
 
   return render_template('RecommendationRequests.html',
                          recommendations=recommendations)
@@ -299,12 +354,28 @@ def declineRR(rrID):
 @staff_views.route('/acceptRR/<int:rrID>', methods=['POST'])
 @login_required
 def acceptRR(rrID):
+  current_date = datetime.now().strftime("%Y-%m-%d")
   recommendation = get_recommendation(rrID)
+  student = get_student_by_UniId(recommendation.createdByStudentID)
+  accomplishments= get_all_verified(student.UniId)
 
+  message = "You have accepted this recommendation !!"
+  return render_template('RecommendationLetter.html',accomplishments=accomplishments,
+                         recommendation=recommendation,
+                         current_date=current_date,
+                         student=student)
+
+@staff_views.route('/confirmRL/<int:rrID>', methods=['GET'])
+@login_required
+def confirmRL(rrID):
+
+  recommendation = get_recommendation(rrID)
+  
   recommendation.approved = True
   recommendation.status = "Recommendation Accepted"
   db.session.add(recommendation)
   db.session.commit()
 
-  message = "You have accepted this recommendation !!"
-  return render_template('RecommendationLetter.html')
+  message = "You have confirmed this recommendation !!"
+  
+  return render_template('Stafflandingpage.html', message=message)

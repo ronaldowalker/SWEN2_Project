@@ -149,14 +149,13 @@
         <img src="" alt="Student Conduct Tracker">
         <h2>Propose Achievement</h2>
         <form action="/api/propose-achievement" method="POST">
+          <input type="text" placeholder="Teacher Name" name="taggedStaffName" required>
             <input type="text" placeholder="Topic" name="topic" required>
-            <input type="text" placeholder="taggedStaffName" name="taggedStaffName" required>
             <textarea placeholder="details" name="details" rows="5" required></textarea>
             <!-- <input type="file" id="file-upload" name="file-upload"> -->
             <button type="submit">Submit</button>
         </form>
     </div>
-<button type="submit">Submit</button>
 </div>
 </form>
 

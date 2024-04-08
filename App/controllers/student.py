@@ -1,7 +1,6 @@
 from App.models import Student
 from App.database import db
 
-
 def create_student(username, UniId, firstname, lastname, email, password,
                    faculty, admittedTerm, degree, gpa):
   newStudent = Student(username, UniId, firstname, lastname, email, password,
@@ -181,7 +180,7 @@ def update_from_transcript(ID, newAdmittedTerm, newUniId, newGpa, newDegree,
     student.gpa = newGpa
     student.degree = newDegree
     student.faculty = newFaculty
-    student.fullname = newFullname
+    #student.fullname = newFullname
     try:
       db.session.commit()
       return True

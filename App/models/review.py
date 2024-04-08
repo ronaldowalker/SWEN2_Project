@@ -5,8 +5,8 @@ from datetime import datetime
 class Review(db.Model):
   __tablename__ = 'review'
   ID = db.Column(db.Integer, primary_key=True)
-  studentID = db.Column(db.String(10), db.ForeignKey('student.ID'))
-  createdByStaffID = db.Column(db.String(10),db.ForeignKey('staff.ID'))
+  studentID = db.Column(db.Integer, db.ForeignKey('student.ID'))
+  createdByStaffID = db.Column(db.Integer,db.ForeignKey('staff.ID'))
   isPositive = db.Column(db.Boolean, nullable=False)
   dateCreated = db.Column(db.DateTime, default=datetime.utcnow)
   points = db.Column(db.Integer, nullable=False)

@@ -5,6 +5,7 @@ from flask.cli import with_appcontext, AppGroup
 
 from App.database import db, get_migrate
 from App.main import create_app
+from App.models import Student, Karma
 from App.controllers import (
     create_student, create_staff, create_admin, get_all_users_json,
     get_all_users, get_transcript, get_student_by_UniId, setup_nltk,
@@ -35,6 +36,28 @@ def initialize():
                  UniId='816031060',
                  degree="",
                  gpa="")
+  create_student(username="alice",
+                 firstname="Alice",
+                 lastname="Smith",
+                 email="alice@example.com",
+                 password="alicepass",
+                 faculty="FST",
+                 admittedTerm="2023-09",
+                 UniId='816031061',
+                 degree="Bachelor of Science",
+                 gpa="3.5")
+
+  create_student(username="dian",
+                 firstname="Dian",
+                 lastname="Taylor",
+                 email="diana@example.com",
+                 password="dianapass",
+                 faculty="FST",
+                 admittedTerm="2024-01",
+                 UniId='816031062',
+                 degree="Bachelor of Arts",
+                 gpa='2.1')
+
   #Creating staff
   create_staff(username="tim",
                firstname="Tim",
@@ -50,16 +73,38 @@ def initialize():
                email="andy@example.com",
                password="password",
                faculty="FST")
+  create_student(username="brian",
+                 firstname="Brian",
+                 lastname="Saylor",
+                 email="biana@example.com",
+                 password="bianapass",
+                 faculty="FST",
+                 admittedTerm="2024-01",
+                 UniId='816031063',
+                 degree="Bachelor of Arts",
+                 gpa='2.1')
+  students = Student.query.all()
 
-  create_karma(1)
+  for student in students:
+    create_karma(student.ID)
+    student.karmaID = Karma.query.filter_by(
+        studentID=student.ID).first().karmaID
+
   # staff = get_staff_by_id(2)
   # student = get_student_by_id(1)
   # create_review(staff, student, 1, 1, "goodreviewsample")
   # #create_review(1, 1, -3, -3, "badreviewsample")
   # create_incident_report('billy', 'staff', "incident reportsample", 1)
-  # create_accomplishment(1, 0,"Tim Long", "Good Grades",
-  #                       "accomplishmentdetails", 0,"None yet")
-  # create_recommendation(1, 2, 0, "Job", "I just want it","None yet")
+  create_accomplishment(1, 0, "Tim Long", "Good Grades",
+                        "accomplishmentdetails", 6, "None yet")
+  create_accomplishment(2, 0, "Tim Long", "Good Grades",
+                        "accomplishmentdetails", 5, "None yet")
+  create_accomplishment(3, 0, "Tim Long", "Good Grades",
+                        "accomplishmentdetails", 3, "None yet")
+  create_accomplishment(6, 0, "Tim Long", "Good Grades",
+                        "accomplishmentdetails", 2, "None yet")
+
+  create_recommendation(1, 4, False, "Job", "I just want it", "None yet")
 
 
 @app.cli.command("nltk_test", help="Tests nltk")

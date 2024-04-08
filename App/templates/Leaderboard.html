@@ -140,33 +140,26 @@
 
     <div class="leaderboard">
         <h2>Leaderboard</h2>
-        {% for student  in students %} 
+        {% for student  in students_json |sort(attribute='karmaRank') %} 
         <div class="student-strip">
             <button class="button">View Profile</button>
             <div class="name">  {{ student.username }}</div>
-            <div class="name">  {{ student.karmaScore }}</div>
+            <div class="name">  Score: {{ student.karmaScore }}</div>
+            <div class="name">  Rank {{ student.karmaRank }}</div>
+          {% if student.karmaRank == 1 %}
             <div class="image"><img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/1st.png?raw=true" alt="1st Place"></div>
+          {% endif %}
+          {% if student.karmaRank == 2 %}
+            <div class="image"><img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/2nd.png?raw=true" alt="1st Place"></div>
+          {% endif %}
+          {% if student.karmaRank == 3 %}
+            <div class="image"><img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/3rd.png?raw=true" alt="1st Place"></div>
+          {% endif %}
+          {% if student.karmaRank >3 %}
+            <div class="image"></div>
+          {% endif %}
         </div>
-        <!-- <div class="student-strip">
-            <button class="button">View Profile</button>
-            <div class="name">Jane Smith</div>
-            <div class="image"><img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/2nd.png?raw=true" alt="2nd Place"></div>
-        </div>
-        <div class="student-strip">
-            <button class="button">View Profile</button>
-            <div class="name">Bob Johnson</div>
-            <div class="image"><img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/3rd.png?raw=true" alt="3rd Place"></div>
-        </div>
-        <div class="student-strip">
-            <button class="button">View Profile</button>
-            <div class="name">Alice Williams</div>
-            <div class="rank">4th</div>
-        </div>
-        <div class="student-strip">
-            <button class="button">View Profile</button>
-            <div class="name">Michael Brown</div>
-            <div class="rank">5th</div>
-        </div> --> {% endfor %}
+       {% endfor %}
         <!-- Add more student strips as needed -->
     </div>
 </body>

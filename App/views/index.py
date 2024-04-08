@@ -1,7 +1,7 @@
 from flask import Blueprint, redirect, render_template, request, send_from_directory, jsonify
 from App.models import db
 from App.controllers import (create_user, create_student, create_staff,
-                             create_admin)
+                             create_admin, create_karma)
 from flask_login import login_required, login_user, current_user, logout_user
 
 index_views = Blueprint('index_views',
@@ -24,23 +24,22 @@ def admin_page():
 def init():
   db.drop_all()
   db.create_all()
-  # create_user('bob', 'bobpass')
   create_student(username="billy",
-                 firstname="",
-                 lastname="",
+                 firstname="Billy",
+                 lastname="John",
                  email="billy@example.com",
                  password="billypass",
-                 faculty="",
+                 faculty="FST",
                  admittedTerm="",
-                 UniId='billy@example.com',
+                 UniId='816031060',
                  degree="",
                  gpa="")
   #Creating staff
-  create_staff(username="staff",
-               firstname="",
-               lastname="",
+  create_staff(username="tim",
+               firstname="Tim",
+               lastname="Long",
                email="",
-               password="staffpass",
+               password="timpass",
                faculty="")
   print('database intialized')
 
@@ -50,6 +49,8 @@ def init():
                email="andy@example.com",
                password="password",
                faculty="FST")
+
+  create_karma(1)
 
   return jsonify(message='db initialized!')
 
