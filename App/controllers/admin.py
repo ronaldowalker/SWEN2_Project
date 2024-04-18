@@ -13,20 +13,6 @@ from App.controllers import (
     update_password
 )
 
-
-def create_admin(username,firstname, lastname, email, password, faculty):
-  newAdmin = Admin(username,firstname, lastname, email, password, faculty)
-  db.session.add(newAdmin)
-  try:
-    db.session.commit()
-    return True
-    # can return if we need
-    # return newStaff
-  except Exception as e:
-    print("[admin.create_admin] Error occurred while creating new admin: ", str(e))
-    db.session.rollback()
-    return False
-    
 def add_teacher(username,firstname, lastname, email, password, faculty):
     if create_staff(username,firstname, lastname, email, password, faculty):
         return True

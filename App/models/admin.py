@@ -4,18 +4,14 @@ from .user import User
 
 class Admin(User):
   __tablename__ = 'admin'
-  ID = db.Column(db.Integer, db.ForeignKey('user.ID'), primary_key=True)
+  ID = db.Column(db.String(10) ,db.ForeignKey('user.ID') , primary_key=True)
 
-  __mapper_args__ = {"polymorphic_identity": "admin"}
-
-  def __init__(self, username, firstname, lastname, email, password, faculty):
-    super().__init__(username=username,
-                     firstname=firstname,
-                     lastname=lastname,
-                     email=email,
-                     password=password,
-                     faculty=faculty)
-
+  __mapper_args__ = {
+        "polymorphic_identity": "admin"
+    }
+    
+  def __init__(self,username,firstname, lastname, email, password, faculty):
+     super().__init__(username=username,firstname=firstname, lastname=lastname, email=email, password=password, faculty=faculty) 
 
 #return admin details on json format
 

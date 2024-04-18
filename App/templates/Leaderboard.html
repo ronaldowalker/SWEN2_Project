@@ -132,34 +132,39 @@
         </div>
         <div class="logo2"><h2>Your Number One Tracker</h2></div>
         <ul class="nav-bar">
-          <li><a href="/Student-Home"">Home</a></li>
-          <li><a href="/student-page">Profile</a></li>
-          <li><a href="/logout">Logout</a></li>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Profile</a></li>
+            <li><a href="#">Logout</a></li>
         </ul>
     </header>
 
     <div class="leaderboard">
         <h2>Leaderboard</h2>
-        {% for student  in students_json |sort(attribute='karmaRank') %} 
         <div class="student-strip">
             <button class="button">View Profile</button>
-            <div class="name">  {{ student.username }}</div>
-            <div class="name">  Score: {{ student.karmaScore }}</div>
-            <div class="name">  Rank {{ student.karmaRank }}</div>
-          {% if student.karmaRank == 1 %}
-            <div class="image"><img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/1st.png?raw=true" alt="1st Place"></div>
-          {% endif %}
-          {% if student.karmaRank == 2 %}
-            <div class="image"><img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/2nd.png?raw=true" alt="1st Place"></div>
-          {% endif %}
-          {% if student.karmaRank == 3 %}
-            <div class="image"><img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/3rd.png?raw=true" alt="1st Place"></div>
-          {% endif %}
-          {% if student.karmaRank >3 %}
-            <div class="image"></div>
-          {% endif %}
+            <div class="name">John Doe</div>
+            <div class="image"><img src="1st.png" alt="1st Place"></div>
         </div>
-       {% endfor %}
+        <div class="student-strip">
+            <button class="button">View Profile</button>
+            <div class="name">Jane Smith</div>
+            <div class="image"><img src="2nd.png" alt="2nd Place"></div>
+        </div>
+        <div class="student-strip">
+            <button class="button">View Profile</button>
+            <div class="name">Bob Johnson</div>
+            <div class="image"><img src="3rd.png" alt="3rd Place"></div>
+        </div>
+        <div class="student-strip">
+            <button class="button">View Profile</button>
+            <div class="name">Alice Williams</div>
+            <div class="rank">4th</div>
+        </div>
+        <div class="student-strip">
+            <button class="button">View Profile</button>
+            <div class="name">Michael Brown</div>
+            <div class="rank">5th</div>
+        </div>
         <!-- Add more student strips as needed -->
     </div>
 </body>

@@ -2,10 +2,6 @@ import nltk
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
-nltk.download('vader_lexicon')
-nltk.download('punkt')
-nltk.download('stopwords')
-nltk.download('wordnet')
 
 def setup_nltk():
     nltk.download('vader_lexicon')
@@ -31,14 +27,6 @@ def analyze_sentiment(text):
     processed_text = analyze_text(text)
 
     scores = analyzer.polarity_scores(processed_text)
-    # sample output: {'neg': 0.0, 'neu': 0.608, 'pos': 0.392, 'compound': 0.7003}
-    points = 0 
-    print(scores)
-    if((scores['pos'] >= 0.5) or (scores['compound'] >= 0.1)):  #  means that the text is mostly positive
-      points = scores['pos'] * 10
-    else:
-      points = scores['neg'] * -10
-    print("points: "+ str(points))
-    # return points
-  
-    return points
+    print("scores: "+ str(scores))
+    return scores
+

@@ -1,4 +1,4 @@
-from App.models import User, Student
+from App.models import User
 from App.database import db
 
 def create_user(username, firstname, lastname, password, email, faculty):
@@ -27,13 +27,6 @@ def get_user(id):
     else:
         return None
 
-def get_user_student(student):
-  user = User.query.get(student.ID)
-  if user:
-      return user
-  else:
-      return None
-
 def get_all_users():
     users = User.query.all()
     if users:
@@ -42,8 +35,7 @@ def get_all_users():
         return []
 
 def get_all_users_json():
-    # users = User.query.all()
-    users = Student.query.all()
+    users = User.query.all()
     if not users:
         return []
     users = [user.get_json() for user in users]
