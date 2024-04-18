@@ -34,7 +34,7 @@ class UserUnitTests(unittest.TestCase):
         user = User(username="bob", firstname="Bob", lastname="Smith", password="bobpass", email="bob@example.com", faculty="FST")
         user_json = user.get_json()
         self.assertDictEqual(user_json, {"id":None, "username":"bob", "firstname":"Bob", "lastname":"Smith", "email":"bob@example.com", "faculty":"FST"})
-    
+
     def test_hashed_password(self):
         password = "mypass"
         hashed = generate_password_hash(password, method='sha256')
@@ -82,7 +82,7 @@ class UsersIntegrationTests(unittest.TestCase):
             "email":"rick@example.com", 
             "faculty":"FST"
             }], users_json)
-    
+
     def test_create_user(self):
         user = create_user("rick", "Rick", "Grimes", "rickpass", "rick@example.com", "FST")
         assert user.username == "rick"
@@ -93,7 +93,7 @@ class UsersIntegrationTests(unittest.TestCase):
         update_username(1, "ronnie")
         user = get_user(1)
         assert user.username == "ronnie"
-    
+
     def test_update_name(self):
         update_name(1, "Bobby", "Jones")
         user = get_user(1)
@@ -114,5 +114,3 @@ class UsersIntegrationTests(unittest.TestCase):
         update_faculty(1, "New Faculty")
         user = get_user(1)
         assert user.faculty == "New Faculty"
-        
-

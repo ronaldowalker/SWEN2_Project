@@ -15,7 +15,7 @@ from App.controllers import (
     delete_review,
     calculate_points_upvote,
     calculate_points_downvote,
-    get_total_points,
+    get_total_review_points,
     get_review
 )
 '''
@@ -25,12 +25,21 @@ class ReviewUnitTests(unittest.TestCase):
 
     def test_new_review(self):
         assert create_staff(username="joe",firstname="Joe", lastname="Mama", email="joe@example.com", password="joepass", faculty="FST") == True
-        assert create_student(username="billy", firstname="Billy", lastname="John", email="billy@example.com", password="billypass", faculty="FST", admittedTerm="2022/2023", yearofStudy=2, degree="BSc Computer Science", gpa="3.5") == True
+        assert create_student(username="billy",
+                 firstname="Billy",
+                 lastname="John",
+                 email="billy@example.com",
+                 password="billypass",
+                 faculty="FST",
+                 admittedTerm="",
+                 UniId='816031160',
+                 degree="",
+                 gpa="") == True
         student = get_student_by_username("billy")
         staff = get_staff_by_username("joe")
-        review = Review(staff, student, True, 3, "Billy is good.")
+        review = Review(staff, student, True, 3, "Billy is good.", studentSeen=False)
         assert review is not None
-    
+
 '''
     Integration Tests
 '''
@@ -45,28 +54,37 @@ def empty_db():
     db.drop_all()
 
 class ReviewIntegrationTests(unittest.TestCase):
-    
+
     def test_create_review(self):
         assert create_staff(username="joe",firstname="Joe", lastname="Mama", email="joe@example.com", password="joepass", faculty="FST") == True
-        assert create_student(username="billy", firstname="Billy", lastname="John", email="billy@example.com", password="billypass", faculty="FST", admittedTerm="2022/2023", yearofStudy=2, degree="BSc Computer Science", gpa="3.5") == True
+        assert create_student(username="billy",
+                 firstname="Billy",
+                 lastname="John",
+                 email="billy@example.com",
+                 password="billypass",
+                 faculty="FST",
+                 admittedTerm="",
+                 UniId='816031160',
+                 degree="",
+                 gpa="") == True
         student = get_student_by_username("billy")
         staff = get_staff_by_username("joe")
         assert create_review(staff=staff, student=student, isPositive=True, points=3, details="Billy is good.") == True
         review = get_review(1)
-    
+
     def test_get_review(self):
         self.test_create_review()
         review = get_review(1)
         print(review.to_json(student=get_student_by_id(review.studentID), staff=get_staff_by_id(review.createdByStaffID)))
         assert review is not None
-    
+
     def test_calc_points_upvote(self):
         self.test_create_review()
         review = get_review(1)
         print(review.to_json(student=get_student_by_id(review.studentID), staff=get_staff_by_id(review.createdByStaffID)))
         assert review is not None
         assert calculate_points_upvote(review) == True
-    
+
     def test_calc_points_downvote(self):
         self.test_create_review()
         review = get_review(1)
@@ -77,7 +95,7 @@ class ReviewIntegrationTests(unittest.TestCase):
     def test_get_total_points(self):
         self.test_create_review()
         review = get_review(1)
-        assert get_total_points(review.studentID) != 0
+        assert get_total_review_points(review.studentID) != 0
 
     def test_delete_review(self):
         self.test_create_review()

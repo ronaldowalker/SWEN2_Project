@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Lilita+One&family=Titan+One&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Conduct Tracker - Create Review</title>
+  <link rel="icon" href="https://github.com/RichardR963/Info3604_Project/blob/main/images/AV2.png?raw=true" type="image/png">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: #fff;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 999;
+            background: #fff;
+        }
+        .logo {
+            background-color:#051d3c;
+            border-bottom-right-radius: 50px;
+            border-top-right-radius: 50px;
+            padding: 10px 20px;
+            padding-left: 50px;
+            font-family: "Titan One", sans-serif;
+            font-weight: bold;
+        }
+        .logo h1 {
+            margin: 0;
+            color: white;
+            font-size: 30px;
+        }
+        .nav-bar {
+            list-style: none;
+            display: flex;
+            padding: 10px 20px;
+            background-color: #051d3c;
+            border-bottom-left-radius: 40px;
+            border-top-left-radius: 40px;
+            font-family: "Titan One", sans-serif;
+            font-weight: bold;
+        }
+        .nav-bar li {
+            padding: 0 20px;
+        }
+        .nav-bar li a {
+            text-decoration: none;
+            color: white;
+        }
+        .logo2 {
+            position: absolute;
+            left: 140px;
+            color: #051d3c;
+        }
+      .recommendation-form {
+          max-width: 800px;
+          margin: 16vh auto 100px;
+          padding: 20px;
+          background-color: #fff;
+          border-radius: 5px;
+          position: relative;
+          border: 2px solid #051d3c;
+          display: flex; /* Use flexbox */
+          flex-direction: column; /* Arrange children vertically */
+          align-items: center; /* Center children horizontally */
+      }
+        .recommendation-form h2 {
+            text-align: center;
+            color: #051d3c;
+        }
+        .recommendation-form input,
+        .recommendation-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+
+        textarea{
+          height: 200px;
+        }
+        .recommendation-form button {
+            background-color: #051d3c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            width: 100%;
+          margin-top: 50px;
+        }
+
+      .recommendation-form img {
+          width: 100px;
+          height: 100px;
+          margin-bottom: 20px; /* Add margin to space out from other elements */
+      }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 20px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .dropdown span {
+            background-color: #051d3c;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-block;
+            width: 200px; /* Set a fixed width for the span */
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            width: 200px; /* Set the same width as the span */
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 1px solid #051d3c;
+            border-radius: 5px;
+            padding: 10px;
+            max-height: 200px; /* Set a maximum height for the dropdown content */
+            overflow-y: auto; /* Add a scrollbar if the content exceeds the maximum height */
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 8px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #ddd;
+            border-radius: 5px;
+        }
+
+        .dropdown-content a.selected {
+            color: green;
+            font-weight: bold;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+      .reviewStuff {
+          display: flex;
+        margin-top: 40px;
+        margin-bottom: 100px;
+      }
+
+      .positive,
+      .negative {
+          flex: 1;
+          margin-right: 20px; /* Adjust spacing between positive and negative reviews */
+      }
+
+      #create-review-btn{
+        margin-bottom: 50px;
+      }
+
+      .heads{
+          margin-left: 140px;
+      }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>UWI</h1>
+        </div>
+        <div class="logo2"><h2>Student Conduct Tracker</h2></div>
+        <ul class="nav-bar">
+            <li><a href="/staffhome">Home</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </header>
+
+    <div class="recommendation-form">
+      <img src=" https://github.com/RichardR963/Info3604_Project/blob/main/images/CR.png?raw=true" alt="Create Review">
+        <h2>Student Review Survey</h2>
+
+        <form id="review-form" action="/createReview" method="post">
+            <input type="text" id="studentID" name="studentID" placeholder="Student ID" required oninput="fetchStudentName()">
+          <input type="text" id="name" name="name" placeholder="Student Name" required>
+            <div class="reviewStuff">
+            <div class="positive">
+              <h3 class="heads">Positive</h3>
+            <div class="dropdown">
+                <span>Leadership</span>
+                <div class="dropdown-content">
+                    <a href="#" data-value="4">Demonstrating leadership skills </a>
+                    <a href="#" data-value="4">Being a positive role model for peers </a>
+                    <a href="#" data-value="3">Demonstrating resilience in the face of challenges </a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <span>Respect</span>
+                <div class="dropdown-content">
+                    <a href="#" data-value="3">Respecting diverse viewpoints </a>
+                    <a href="#" data-value="3">Showing appreciation for others' efforts </a>
+                    <a href="#" data-value="3"> Demonstrating empathy towards peers  </a>
+                    <a href="#" data-value="3">Demonstrating self-discipline and self-control </a>
+                    <a href="#" data-value="5">Demonstrating a growth mindset towards learning and improvement</a>
+                    <a href="#" data-value="1">Demonstrating good sportsmanship</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <span>Punctuality</span>
+                <div class="dropdown-content">
+                    <a href="#" data-value="3">Consistently meeting deadlines </a>
+                    <a href="#" data-value="3">Being consistently late or frequently absent </a>
+                    <a href="#" data-value="5">Showing initiative in seeking additional learning opportunities </a>
+                    <a href="#" data-value="4">Showing enthusiasm for learning </a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <span>Participation</span>
+                <div class="dropdown-content">
+                    <a href="#" data-value="3">Active participation in class discussions</a>
+                    <a href="#" data-value="2">Actively engaging in extracurricular activities</a>
+                    <a href="#" data-value="4">Actively listening to classmates and teachers</a>
+                    <a href="#" data-value="2">Showing curiosity and asking questions</a>
+                    <a href="#" data-value="2">Seeking help when needed</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <span>Teamwork</span>
+                <div class="dropdown-content">
+                    <a href="#" data-value="3">Contribution to group projects and activities</a>
+                    <a href="#" data-value="3">Willingness to help classmates</a>
+                </div>
+            </div>
+            </div>
+            <div class="negative">
+              <h3 class="heads">Negative</h3>
+              <div class="dropdown">
+                  <span>Disruption</span>
+                  <div class="dropdown-content">
+                      <a href="#" data-value="-3">Disrupting class by talking out of turn </a>
+                      <a href="#" data-value="-3">Making disruptive noises during class </a>
+                      <a href="#" data-value="-2">Creating distractions during class </a>
+                  </div>
+              </div>
+
+              <div class="dropdown">
+                  <span>Attendance and Preparedness</span>
+                  <div class="dropdown-content">
+                      <a href="#" data-value="-3">Being consistently late or frequently absent</a>
+                      <a href="#" data-value="-1">Being unprepared for class or failing to bring necessary materials</a>
+                  </div>
+              </div>
+
+              <div class="dropdown">
+                  <span>Respect for Authority and Rules</span>
+                  <div class="dropdown-content">
+                      <a href="#" data-value="-3">Using electronic devices inappropriately during class </a>
+                      <a href="#" data-value="-3">Displaying defiance towards authority figures </a>
+                      <a href="#" data-value="-3">Refusing to follow instructions or complete assignments </a>
+                      <a href="#" data-value="-3">Showing disrespect towards school property </a>
+                      <a href="#" data-value="-4">Using inappropriate language or gestures </a>
+                      <a href="#" data-value="-2">Engaging in gossip or spreading rumors </a>
+                      <a href="#" data-value="-2">Exhibiting a lack of remorse for negative behavior</a>
+                      <a href="#" data-value="-3">Being uncooperative during group activities or projects</a>
+                  </div>
+              </div>
+
+              <div class="dropdown">
+                  <span>Interpersonal Behavior</span>
+                  <div class="dropdown-content">
+                      <a href="#" data-value="-5">Engaging in disrespectful behavior towards peers or teachers</a>
+                      <a href="#" data-value="-5">Exhibiting bullying behavior towards peers</a>
+                      <a href="#" data-value="-5">Engaging in cheating or dishonest behavior</a>
+                      <a href="#" data-value="-4">Exhibiting aggressive behavior towards peers </a>
+                      <a href="#" data-value="-3">Engaging in behavior that poses a safety risk to oneself or others </a>
+                      <a href="#" data-value="-3">Exhibiting a lack of empathy towards others</a>
+                      <a href="#" data-value="-4">Exhibiting a negative attitude towards learning or assignments </a>
+                  </div>
+              </div>
+            </div>
+              </div>
+          <input type="hidden" id="num" name="num" value="0">
+            <input type="hidden" id="points" name="points" value="0">
+            <input type="hidden" id="details" name="details" value="">
+
+          <button id="create-review-btn" type="button">Create Personal Review</button>
+
+
+            <h3 id="pr" style="display: none;">Personal Review</h3>
+            <textarea name="manual-review" id="manual-review" placeholder="Personal Review" style="display: none;"></textarea>
+
+          <h3 class="sr">Selected Reviews</h3>
+          
+            <textarea name="selected-details" id="selected-details" placeholder="Selected Reviews"></textarea>
+
+            <button type="submit">Submit</button>
+        </form>
+        
+    </div>
+
+    <script>
+
+      function fetchStudentName() {
+          const studentID = document.getElementById('studentID').value;
+
+          // Send AJAX request to Flask server
+          fetch('/get_student_name', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ studentID: studentID })
+          })
+          .then(response => response.json())
+          .then(data => {
+              // Update name input field with retrieved student name
+              document.getElementById('name').value = data.studentName;
+          })
+          .catch(error => console.error('Error:', error));
+      }
+    
+      document.addEventListener('DOMContentLoaded', function() {
+    const dropdownLinks = document.querySelectorAll('.dropdown-content a');
+    const form = document.getElementById('review-form');
+    const detailsDisplay = document.getElementById('selected-details');
+    const sendPoints = document.getElementById('points');
+    const sendDetails = document.getElementById('details');
+    const sendNum = document.getElementById('num');
+
+    let details = ''; // Variable to store selected items
+
+    // Function to update dropdown selection based on textarea content
+    function updateDropdownSelection() {
+        dropdownLinks.forEach(link => {
+            const text = link.textContent.trim();
+            const isSelected = details.includes(text);
+            if (isSelected) {
+                link.classList.add('selected');
+            } else {
+                link.classList.remove('selected');
+                count--;
+            }
+        });
+    }
+
+    // Event listener for dropdown links
+    dropdownLinks.forEach(link => {
+        link.addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent the default link behavior
+            this.classList.toggle('selected');
+
+            let totalPoints = 0;
+            details = '';
+            let count = 1;
+            dropdownLinks.forEach(selectedLink => {
+                if (selectedLink.classList.contains('selected')) {
+                    details += count + '. ' + selectedLink.textContent.trim() + '\n';
+                    totalPoints += parseInt(selectedLink.getAttribute('data-value')); // Use selectedLink here
+                    count++;
+                }
+            });
+            sendNum.value = count;
+            detailsDisplay.textContent = details;
+            sendDetails.value = details;
+            sendPoints.value = totalPoints;
+        });
+    });
+
+    // Event listener for changes in textarea content
+    detailsDisplay.addEventListener('input', function() {
+        details = this.value;
+        updateDropdownSelection(); // Update dropdown selection based on textarea content
+    });
+});
+
+      const createReviewBtn = document.getElementById('create-review-btn');
+      const detailsDisplay = document.getElementById('manual-review');
+      const pr = document.getElementById('pr');
+
+      // Toggle visibility of button and textarea
+      createReviewBtn.addEventListener('click', function() {
+          createReviewBtn.style.display = 'none';
+          detailsDisplay.style.display = 'block';
+          pr.style.display = 'block';
+      });
+    </script>
+</body>
+</html>

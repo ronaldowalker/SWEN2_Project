@@ -3,6 +3,8 @@ App/temp-database.db
 __pycache__/
 *.py[cod]
 *$py.class
+App/Transcript/*.pdf
+App/Csv
 
 # C extensions
 *.so

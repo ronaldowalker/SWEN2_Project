@@ -9,7 +9,11 @@ from App.controllers import (
     create_recommendation,
     get_recommendations_student,
     get_recommendations_staff,
-    approve_recommendation
+    approve_recommendation, 
+    create_student,
+    get_student_by_username,
+    get_student_by_id,
+    get_student_by_UniId
 )
 
 '''
@@ -18,19 +22,47 @@ from App.controllers import (
 class RecommendationUnitTests(unittest.TestCase):
 
     def test_new_recommendation(self):
-        recommendation = Recommendation(studentID=1, staffID=1, approved=False)
+        create_student(username="billy",
+                            firstname="Billy",
+                            lastname="John",
+                            email="billy@example.com",
+                            password="billypass",
+                            faculty="FST",
+                            admittedTerm="",
+                            UniId="816031160",
+                            degree="",
+                            gpa="")
+        student = get_student_by_UniId("816031160")
+        recommendation = Recommendation(student, staffID=1, approved=False, status="pending", currentYearOfStudy=2,
+               details="yeh", studentSeen=False)
         assert recommendation is not None
-    
+
     def test_recommendation_to_json(self):
-        recommendation = Recommendation(studentID=1, staffID=1, approved=False)
+        create_student(username="billy",
+                            firstname="Billy",
+                            lastname="John",
+                            email="billy@example.com",
+                            password="billypass",
+                            faculty="FST",
+                            admittedTerm="",
+                            UniId="816031160",
+                            degree="",
+                            gpa="")
+        student = get_student_by_UniId("816031160")
+        recommendation = Recommendation(student, staffID=1, approved=False, status="pending", currentYearOfStudy=2,
+               details="yeh", studentSeen=False)
         rec_json = recommendation.get_json()
         self.assertDictEqual(rec_json,{
-            'studentID': 1,
+            'studentID': "816031160",
+            "name": "Billy John",
             'staffID': 1,
             'approved': False,
-            "date requested": recommendation.dateRequested.strftime("%d-%m-%Y %H:%M")
+            "date requested": recommendation.dateRequested.strftime("%d-%m-%Y %H:%M"),
+            "status": "pending",
+            "currentYearOfStudy": 2,
+            "details": "yeh"
         })
-    
+
 '''
     Integration Tests
 '''
@@ -44,18 +76,32 @@ def empty_db():
     yield app.test_client()
     db.drop_all()
 
+
 class RecommendationIntegrationTests(unittest.TestCase):
 
+
+
     def test_create_recommendation(self):
-        assert create_recommendation(studentID=1, staffID=1, approved=False) == True
+        create_student(username="billy",
+                            firstname="Billy",
+                            lastname="John",
+                            email="billy@example.com",
+                            password="billypass",
+                            faculty="FST",
+                            admittedTerm="",
+                            UniId="816031160",
+                            degree="",
+                            gpa="")
+        assert create_recommendation(1, staffID=1, approved=False, status="Pending", currentYearOfStudy=2,
+               details="yeh") == True
 
     def test_get_recommendation_staff(self):
         assert get_recommendations_staff(1) != []
-    
+
     def test_get_recommendation_student(self):
-        assert get_recommendations_student(1) != []
-    
+        assert get_recommendations_student("816031160") != []
+
     def test_approve_recommendation(self):
         self.test_create_recommendation()
         assert approve_recommendation(1) == True
-    
+

@@ -22,7 +22,7 @@ class StaffUnitTests(unittest.TestCase):
     def test_new_staff(self):
         staff = Staff(username="joe",firstname="Joe", lastname="Mama", email="joe@example.com", password="joepass", faculty="FST")
         assert staff.username == "joe"
-    
+
     def test_get_json(self):
         staff = Staff(username="joe",firstname="Joe", lastname="Mama", email="joe@example.com", password="joepass", faculty="FST")
         staff_json = staff.to_json()
@@ -37,7 +37,7 @@ class StaffUnitTests(unittest.TestCase):
             "reports": [],
             "pendingAccomplishments": []})
 
-    
+
 '''
     Integration Tests
 '''
@@ -50,22 +50,31 @@ def empty_db():
     create_db()
     yield app.test_client()
     db.drop_all()
-        
+
 class StaffIntegrationTests(unittest.TestCase):
 
     def test_create_staff(self):
         assert create_staff(username="joe",firstname="Joe", lastname="Mama", email="joe@example.com", password="joepass", faculty="FST") == True
-    
+
     def test_get_staff_by_id(self):
         staff = get_staff_by_id(1)
         assert staff is not None
-    
+
     def test_get_staff_by_username(self):
         staff = get_staff_by_username("joe")
         assert staff is not None
-    
+
     def test_staff_create_review(self):
-        assert create_student(username="billy", firstname="Billy", lastname="John", email="billy@example.com", password="billypass", faculty="FST", admittedTerm="2022/2023", yearofStudy=2, degree="BSc Computer Science", gpa="3.5") == True
+        assert create_student(username="billy",
+                 firstname="Billy",
+                 lastname="John",
+                 email="billy@example.com",
+                 password="billypass",
+                 faculty="FST",
+                 admittedTerm="",
+                 UniId='816031160',
+                 degree="",
+                 gpa="") == True
         student = get_student_by_username("billy")
         staff = get_staff_by_id(1)
         assert staff is not None

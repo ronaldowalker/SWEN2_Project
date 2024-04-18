@@ -6,7 +6,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Lilita+One&family=Titan+One&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Tracker</title>
+    <title>Student Conduct Tracker - Student Search </title>
+  <link rel="icon" href="https://github.com/RichardR963/Info3604_Project/blob/main/images/AV2.png?raw=true" type="image/png">
+
     <style>
         body {
             margin: 0;
@@ -82,16 +84,7 @@
             border-radius: 3px;
             box-sizing: border-box;
         }
-        .recommendation-form button {
-            background-color: #051d3c;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-            width: 100%;
-        }
-       
+
         .recommendation-form img{
             width: 100px;
             height: 100px;
@@ -130,6 +123,24 @@
             width: 100%;
             margin-top: 10px; /* Add some margin at the top */
         }
+
+      /* Add styles for the message container */
+      .message-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        margin-top: 10px;
+      }
+
+      /* Add styles for the message box */
+      .message {
+        color: red;
+          border: 2px solid #051d3c;
+          padding: 10px;
+          border-radius: 8px;
+          text-align: center;
+      }
+
     </style>
 </head>
 <body>
@@ -137,29 +148,51 @@
         <div class="logo">
             <h1>UWI</h1>
         </div>
-        <div class="logo2"><h2>Your Number One Tracker</h2></div>
+        <div class="logo2"><h2>Student Conduct Tracker</h2></div>
         <ul class="nav-bar">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Profile</a></li>
-            <li><a href="#">Logout</a></li>
+            <li><a href="/staffhome">Home</a></li>
+            <li><a href="/logout">Logout</a></li>
         </ul>
     </header>
 
     <div class="recommendation-form">
-        <img src="SS.png" alt="Student Conduct Tracker">
+        <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/SS.png?raw=true" alt="Student Conduct Tracker">
         <h2>Student Search</h2>
-        <form class = "sm"> <!-- Added action="#" method="post" -->
-            <input type="text" placeholder="Name" required>
-            <input type="text" placeholder="Student ID" required>
-            <input type="text" placeholder="Faculty" required>
-            <input type="text" placeholder="Degree" required>
-            
-
-
-<button type="submit">Search</button>
+        <form class = "sm" action="/searchStudent" method="get">
+          <input type="text" id="studentID" name="studentID" placeholder="Student ID" oninput="fetchStudentName()">
+            <input type="text" id="name" name="name" placeholder="Name">
+            <input type="text" id="faculty" name="faculty" placeholder="Faculty" >
+            <input type="text" id="degree" name="degree" placeholder="Degree" >
+        <button type="submit">Search</button>
+          {% if message %}
+          <div class="message-container">
+              <div class="message">
+                  <p>{{ message }}</p>
+              </div>
+          </div>
+          {% endif %}
 </div>
+  
 </form>
-
-
 </body>
+  <script>
+    function fetchStudentName() {
+        const studentID = document.getElementById('studentID').value;
+
+        // Send AJAX request to Flask server
+        fetch('/get_student_name', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ studentID: studentID })
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Update name input field with retrieved student name
+            document.getElementById('name').value = data.studentName;
+        })
+        .catch(error => console.error('Error:', error));
+    }
+  </script>
 </html>
