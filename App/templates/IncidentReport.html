@@ -139,33 +139,33 @@
         </div>
         <div class="logo2"><h2>Your Number One Tracker</h2></div>
         <ul class="nav-bar">
-            <li><a href="#">Home</a></li>
+            <li><a href="/staffhome">Home</a></li>
             <li><a href="#">Profile</a></li>
-            <li><a href="#">Logout</a></li>
+            <li><a href="/logout">Logout</a></li>
         </ul>
     </header>
 
     <div class="recommendation-form">
-        <img src="IR.png" alt="Student Conduct Tracker">
+        <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/IR.png?raw=true" alt="Student Conduct Tracker">
         <h2>Incident Report</h2>
-        <form class = "sm"> <!-- Added action="#" method="post" -->
-            <input type="text" placeholder="Name" required>
-            <input type="text" placeholder="Student ID" required>
-            <input type="text" placeholder="Topic" required>
-            <textarea placeholder="Details" rows="5" required></textarea>
+        <form class="sm" action="/newIncidentReport" method="post">
+            <input type="text" id="name" name="name" placeholder="Student Name" required>
+            <input type="text" id="studentID" name="studentID" placeholder="Student ID" required>
+            <input type="text" id="topic" name="topic" placeholder="Topic" required>
+            <textarea id="details" name="details" placeholder="Details" rows="5" required></textarea>
             <div class="deduct-points-section">
                 <label for="points-dropdown">Deduct Points:</label>
                 <select id="points-dropdown" name="points-dropdown">
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
-        <option value="4">4</option>
-<option value="5">5</option>
-</select>
-</div>
-<button type="submit">Submit</button>
-</div>
-</form>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    </div>    
 
 
 </body>

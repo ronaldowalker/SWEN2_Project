@@ -8,6 +8,7 @@ from App.controllers import (
     create_student,
     get_karma,
     get_student_by_id,
+    get_student_by_UniId,
     get_student_by_username,
     get_students_by_degree,
     get_students_by_faculty,
@@ -23,15 +24,31 @@ from App.controllers import (
 class StudentUnitTests(unittest.TestCase):
 
     def test_new_student(self):
-        student = Student(username="billy", firstname="Billy", lastname="John", email="billy@example.com", password="billypass", faculty="FST", admittedTerm="2022/2023", yearofStudy=2, degree="BSc Computer Science", gpa="3.5")
+        student = Student(username="billy", firstname="Billy", lastname="John", email="billy@example.com", password="billypass", faculty="FST", admittedTerm="2022/2023", UniId="816000000", degree="BSc Computer Science", gpa="3.5")
         assert student.username == "billy"
 
     def test_get_json(self):
-        student = Student(username="billy", firstname="Billy", lastname="John", email="billy@example.com", password="billypass", faculty="FST", admittedTerm="2022/2023", yearofStudy=2, degree="BSc Computer Science", gpa="3.5")
+        student = Student(username="billy", firstname="Billy", lastname="John", email="billy@example.com", password="billypass", faculty="FST", admittedTerm="2022/2023", UniId="816000000", degree="BSc Computer Science", gpa="3.5")
         karma = get_karma(student.karmaID)
         student_json = student.to_json(karma)
         print(student_json)
-        self.assertDictEqual(student_json, {"studentID": None,"username": "billy","firstname": "Billy","lastname": "John","gpa": "3.5","email": "billy@example.com","faculty": "FST","degree": "BSc Computer Science","admittedTerm": "2022/2023","yearOfStudy": 2,"reviews": [],"accomplishments": [],"incidents": [],"grades": [],"karmaScore": None,"karmaRank": None})
+        self.assertDictEqual(student_json, {"studentID": None,
+                                            "username": "billy",
+                                            "firstname": "Billy",
+                                            "lastname": "John",
+                                            "gpa": "3.5",
+                                            "email": "billy@example.com",
+                                            "faculty": "FST",
+                                            "degree": "BSc Computer Science",
+                                            "admittedTerm": "2022/2023",
+                                            "UniId": "816000000",
+                                            "reviews": [],
+                                            "accomplishments": [],
+                                            "incidents": [],
+                                            "grades": [],
+                                            "transcripts": [],
+                                            "karmaScore": None,
+                                            "karmaRank": None})
 
 
 '''
@@ -50,7 +67,7 @@ def empty_db():
 class StudentIntegrationTests(unittest.TestCase):
 
     def test_create_student(self):
-        assert create_student(username="billy", firstname="Billy", lastname="John", email="billy@example.com", password="billypass", faculty="FST", admittedTerm="2022/2023", yearofStudy=2, degree="BSc Computer Science", gpa="3.5") == True
+        assert create_student(username="billy", firstname="Billy", lastname="John", email="billy@example.com", password="billypass", faculty="FST", admittedTerm="2022/2023", UniId="816000000", degree="BSc Computer Science", gpa="3.5") == True
         
     def test_get_student_by_id(self):
         student = get_student_by_id(1)
@@ -75,8 +92,12 @@ class StudentIntegrationTests(unittest.TestCase):
     def test_update_admittedTerm(self):
         assert update_admittedTerm(1, "2023/2024") == True
     
-    def test_update_yearOfStudy(self):
-        assert update_yearofStudy(1, 1) == True
+    # def test_update_yearOfStudy(self):
+    #     assert update_yearofStudy(1, 1) == True
+    
+    def test_get_student_by_UniId(self):
+      student = get_student_by_UniId("816000000")
+      assert student is not None
     
     def test_update_degree(self):
         assert update_degree(1, "BSc Computer Science Special") == True

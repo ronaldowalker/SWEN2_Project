@@ -7,8 +7,8 @@ from App.models import Karma
 from App.controllers import (
     get_karma,
     create_karma,
-    calculate_karma,
-    update_karma
+    calculate_review_points,
+    update_review_points
 )
 
 '''
@@ -17,15 +17,18 @@ from App.controllers import (
 class KarmaUnitTests(unittest.TestCase):
 
     def test_new_karma(self):
-        newKarma = Karma(points=0.0, rank=-99, studentID = 1)
+        newKarma = Karma(points=0.0, academicPoints=0.0, accomplishmentPoints=0.0, reviewsPoints=0.0, rank=-99, studentID = 1)
         assert newKarma is not None
 
     def test_karma_to_json(self):
-        newKarma = Karma(points=0.0, rank=-99, studentID = 1)
+        newKarma = Karma(points=0.0, academicPoints=0.0, accomplishmentPoints=0.0, reviewsPoints=0.0, rank=-99, studentID = 1)
         newKarma_json = newKarma.to_json()
         self.assertDictEqual(newKarma_json,{
             "karmaID": None,
-            "score": 0.0, 
+            "score": 0.0,
+            "academicPoints": 0.0, 
+            "accomplishmentPoints": 0.0, 
+            "reviewPoints": 0.0,
             "rank": -99,
             "studentID": 1
         })
@@ -53,8 +56,8 @@ class KarmaIntegrationTests(unittest.TestCase):
         assert karma.studentID == 1
     
     def test_calculate_karma(self):
-        karma = calculate_karma(1)
+        karma = calculate_review_points(1)
         assert karma == 0
     
     def test_update_karma(self):
-        assert update_karma(1) == True
+        assert update_review_points(1) == True

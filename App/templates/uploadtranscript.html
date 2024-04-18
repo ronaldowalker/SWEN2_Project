@@ -97,7 +97,12 @@
     top: 200px;
     right: 750px;
 }
-        
+        @media (max-width: 1600px) and (max-height: 900px) {
+            .button {
+                top: 150px; /* Adjust the top position */
+                right: 600px; /* Adjust the right position */
+            }
+        }
 </style>
 </head>
 <body>
@@ -109,49 +114,49 @@
   <div class="logo2"><h2>Your Number One Tracker</h2></div>
   <ul class="nav-bar">
     <!-- Adjusted to only have the left side curved -->
-    <li><a href="#">Home</a></li>
-    <li><a href="#">Profile</a></li>
+    <li><a href="/Student-Home">Home</a></li>
+    <li><a href="/student-page">Profile</a></li>
     <li><a href="#">Logout</a></li>
   </ul>
 </header>
 
 <!-- Rest of your content -->
 <div class = "button">
-<img src="Trasncript.png" alt="Image" width="450">
+<img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/Upload.png?raw=true" alt="Image" width="450">
     <div class="upload-btn-wrapper">
         <button class="btn">Upload Transcript</button>
-        <input type="file" id="csv-upload" name="myfile" accept=".csv">
+        <input type="file" id="pdf-upload" name="myfile" accept=".pdf">
     </div>
 </div>
 
 <script>
-    document.getElementById('csv-upload').addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const formData = new FormData();
-            formData.append('file', file);
+  document.getElementById('pdf-upload').addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      if (file) {
+          const formData = new FormData();
+          formData.append('file', file);
 
-            fetch('/upload_csv', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('File upload failed');
-                }
-            })
-            .then(data => {
-                console.log('File uploaded successfully:', data);
-                // Optionally, display a success message to the user
-            })
-            .catch(error => {
-                console.error('Error uploading file:', error.message);
-                // Optionally, display an error message to the user
-            });
-        }
-    });
+          fetch('/upload_transcript', {
+              method: 'POST',
+              body: formData
+          })
+          .then(response => {
+              if (response.ok) {
+                  return response.json();
+              } else {
+                  throw new Error('File upload failed');
+              }
+          })
+          .then(data => {
+              console.log('File uploaded successfully:', data);
+              // Optionally, display a success message to the user
+          })
+          .catch(error => {
+              console.error('Error uploading file:', error.message);
+              // Optionally, display an error message to the user
+          });
+      }
+  });
 </script>
 
 </body>
