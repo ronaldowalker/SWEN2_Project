@@ -34,13 +34,6 @@ def get_staff_by_id(id):
     else:
         return None
 
-def get_staff_by_name(firstname, lastname):
-  staff = Staff.query.filter_by(firstname=firstname, lastname=lastname).first()
-  if staff:
-      return staff
-  else:
-      return None
-
 def get_staff_by_username(username):
     staff = Staff.query.filter_by(username=username).first()
     if staff:

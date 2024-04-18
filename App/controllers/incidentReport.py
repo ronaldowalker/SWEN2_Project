@@ -2,17 +2,15 @@ from App.models import IncidentReport
 from App.database import db 
 
 from .student import(
-    get_student_by_username,
-    get_student_by_UniId
+    get_student_by_username
 )
 from .staff import(
-    get_staff_by_username,
-    get_staff_by_id
+    get_staff_by_username
 )
 
-def create_incident_report(studentid, staffid, report,topic, points):
-    student = get_student_by_UniId(studentid)
-    staff = get_staff_by_id(staffid)
+def create_incident_report(studentUsername, staffUsername, report, points):
+    student = get_student_by_username(studentUsername)
+    staff = get_staff_by_username(staffUsername)
     if student is None:
         print("[incidentReport.create_incident_report] Error occurred while creating new incident report: No student found.")
         return False
@@ -20,7 +18,7 @@ def create_incident_report(studentid, staffid, report,topic, points):
         print("[incidentReport.create_incident_report] Error occurred while creating new incident report: No staff found.")
         return False
 
-    newIncidentReport = IncidentReport(student.ID, staff.ID,topic, report, points)
+    newIncidentReport = IncidentReport(student.ID, staff.ID, report, points)
     db.session.add(newIncidentReport)
 
     try:
@@ -45,7 +43,6 @@ def delete_incident_report(reportID):
     else:
         print("[incidentReport.delete_incident_report] Error occurred while deleting incident report: Report not found.")
         return False
-        
 def get_incident_report(id):
     report = IncidentReport.query.filter_by(id=id).first()
     if report:

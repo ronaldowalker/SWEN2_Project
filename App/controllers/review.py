@@ -49,7 +49,7 @@ def calculate_points_downvote(review):
         db.session.rollback()
         return False
 
-def get_total_review_points(studentID):
+def get_total_points(studentID):
     reviews = Review.query.filter_by(studentID=studentID).all()
     if reviews:
         sum = 0

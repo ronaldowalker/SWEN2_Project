@@ -18,11 +18,11 @@ from App.controllers import (
 class RecommendationUnitTests(unittest.TestCase):
 
     def test_new_recommendation(self):
-        recommendation = Recommendation(studentID=1, staffID=1, approved=False, reason="Idk", details= "Ykyk",status="None yet")
+        recommendation = Recommendation(studentID=1, staffID=1, approved=False)
         assert recommendation is not None
     
     def test_recommendation_to_json(self):
-        recommendation = Recommendation(studentID=1, staffID=1, approved=False, reason="Idk", details= "Ykyk",status="None yet")
+        recommendation = Recommendation(studentID=1, staffID=1, approved=False)
         rec_json = recommendation.get_json()
         self.assertDictEqual(rec_json,{
             'studentID': 1,
@@ -47,7 +47,7 @@ def empty_db():
 class RecommendationIntegrationTests(unittest.TestCase):
 
     def test_create_recommendation(self):
-        assert create_recommendation(studentID=1, staffID=1, approved=False,, reason="Idk", details= "Ykyk",status="None yet") == True
+        assert create_recommendation(studentID=1, staffID=1, approved=False) == True
 
     def test_get_recommendation_staff(self):
         assert get_recommendations_staff(1) != []

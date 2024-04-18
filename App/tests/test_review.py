@@ -15,7 +15,7 @@ from App.controllers import (
     delete_review,
     calculate_points_upvote,
     calculate_points_downvote,
-    get_total_review_points,
+    get_total_points,
     get_review
 )
 '''
@@ -77,7 +77,7 @@ class ReviewIntegrationTests(unittest.TestCase):
     def test_get_total_points(self):
         self.test_create_review()
         review = get_review(1)
-        assert get_total_review_points(review.studentID) != 0
+        assert get_total_points(review.studentID) != 0
 
     def test_delete_review(self):
         self.test_create_review()

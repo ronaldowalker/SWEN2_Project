@@ -21,7 +21,7 @@ from App.controllers import(
 class AccomplishmentUnitTests(unittest.TestCase):
 
     def test_new_accomplishment(self):
-        newAccomplishment = Accomplishment(studentID=1 ,verified=False, taggedStaffId=2, details="I won first place in Runtime", points=5, topic="First place in Runtime", status="Not yet Checked")
+        newAccomplishment = Accomplishment(studentID=1 ,verified=False, taggedStaffId=2, details="I won first place in Runtime")
         assert newAccomplishment is not None
 
 
@@ -42,14 +42,12 @@ def empty_db():
 class AccomplishmentIntegrationTests(unittest.TestCase):
 
     def test_create_accomplishment(self):
-      assert create_student(username="billy", firstname="Billy", lastname="John", email="billy@example.com", password="billypass", faculty="FST", admittedTerm="2022/2023", UniId="816000000", degree="BSc Computer Science", gpa="3.5") == True
-      
-      assert create_staff(username="joe",firstname="Joe", lastname="Mama", email="joe@example.com", password="joepass", faculty="FST") == True
-      
-      student = get_student_by_username("billy")
-      staff = get_staff_by_username("joe")
+        assert create_student(username="billy", firstname="Billy", lastname="John", email="billy@example.com", password="billypass", faculty="FST", admittedTerm="2022/2023", yearofStudy=2, degree="BSc Computer Science", gpa="3.5") == True
+        assert create_staff(username="joe",firstname="Joe", lastname="Mama", email="joe@example.com", password="joepass", faculty="FST") == True
+        student = get_student_by_username("billy")
+        staff = get_staff_by_username("joe")
 
-      assert create_accomplishment(studentID=student.ID, verified=False, taggedStaffName=(staff.firstname+" "+staff.lastname), details="I won first place in Runtime", points=5, topic="First in Runtime", status="Not yet Checked" ) == True
+        assert create_accomplishment(studentUsername=student.username, verified=False, taggedStaffUsername=staff.username, details="I won first place in Runtime") == True
     
     def test_delete_accomplishment(self):
         self.test_create_accomplishment()

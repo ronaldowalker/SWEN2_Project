@@ -70,79 +70,42 @@
             left: 140px;
             color: #051d3c;
         }
-      .flex.items-center.space-x-4.mb-4 {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          margin-bottom: -3rem; /* Adjust this value as needed */
-      }
-      .student-info-card {
-          width: 400px;
-          max-width: 90%; /* Ensure the card doesn't exceed 90% of the viewport width */
-          height: 510px; /* Allow the height to adjust based on content */
-          padding: 1.5rem; /* Use rem units for padding */
-          background-color: #fff;
-          border-radius: 10px;
-          margin: 220px auto 0; /* Center the card horizontally */
-          border: 2px solid #051d3c;
-          position: relative;
-          font-family: "Kanit", sans-serif;
-          font-weight: 1000;
-          font-style: italic;
-          color: #051d3c;
-          font-size: 1.25rem; /* Use rem units for font size */
-        right: 480px;
-      }
-      .student-info-container {
-          max-height: 500px; /* Adjust this value as needed */
-          overflow-y: auto; /* Enable vertical scrolling */
-      }
 
-      .student-info {
-          margin-top: 6rem;
-          display: flex;
-          flex-direction: column;
-         align-items: flex-start;
-      }
+        .student-info-card {
+    width: 400px; 
+    height: 500px;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 10px;
+    margin: 220px ; 
+    border: 2px solid #051d3c; 
+    position: absolute;
+    left: 0px; 
+    top: -100px;
+    font-family: "Kanit", sans-serif;
+    font-weight: 1000;
+    font-style: italic;
+    color:#051d3c;
+    font-size: 20px;
+}
 
-      .student-info .block {
-          margin-bottom: 1rem;
-          display: flex;
-          align-items: center;
-      }
+.user-avatar {
+    width: 100px; 
+    height: 100px; 
+    border-radius: 50%; 
+    margin-bottom: 10px;
+}
 
-      .student-info .block img {
-          width: 1.25rem; /* Use rem units for image dimensions */
-          height: 1.25rem;
-          margin-right: 0.5rem;
-      }
+#editButton {
+   
+}
 
-      .user-avatar {
-          width: 100px;
-          height: 100px;
-          border-radius: 50%;
-          margin-bottom: 10px;
-      }
-
-      .edit-button {
-          position: absolute;
-          top: 0;
-          right: 0;
-          transform: translate(50%, -50%);
-          background-color: #051d3c;
-          color: white;
-          padding: 5px 10px;
-          border-radius: 5px;
-          font-size: 14px;
-          cursor: pointer;
-          opacity: 0;
-          transition: opacity 0.3s ease-in-out;
-      }
-
-      .relative:hover .edit-button {
-          opacity: 1;
-      }
-
+.student-info {
+    margin-top: 10px;
+}
+.student-info .block {
+    margin-bottom: 25px; 
+}
 
 .student-info span {
     display: block;
@@ -402,9 +365,9 @@
     <div class="logo2"><h2>Your Number One Tracker</h2></div>
     <ul class="nav-bar">
         <!-- Adjusted to only have the left side curved -->
-        <li><a href="/Student-Home">Home</a></li>
-        <li><a href="/leaderboard">LeaderBoard</a></li>
-        <li><a href="/logout">Logout</a></li>
+        <li><a href="Student-Home.html">Home</a></li>
+        <li><a href="#">LeaderBoard</a></li>
+        <li><a href="#">Logout</a></li>
     </ul>
   <!--  <div class="text">Student</div>
   <div class="text3">Name</div>-->
@@ -412,43 +375,39 @@
  
 
 <div class="student-info-card">
-  <div class="flex items-center space-x-4 mb-4">
-      <div class="relative">
-          <img src="student.png" alt="Student avatar" class="user-avatar" id="studentAvatar">
-          <button id="editButton" class="edit-button">Edit</button>
-      </div>
-     
-  </div>
+    <div class="flex items-center space-x-4 mb-4">
+        <div class="relative" onmouseover="showEditButton()" onmouseout="hideEditButton()">
+            <img src="student.png" alt="Student avatar" class="user-avatar"> <!-- User picture placeholder -->
+            <button id="editButton" class="absolute top-0 right-0 transform translate-x-2/3 -translate-y-2/3 bg-gray-800 text-white rounded-full p-1 text-xs opacity-0 transition duration-300 ease-in-out hover:opacity-100 focus:outline-none" style="display: none;">
+                Edit
+            </button>
+        </div>
+        <span class="name">Student Name</span>
+    </div>
 
     <nav class="student-info">
-      <div class="block text-gray-700 font-semibold">
-          <span class="font-bold">Student Name: {{ student.fullname }}</span>
-      </div>
     <div class="block text-gray-700 font-semibold">
-        <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/GPA.png?raw=true" alt="GPA Icon" class="mini-icon"> GPA: {{ student.gpa }}
+        <img src="GPA.png" alt="GPA Icon" class="mini-icon"> GPA: 3.5
     </div>
    
     <div class="block text-gray-700 font-semibold">
-        <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/Leaderboard.png?raw=true" alt="Leaderboard Icon" class="mini-icon"> Leaderboard Rank: {{ karma.rank}}
+        <img src="Leaderboard.png" alt="Leaderboard Icon" class="mini-icon"> Leaderboard Rank: 1
     </div>
     
     <div class="block text-gray-700 font-semibold">
-        <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/Points.png?raw=true" alt="Points Icon" class="mini-icon"> Review Pts: {{ karma.reviewsPoints}} Academic Score:  {{ karma.academicPoints}} 
-    </div>
-      <div class="block text-gray-700 font-semibold">
-          <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/Points.png?raw=true" alt="Points Icon" class="mini-icon"> Achievement Pts: {{ karma.accomplishmentPoints}}  Total Pts: {{ karma.points}}
-      </div>
-    <div class="block text-gray-700 font-semibold">
-        <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/email.png?raw=true" alt="Email Icon" class="mini-icon"> Email: {{ student.email }}
+        <img src="Points.png" alt="Points Icon" class="mini-icon"> Points: 100
     </div>
     <div class="block text-gray-700 font-semibold">
-        <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/degreeprogram.png?raw=true" alt="Programme Icon" class="mini-icon"> Faculty: {{ student.faculty }}
+        <img src="email.png" alt="Email Icon" class="mini-icon"> Email: example@example.com
     </div>
-    <!-- <div class="block text-gray-700 font-semibold">
-        <img src="yearofstudy.png" alt="Year Icon" class="mini-icon"> Year of Study: No
-    </div> -->
     <div class="block text-gray-700 font-semibold">
-        <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/admittedterm.png?raw=true" alt="Admitted Term Icons" class="mini-icon"> <a>Admitted Term: {{ student.admittedTerm }}</a>
+        <img src="degreeprogram.png" alt="Programme Icon" class="mini-icon"> Programme: Computer Science
+    </div>
+    <div class="block text-gray-700 font-semibold">
+        <img src="yearofstudy.png" alt="Year Icon" class="mini-icon"> Year of Study: 2
+    </div>
+    <div class="block text-gray-700 font-semibold">
+        <img src="admittedterm.png" alt="Admitted Term Icon" class="mini-icon"> Admitted Term: Fall 2022
     </div>
 </nav>
 
@@ -457,43 +416,40 @@
         <div class="badgestitle">Badges:</div>
         <div class="badge-section">
             <!-- Repeat the badge image element five times -->
-            <!-- <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/1st.png?raw=true" alt="Badge placeholder" class="badge-image mb-2">
-            <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/2nd.png?raw=true" alt="Badge placeholder" class="badge-image mb-2">
-            <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/3rd.png?raw=true" alt="Badge placeholder" class="badge-image mb-2"> -->{% if numAs > 0 %}
-            <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/GPA.png?raw=true" alt="Badge placeholder" class="badge-image mb-2"> <a> {{numAs}}x</a> 
-          {% endif %}
+            <img src="1st.png" alt="Badge placeholder" class="badge-image mb-2">
+            <img src="2nd.png" alt="Badge placeholder" class="badge-image mb-2">
+            <img src="3rd.png" alt="Badge placeholder" class="badge-image mb-2">
+            <img src="GPA.png" alt="Badge placeholder" class="badge-image mb-2">
+           
         </div>
     </div>
 </div>
 
 <div class="request-container">
     <div class="request-card">
-        <a href="/upload-transcript">
+        <a href="NavBar.html">
         <div class="badge-section4">
         <div class="reco-section">
-            <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/Upload.png?raw=true" alt="Image 1"class="request-image">
+            <img src="Upload.png" alt="Image 1"class="request-image">
             <p>Upload Transcript</p>
 </div>
         </div>
         </a>
-        <a href="/request-recommendation-form">
+        <a href="Student-Home.html">
         <div class="badge-section3">
             <div class="reco-section2">
-            <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/recco.png?raw=true" alt="Image 2" class="request-image">
+            <img src="recco.png" alt="Image 2" class="request-image">
             <p>Request Recommendation</p>
             </div>
             </div>
         </a>
     
 </div>
-</div>
-  
 
-   
 <div class="reviews-container">
 
     <div class="reviews-card">
-    <h1>Reviews:   {% for review  in student.points %} <a href="/view-all-reviews"> {{ review.dateCreated }}  </a> {% endfor %}</h1>
+    <h1>Reviews</h1>
     <!--    {% for review in reviews %}-->
         <div class="review">
             <div class="left">
@@ -508,8 +464,8 @@
         </div>
       <!--  {% endfor %}-->
     </div>
-    <a href="/view-all-reviews" class="view-all-reviews">
-        <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/down.png?raw=true" alt="Down Arrow" class="arrow-icon">
+    <a href="all-reviews.html" class="view-all-reviews">
+        <img src="down.png" alt="Down Arrow" class="arrow-icon">
         <p>View All Reviews</p>
     </a>
 </div>
@@ -517,7 +473,7 @@
 <div class="reviews-container2">
 
     <div class="reviews-card">
-    <h1>Achievements:  {% for accomplishment  in student.accomplishments %} {% if accomplishment.verified %}  {{ accomplishment.topic }}  {% endif %} {% endfor %}</h1>
+    <h1>Achivements</h1>
     <!--    {% for review in reviews %}-->
         <div class="review">
             <div class="left">
@@ -532,17 +488,16 @@
         </div>
       <!--  {% endfor %}-->
     </div>
-    <a href="/view-all-achievements" class="view-all-reviews">
-        <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/down.png?raw=true" alt="Down Arrow" class="arrow-icon">
-        <p>View All Achievements and Achievement Proposals</p>
+    <a href="all-reviews.html" class="view-all-reviews">
+        <img src="down.png" alt="Down Arrow" class="arrow-icon">
+        <p>View All Achivements</p>
     </a>
 </div>
 
 <div class="reviews-container3">
 
     <div class="reviews-card">
-
-    <h1>Incidents:  {% for incident  in student.incidents %} {{ incident.topic }} {% endfor %} </h1>
+    <h1>Incidents</h1>
     <!--    {% for review in reviews %}-->
         <div class="review">
             <div class="left">
@@ -557,35 +512,12 @@
         </div>
       <!--  {% endfor %}-->
     </div>
-    <a href="/view-all-incidents" class="view-all-reviews">
-        <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/down.png?raw=true" alt="Down Arrow" class="arrow-icon">
+    <a href="all-reviews.html" class="view-all-reviews">
+        <img src="down.png" alt="Down Arrow" class="arrow-icon">
         <p>View All Incidents</p>
     </a>
 </div>
 <!-- Rest of your content -->
-<script>
-  const studentAvatar = document.getElementById('studentAvatar');
-  const editButton = document.getElementById('editButton');
 
-  editButton.addEventListener('click', () => {
-      const fileInput = document.createElement('input');
-      fileInput.type = 'file';
-      fileInput.accept = 'image/*';
-
-      fileInput.addEventListener('change', (event) => {
-          const file = event.target.files[0];
-          const reader = new FileReader();
-
-          reader.onload = () => {
-              studentAvatar.src = reader.result;
-          };
-
-          reader.readAsDataURL(file);
-      });
-
-      fileInput.click();
-  });
-</script>
 </body>
-  
 </html>
