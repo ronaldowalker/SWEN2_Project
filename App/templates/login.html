@@ -6,7 +6,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Lilita+One&family=Titan+One&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Tracker</title>
+    <title>Student Conduct Tracker - Login</title>
+  <link rel="icon" href="https://github.com/RichardR963/Info3604_Project/blob/main/images/AV2.png?raw=true" type="image/png">
+
     <style>
         body {
             margin: 0;
@@ -68,20 +70,20 @@
             color: #051d3c;
         }
 
-        /* Login card styling */
-        .login-card {
-            position: absolute;
-            top: 50%;
-            right: 365px; /* Adjust position from right */
-            transform: translateY(-50%);
-            width: 400px;
-            height: 450px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            animation: borderAnimation 3s infinite;
-        }
+      .login-card {
+          position: fixed; /* Fixed position to stay centered even when scrolling */
+          top: 50%; /* Center vertically */
+          left: 50%; /* Center horizontally */
+          transform: translate(-50%, -50%); /* Move the card back up and left by 50% of its own width and height */
+          width: 400px; /* Adjust the width of the login card */
+          height: 450px; /* Adjust the height of the login card */
+          background-color: #fff;
+          border-radius: 10px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          padding: 20px;
+          animation: borderAnimation 3s infinite;
+      }
+
 
         /* Animated border */
         @keyframes borderAnimation {
@@ -134,19 +136,52 @@
         }
         .loginpage-img{
             position:absolute;
-            width: 450px;
-            height:450px;
-            top: 300px;
-            right: 0px;
+            width: 36vw;
+            height:64vh;
+            top: 20vh;
+            right: 7vw;
         }
         .loginpage-img2{
             position:absolute;
-            width: 450px;
-            height:450px;
-            top: 300px;
-            right: 725px;
+            width: 36vw;
+            height:64vh;
+            top: 20vh;
+            right:60vw;
             transform: scaleX(-1);
         }
+        @media (max-width: 1600px) and (max-height: 900px) {
+    .loginpage-img,
+    .loginpage-img2 {
+        width: 500px; /* Adjust the width of the images */
+        height: 500px; /* Adjust the height of the images */
+        top: 150px; /* Adjust the top position of the images */
+    }
+
+    .loginpage-img {
+        right: 50px; /* Adjust the right position of the first image */
+    }
+
+    .loginpage-img2 {
+        right: 1000px; /* Adjust the right position of the second image */
+    }
+
+          /* Add styles for the message container */
+          .message-container {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            margin-top: 10px;
+          }
+
+          /* Add styles for the message box */
+          .message {
+            color: red;
+              border: 2px solid #051d3c;
+              padding: 10px;
+              border-radius: 8px;
+              text-align: center;
+          }
+}
     </style>
 </head>
 <body>
@@ -155,30 +190,37 @@
     <div class="logo">
         <h1>UWI</h1> <!-- Updated to have text inside -->
     </div>
-    <div class="logo2"><h2>Your Number One Tracker</h2></div>
+    <div class="logo2"><h2>Student Conduct Tracker</h2></div>
 </header>
 <div class="loginpage">
-<img src="LoginPage.png" alt="Description" class="loginpage-img">
-<img src="LoginPage.png" alt="Description" class="loginpage-img2">
+<img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/LoginPage.png?raw=true" alt="Description" class="loginpage-img">
+<img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/LoginPage.png?raw=true" alt="Description" class="loginpage-img2">
 <!-- Rest of your content -->
 </div>
 <!-- Login card -->
 <div class="login-card">
     <!-- Image and text header -->
     <div class="login-header">
-        <img src="AV2.png" alt="Student Conduct Tracker">
+        <img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/AV2.png?raw=true"" alt="Student Conduct Tracker">
         <h2>Student Conduct Tracker</h2>
     </div>
     <!-- Login form -->
-    <form class="login-form" action="/login" href="/login" method="POST">
-        <p>   Username</p>
-        <input name="username" id="username" type="text" placeholder="Username">
-        <p> Password</p>
-        <input name="password" id="password" type="password" placeholder="Password">
-        <button type="submit" href="/login">
-            Submit
-        </button>
-    </form>
+  <form class="login-form" action="/login" href="/login" method="POST">
+      <p>   Username</p>
+      <input name="username" id="username" type="text" placeholder="Username">
+      <p> Password</p>
+      <input name="password" id="password" type="password" placeholder="Password">
+      <button type="submit" href="/login">
+          Submit
+      </button>
+    {% if message %}
+    <div class="message-container">
+        <div class="message">
+            <p>{{ message }}</p>
+        </div>
+    </div>
+    {% endif %}
+  </form>
 </div>
 
 </body>

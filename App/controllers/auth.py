@@ -32,7 +32,7 @@ def setup_jwt(app):
     def user_identity_lookup(identity):
         user = User.query.filter_by(username=identity).one_or_none()
         if user:
-            return user.id
+            return user.ID
         return None
 
     @jwt.user_lookup_loader

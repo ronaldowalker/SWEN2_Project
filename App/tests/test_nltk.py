@@ -12,14 +12,9 @@ class NLTKUnitTests(unittest.TestCase):
     def test_analyze_text(self):
         processed_text = analyze_text("This is amazing")
         assert processed_text is not None
-       
-    def test_analyze_sentiment(self):
-        scores = analyze_sentiment("This is amazing")
-        self.assertDictEqual(scores, {
-            'neg': 0.0,
-            'neu': 0.0,
-            'pos': 1.0,
-            'compound': 0.5859
-        })
-       
 
+    def test_analyze_sentiment(self):
+      scores = analyze_sentiment("This is amazing")
+      assert scores is not None
+      if scores is not None:
+          assert scores == 10.0

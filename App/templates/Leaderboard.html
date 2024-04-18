@@ -6,7 +6,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Lilita+One&family=Titan+One&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Tracker</title>
+    <title>Student Conduct Tracker - Leaderboard</title>
+  <link rel="icon" href="https://github.com/RichardR963/Info3604_Project/blob/main/images/AV2.png?raw=true" type="image/png">
+
     <style>
         body {
             margin: 0;
@@ -111,7 +113,7 @@
             line-height: 50px;
         }
         .student-strip .image {
-            margin-left: 10px;
+            margin-left: -25px;
             width: 50px;
             height: 50px;
         }
@@ -130,41 +132,37 @@
         <div class="logo">
             <h1>UWI</h1>
         </div>
-        <div class="logo2"><h2>Your Number One Tracker</h2></div>
+        <div class="logo2"><h2>Student Conduct Tracker</h2></div>
         <ul class="nav-bar">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Profile</a></li>
-            <li><a href="#">Logout</a></li>
+          <li><a href="/Student-Home"">Home</a></li>
+          <li><a href="/student-page">Profile</a></li>
+          <li><a href="/logout">Logout</a></li>
         </ul>
     </header>
 
     <div class="leaderboard">
         <h2>Leaderboard</h2>
+        {% for student  in students_json |sort(attribute='karmaRank') %} 
         <div class="student-strip">
-            <button class="button">View Profile</button>
-            <div class="name">John Doe</div>
-            <div class="image"><img src="1st.png" alt="1st Place"></div>
+            <!-- <button class="button">View Profile</button> -->
+            <div class="name">  {{ student.firstname }} {{ student.lastname }}</div>
+            <div class="name">  Score: {{ student.karmaScore }}</div>
+            <!-- <div class="name"> {{ student.karmaRank }}</div> -->
+          {% if student.karmaRank == 1 %}
+            <div class="image"><img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/1st.png?raw=true" alt="1st Place"></div>
+          {% endif %}
+          {% if student.karmaRank == 2 %}
+            <div class="image"><img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/2nd.png?raw=true" alt="1st Place"></div>
+          {% endif %}
+          {% if student.karmaRank == 3 %}
+            <div class="image"><img src="https://github.com/RichardR963/Info3604_Project/blob/main/images/3rd.png?raw=true" alt="1st Place"></div>
+          {% endif %}
+          {% if student.karmaRank >3 %}
+          {{ student.karmaRank }}
+            <div class="image"></div>
+          {% endif %}
         </div>
-        <div class="student-strip">
-            <button class="button">View Profile</button>
-            <div class="name">Jane Smith</div>
-            <div class="image"><img src="2nd.png" alt="2nd Place"></div>
-        </div>
-        <div class="student-strip">
-            <button class="button">View Profile</button>
-            <div class="name">Bob Johnson</div>
-            <div class="image"><img src="3rd.png" alt="3rd Place"></div>
-        </div>
-        <div class="student-strip">
-            <button class="button">View Profile</button>
-            <div class="name">Alice Williams</div>
-            <div class="rank">4th</div>
-        </div>
-        <div class="student-strip">
-            <button class="button">View Profile</button>
-            <div class="name">Michael Brown</div>
-            <div class="rank">5th</div>
-        </div>
+       {% endfor %}
         <!-- Add more student strips as needed -->
     </div>
 </body>

@@ -22,9 +22,9 @@ from App.controllers import (
 class IncidentReportUnitTests(unittest.TestCase):
 
     def test_new_report(self):
-        newReport = IncidentReport(studentID=1, madeByStaffId=2, report="Bad report", points=-3)
+        newReport = IncidentReport(studentID=1, madeByStaffId=2, report="Bad report",topic="Badness", points=-3,studentSeen=False)
         assert newReport is not None
-    
+
 '''
     Integration Tests
 '''
@@ -41,12 +41,12 @@ def empty_db():
 class IncidentReportIntegrationTests(unittest.TestCase):
 
     def test_create_report(self):
-        assert create_student(username="billy", firstname="Billy", lastname="John", email="billy@example.com", password="billypass", faculty="FST", admittedTerm="2022/2023", yearofStudy=2, degree="BSc Computer Science", gpa="3.5") == True
+        assert create_student(username="billy", firstname="Billy", lastname="John", email="billy@example.com", password="billypass", faculty="FST", admittedTerm="2022/2023", UniId="816000000", degree="BSc Computer Science", gpa="3.5") == True
         assert create_staff(username="joe",firstname="Joe", lastname="Mama", email="joe@example.com", password="joepass", faculty="FST") == True
         student = get_student_by_username("billy")
         staff = get_staff_by_username("joe")
 
-        assert create_incident_report(student.username, staff.username, "Bad Report", points=-3) == True
+        assert create_incident_report(student.UniId, staff.ID, "Bad Report", "Badness", points=-3) == True
 
     def test_delete_report(self):
         self.test_create_report()
@@ -57,5 +57,3 @@ class IncidentReportIntegrationTests(unittest.TestCase):
         db.session.commit()
         deleted_report = get_incident_report(report.id)
         assert deleted_report is None
-
-
