@@ -10,7 +10,6 @@ class Review(db.Model):
     dateCreated = db.Column(db.DateTime, default=datetime.utcnow)
     details = db.Column(db.String(400), nullable=False)
 
-    # Relationships for easier access to related objects
     taggedStudent = db.relationship('Student', backref='reviews', lazy='joined')
     createdByStaff = db.relationship('Staff', backref='reviews', lazy='joined')
 

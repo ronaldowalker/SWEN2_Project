@@ -20,7 +20,6 @@ class Staff(User):
 
 
 
-#return staff details on json format
 
   def to_json(self):
     return {

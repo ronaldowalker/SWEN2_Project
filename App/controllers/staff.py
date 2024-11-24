@@ -12,8 +12,8 @@ from .student import(
     get_students_by_faculty
 )
 
-def create_staff(username,firstname, lastname, email, password, faculty):
-    newStaff = Staff(username,firstname, lastname, email, password, faculty)
+def create_staff(username,firstname, lastname, email, password):
+    newStaff = Staff(username,firstname, lastname, email, password)
     db.session.add(newStaff)
     
     try:

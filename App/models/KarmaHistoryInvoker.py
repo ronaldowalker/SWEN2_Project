@@ -1,3 +1,5 @@
+from App.database import db
+
 class KarmaHistoryInvoker:
     def __init__(self):
         self.history = []
