@@ -13,9 +13,9 @@ class Review(db.Model):
     taggedStudent = db.relationship('Student', backref='reviews', lazy='joined')
     createdByStaff = db.relationship('Staff', backref='reviews', lazy='joined')
 
-    def __init__(self, staff, student, isPositive, details):
-        self.createdByStaffID = staff.ID
-        self.taggedStudentID = student.ID
+    def __init__(self, staffID, studentID, isPositive, details):
+        self.createdByStaffID = staffID
+        self.taggedStudentID = studentID
         self.isPositive = isPositive
         self.details = details
 

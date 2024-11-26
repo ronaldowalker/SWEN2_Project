@@ -1,8 +1,10 @@
 from abc import ABC, abstractmethod
 
-class KarmaCommand:
+class karmaCommand(ABC):
+    @abstractmethod
     def execute(self):
-        raise NotImplementedError("Subclasses must implement execute")
+        pass
 
+    @abstractmethod
     def undo(self):
-        raise NotImplementedError("Subclasses must implement undo")
+        pass

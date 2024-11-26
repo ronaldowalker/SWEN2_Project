@@ -1,4 +1,4 @@
-from App.models import Student
+from App.models import Student, IncreaseKarmaCommand, DecreaseKarmaCommand
 from App.database import db
 
 
@@ -35,7 +35,7 @@ def get_student_by_name(firstname, lastname):
 
 
 def get_full_name_by_student_id(id):
-  student = Student.query.filter_by(id).first()
+  student = Student.query.filter_by(ID=id)
   if student:
     full_name = f"{student.firstname} {student.lastname}"
     return full_name
@@ -62,3 +62,34 @@ def get_all_students_json():
     students_json.append(student_data)
 
   return students_json
+
+
+def update_student_karma(student_id, is_positive):
+    student = Student.query.get(student_id)
+    if not student:
+        return "Student not found"
+
+    if is_positive:
+        command = IncreaseKarmaCommand(student, 1)
+    else:
+        command = DecreaseKarmaCommand(student, 1)
+
+    result = student.karma_history.execute_command(command)
+    db.session.commit()  # Persist changes
+    return result
+
+def undo_last_karma_change(student_id):
+    student = Student.query.get(student_id)
+    if not student:
+        return "Student not found"
+
+    result = student.karma_history.undo_last_command()
+    db.session.commit()  # Persist changes
+    return result
+
+def view_student_karma_history(student_id):
+    student = Student.query.get(student_id)
+    if not student:
+        return "Student not found"
+
+    return student.karma_history.view_history()

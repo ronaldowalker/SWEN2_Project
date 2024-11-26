@@ -1,4 +1,5 @@
 from App.database import db
+from App.models import KarmaHistoryInvoker
 
 class Student(db.Model):
     __tablename__ = 'student'
@@ -14,6 +15,7 @@ class Student(db.Model):
         self.firstName = firstName
         self.lastName = lastName
         self.karma = karma
+        self.karma_history = KarmaHistoryInvoker()
 
     def get_id(self):
         return self.ID

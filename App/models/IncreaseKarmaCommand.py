@@ -1,7 +1,7 @@
 from App.database import db
 from App.models import karmaCommand
 
-class IncreaseKarmaCommand(KarmaCommand):
+class IncreaseKarmaCommand(karmaCommand):
     def __init__(self, student, amount):
         self.student = student
         self.amount = amount
