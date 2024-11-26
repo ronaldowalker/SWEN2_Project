@@ -1,27 +1,44 @@
-from App.models import Review
+from App.models import Review, Staff, Student, IncreaseKarmaCommand, DecreaseKarmaCommand
 from App.database import db
 
 
-def create_review(staff, student, isPositive, points, details):
+def create_review(staffID, studentID, isPositive, details):
+
+  staff = Staff.query.get(staffID)
+  student = Student.query.get(studentID)
+
+  if not staff:
+      return f"No staff found with ID {staff}"
+  if not student:
+      return f"No student found with ID {student}"
+
   newReview = Review(staff=staff,
                      student=student,
                      isPositive=isPositive,
-                     points=points,
-                     details=details,
-                     studentSeen=False)
+                     details=details)
   db.session.add(newReview)
   try:
     db.session.commit()
+
+    if isPositive:
+        command = IncreaseKarmaCommand(student, 1)
+    else:
+        command = DecreaseKarmaCommand(student, 1)
+    
+    result = student.karma_history.execute_command(command)
+    db.session.commit()
+
+    print(f"Karma Update: {result}")
     return True
   except Exception as e:
-    print("[review.create_review] Error occurred while creating new review: ",
+    print("[review.create_review] Error occurred while creating new review or updating karma: ",
           str(e))
     db.session.rollback()
     return False
 
 
 def delete_review(reviewID):
-  review = Review.query.filter_by(ID=reviewID).first()
+  review = Review.query.get(reviewID)
   if review:
     db.session.delete(review)
     try:
@@ -35,43 +52,6 @@ def delete_review(reviewID):
   else:
     return False
 
-
-def calculate_points_upvote(review):
-  review.points *= 1.1  # multiplier can be changed accordingly
-
-  try:
-    db.session.commit()
-    return True
-  except Exception as e:
-    print(
-        "[review.calculate_points_upvote] Error occurred while updating review points:",
-        str(e))
-    db.session.rollback()
-    return False
-
-
-def calculate_points_downvote(review):
-  review.points *= 0.9
-
-  try:
-    db.session.commit()
-    return True
-  except Exception as e:
-    print(
-        "[review.calculate_points_downvote] Error occurred while updating review points:",
-        str(e))
-    db.session.rollback()
-    return False
-
-
-# def get_total_review_points(studentID):
-#   reviews = Review.query.filter_by(studentID=studentID).all()
-#   if reviews:
-#     sum = 0
-#     for review in reviews:
-#       sum += review.points
-#     return sum
-#   return 0
 def get_total_review_points(studentID):
   reviews = Review.query.filter_by(studentID=studentID).all()
   if reviews:
@@ -93,8 +73,9 @@ def get_total_review_points(studentID):
   return 0
 
 def get_review(id):
-  review = Review.query.filter_by(ID=id).first()
+  review = Review.query.get(id)
   if review:
     return review
   else:
     return None
+  
