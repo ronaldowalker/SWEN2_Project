@@ -7,12 +7,9 @@ from App.database import db, get_migrate
 from App.main import create_app
 from App.models import Student, Karma
 from App.controllers import (
-    create_student, create_staff, create_admin, get_all_users_json,
-    get_all_users, get_transcript, get_student_by_UniId, setup_nltk,
-    analyze_sentiment, get_total_As, get_total_courses_attempted,
-    calculate_academic_score, create_review, create_incident_report,
-    create_accomplishment, get_staff_by_id, get_student_by_id,
-    create_job_recommendation, create_karma, get_karma)
+    create_student, create_staff, get_all_users_json,
+    get_all_users, get_student_by_id, setup_nltk,
+    analyze_sentiment, create_review, get_staff_by_id, create_karma, get_karma)
 
 # This commands file allow you to create convenient CLI commands for testing controllers
 
@@ -26,112 +23,56 @@ def initialize():
   db.drop_all()
   db.create_all()
 
-  create_student(username="billy",
-                 firstname="Billy",
-                 lastname="John",
-                 email="billy@example.com",
-                 password="billypass",
-                 faculty="FST",
-                 admittedTerm="",
-                 UniId='816031160',
-                 degree="",
-                 gpa="")
+  create_student(firstname="Billy",
+                lastname="John",
+                karma=0)
 
-  create_student(username="shivum",
-                 firstname="Shivum",
-                 lastname="Praboocharan",
-                 email="shivum.praboocharan@my.uwi.edu",
-                 password="shivumpass",
-                 faculty="FST",
-                 admittedTerm="2019/2021",
-                 UniId='816016480',
-                 degree="Bachelor of Computer Science with Management",
-                 gpa='')
+  create_student(firstname="Shivum",
+                lastname="Praboocharan",
+                karma=0)
 
-  create_student(username="jovani",
-                 firstname="Jovani",
-                 lastname="Highley",
-                 email="jovani.highley@my.uwi.edu",
-                 password="jovanipass",
-                 faculty="FST",
-                 admittedTerm="2021/2022",
-                 UniId='816026834',
-                 degree="Bachelor of Computer Science with Management",
-                 gpa='')
+  create_student(firstname="Jovani",
+                lastname="Highley",
+                karma=0)
 
-  create_student(username="kasim",
-                 firstname="Kasim",
-                 lastname="Taylor",
-                 email="kasim.taylor@my.uwi.edu",
-                 password="kasimpass",
-                 faculty="FST",
-                 admittedTerm="2019/2021",
-                 UniId='816030847',
-                 degree="Bachelor of Computer Science (General",
-                 gpa='')
+  create_student(firstname="Kasim",
+                lastname="Taylor",
+                karma=0)
 
-  create_student(username="brian",
-                 firstname="Brian",
-                 lastname="Cheruiyot",
-                 email="brian.cheruiyot@my.uwi.edu",
-                 password="brianpass",
-                 faculty="FST",
-                 admittedTerm="2021/2022",
-                 UniId='816031609',
-                 degree="Bachelor of Computer Science (General)",
-                 gpa="")
+  create_student(firstname="Brian",
+                lastname="Cheruiyot",
+                karma=0)
 
-  #Creating staff
+    #Creating staff
   create_staff(username="tim",
-               firstname="Tim",
-               lastname="Long",
-               email="",
-               password="timpass",
-               faculty="")
+              firstname="Tim",
+              lastname="Long",
+              email="",
+              password="timpass")
 
   create_staff(username="vijay",
-               firstname="Vijayanandh",
-               lastname="Rajamanickam",
-               email="Vijayanandh.Rajamanickam@sta.uwi.edu",
-               password="vijaypass",
-               faculty="FST")
+              firstname="Vijayanandh",
+              lastname="Rajamanickam",
+              email="Vijayanandh.Rajamanickam@sta.uwi.edu",
+              password="vijaypass")
 
   create_staff(username="permanand",
-               firstname="Permanand",
-               lastname="Mohan",
-               email="Permanand.Mohan@sta.uwi.edu",
-               password="password",
-               faculty="FST")
+              firstname="Permanand",
+              lastname="Mohan",
+              email="Permanand.Mohan@sta.uwi.edu",
+              password="password")
 
-  create_job_recommendation(
-      2, 7, False, "Job", "1",
-      "I am seeking a recommnedation for a position at a company", "WebTech",
-      "Web Developer", "webtech@gmail.com")
-  create_job_recommendation(
-      2, 8, False, "Job", "1",
-      "I am seeking a recommnedation for a position at a company", "WebTech",
-      "Web Developer", "webtech@gmail.com")
-  create_accomplishment(2, False, "Permanand Mohan", "Runtime",
-                        "I placed first at runtime.", 0, "None Yet")
-  create_accomplishment(2, False, "Vijayanandh Rajamanickam", "Runtime",
-                        "I placed first at runtime.", 0, "None Yet")
+  staff = get_staff_by_id(1)
+  student1 = get_student_by_id(816031609)
+  create_review(staff, student1, True, "Behaves very well in class!")
 
-  staff = get_staff_by_id(7)
-  student1 = get_student_by_UniId(816031609)
-  create_review(staff, student1, True, 5, "Behaves very well in class!")
-
-  student2 = get_student_by_UniId(816016480)
-  create_review(staff, student2, True, 5, "Behaves very well in class!")
-  student3 = get_student_by_UniId(816026834)
-  create_review(staff, student3, True, 5, "Behaves very well in class!")
-  student4 = get_student_by_UniId(816030847)
-  create_review(staff, student4, True, 5, "Behaves very well in class!")
-  create_admin(username="admin",
-               firstname="Admin",
-               lastname="Admin",
-               email="admin@example.com",
-               password="password",
-               faculty="FST")
+  student2 = get_student_by_id(816016480)
+  create_review(staff, student2, True, "Behaves very well in class!")
+  student3 = get_student_by_id(816026834)
+  create_review(staff, student3, True, "Behaves very well in class!")
+  student4 = get_student_by_id(816030847)
+  create_review(staff, student4, True, "Behaves very well in class!")
+ 
 
   students = Student.query.all()
 
@@ -312,36 +253,11 @@ def nltk_tests_command(type):
     sys.exit(pytest.main(["-k", "NLTKIntegrationTests"]))
 
 
-@test.command("print", help="print get_transcript")
-@click.argument("type", default="all")
-def print_transcript(type):
-  studentID = input("Enter student ID: ")  # Prompt user to enter student ID
-  transcripts = get_transcript(
-      studentID)  # Get transcript data for the student
-  if transcripts:
-    for transcript in transcripts:
-      if type == "all":
-        print(transcript.to_json())  # Print all transcript data as JSON
-      # elif type == "id":
-      #     print(transcript.studentID)  # Print student ID
-      # elif type == "gpa":
-      #     print(transcript.gpa)  # Print GPA
-      # elif type == "fullname":
-      #     print(transcript.fullname)  # Print full name
-      # Add more options as needed
-      else:
-        print(
-            "Invalid type. Please choose 'all', 'id', 'gpa', 'fullname', or add more options."
-        )
-  else:
-    print("Transcript not found for student with ID:", studentID)
-
-
 @test.command("printstu", help="print get_student")
 @click.argument("type", default="all")
 def print_student(type):
   UniId = input("Enter student ID: ")
-  student = get_student_by_UniId(UniId)
+  student = get_student_by_id(UniId)
   if student:
     if type == "all":
       print(student.to_json(0))
@@ -358,36 +274,6 @@ def print_student(type):
   else:
     print("Student not found with ID:", UniId)
 
-
-@test.command("printgradepointsandgpa_weight",
-              help="print student grade points from transcript")
-@click.argument("type", default="all")
-def print_grade_points(type):
-  UniId = input("Enter student ID: ")
-  points = get_total_As(UniId)
-  cources_attempted = get_total_courses_attempted(UniId)
-  if points:
-    print('points ', points)
-    print('courses attepmtped:, ', cources_attempted)
-
-  else:
-    print("Student not found with ID:", UniId)
-
-
-@test.command("printacademicscore", help="print student academic weight")
-@click.argument("type", default="all")
-def print_academic_weight(type):
-  UniId = input("Enter student ID: ")
-  points = get_total_As(UniId)
-  cources_attempted = get_total_courses_attempted(UniId)
-  academic_score = calculate_academic_score(UniId)
-  if points:
-    print('points ', points)
-    print('courses attepmtped:, ', cources_attempted)
-    print('Academic Score:, ', academic_score)
-
-  else:
-    print("Student not found with ID:", UniId)
 
 
 app.cli.add_command(test)

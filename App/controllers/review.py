@@ -1,40 +1,42 @@
-from App.models import Review, Staff, Student, IncreaseKarmaCommand, DecreaseKarmaCommand
 from App.database import db
+from App.models import Review, Staff, Student
+from App.karmaManager import KarmaManager  # Import KarmaManager
 
+karma_manager = KarmaManager()  # Instantiate the KarmaManager
 
 def create_review(staffID, studentID, isPositive, details):
+    staff = Staff.query.get(staffID)
+    student = Student.query.get(studentID)
 
-  staff = Staff.query.get(staffID)
-  student = Student.query.get(studentID)
+    if not staff:
+        print(f"No staff found with ID {staffID}")
+        return f"No staff found with ID {staffID}"
+    if not student:
+        print(f"No student found with ID {studentID}")
+        return f"No student found with ID {studentID}"
 
-  if not staff:
-      return f"No staff found with ID {staff}"
-  if not student:
-      return f"No student found with ID {student}"
+    newReview = Review(createdByStaffID=staffID,
+                       taggedStudentID=studentID,
+                       isPositive=isPositive,
+                       details=details)
+    db.session.add(newReview)
+    try:
+        db.session.commit()
 
-  newReview = Review(staff=staff,
-                     student=student,
-                     isPositive=isPositive,
-                     details=details)
-  db.session.add(newReview)
-  try:
-    db.session.commit()
+        # Use KarmaManager for updating karma
+        if isPositive:
+            result = karma_manager.increase_karma(student, 1)
+        else:
+            result = karma_manager.decrease_karma(student, 1)
+        
+        db.session.commit()
 
-    if isPositive:
-        command = IncreaseKarmaCommand(student, 1)
-    else:
-        command = DecreaseKarmaCommand(student, 1)
-    
-    result = student.karma_history.execute_command(command)
-    db.session.commit()
-
-    print(f"Karma Update: {result}")
-    return True
-  except Exception as e:
-    print("[review.create_review] Error occurred while creating new review or updating karma: ",
-          str(e))
-    db.session.rollback()
-    return False
+        print(f"Karma Update: {result}")
+        return True
+    except Exception as e:
+        print("[review.create_review] Error occurred while creating new review or updating karma: ", str(e))
+        db.session.rollback()
+        return False
 
 
 def delete_review(reviewID):

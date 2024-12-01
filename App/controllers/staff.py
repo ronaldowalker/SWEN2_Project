@@ -7,9 +7,7 @@ from .review import (
 )
 from .student import(
     get_student_by_id,
-    get_student_by_username,
-    get_students_by_degree,
-    get_students_by_faculty
+    get_student_by_name,
 )
 
 def create_staff(username,firstname, lastname, email, password):

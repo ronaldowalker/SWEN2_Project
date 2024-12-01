@@ -1,9 +1,6 @@
 from App.models import Karma
 from App.database import db
 from .review import (get_total_review_points)
-from .accomplishment import (get_total_accomplishment_points)
-from .incidentReport import (get_total_incident_points)
-from .transcript import (calculate_academic_score)
 
 
 def get_karma(studentID):
