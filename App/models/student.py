@@ -6,6 +6,7 @@ karma_manager = KarmaManager()  # Singleton instance of the manager
 class Student(db.Model):
     __tablename__ = 'student'
     ID = db.Column(db.Integer, primary_key=True)
+    studentID = db.Column(db.Integer, unique = True, nullable=False)
     firstName = db.Column(db.String(50), nullable=False)
     lastName = db.Column(db.String(50), nullable=False)
     karma = db.Column(db.Integer, nullable=False, default=0)
@@ -13,20 +14,21 @@ class Student(db.Model):
     # Relationships
     reviews = db.relationship('Review', back_populates='taggedStudent', lazy='joined')
 
-    def __init__(self, firstName, lastName, karma=0):
+    def __init__(self, ID, firstName, lastName, karma=0):
+        self.studentID = ID
         self.firstName = firstName
         self.lastName = lastName
         self.karma = karma
 
     def get_id(self):
-        return self.ID
+        return self.studentID
 
     def full_name(self):
         return f"{self.firstName} {self.lastName}"
 
     def to_json(self):
         return {
-            "studentID": self.ID,
+            "studentID": self.studentID,
             "firstName": self.firstName,
             "lastName": self.lastName,
             "karma": self.karma,

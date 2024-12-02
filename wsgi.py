@@ -9,7 +9,7 @@ from App.models import Student, Karma
 from App.controllers import (
     create_student, create_staff, get_all_users_json,
     get_all_users, get_student_by_id, setup_nltk,
-    analyze_sentiment, create_review, get_staff_by_id, create_karma, get_karma)
+    analyze_sentiment, create_review, get_staff_by_id, create_karma, get_karma, get_student_by_studnetid)
 
 # This commands file allow you to create convenient CLI commands for testing controllers
 
@@ -23,55 +23,63 @@ def initialize():
   db.drop_all()
   db.create_all()
 
-  create_student(firstname="Billy",
-                lastname="John",
-                karma=0)
+  create_student(studentID = "816036438",
+                 firstname="Billy",
+                 lastname="John",
+                 karma=0)
 
-  create_student(firstname="Shivum",
+  create_student(studentID = "81603938",
+                firstname="Shivum",
                 lastname="Praboocharan",
                 karma=0)
 
-  create_student(firstname="Jovani",
+  create_student(studentID = "816039358",
+                firstname="Jovani",
                 lastname="Highley",
                 karma=0)
 
-  create_student(firstname="Kasim",
+  create_student(studentID = "816035718",
+                firstname="Kasim",
                 lastname="Taylor",
                 karma=0)
 
-  create_student(firstname="Brian",
+  create_student(studentID = "81607491",
+                firstname="Brian",
                 lastname="Cheruiyot",
                 karma=0)
 
     #Creating staff
-  create_staff(username="tim",
+  create_staff(staffID = 123,
+              username="tim",
               firstname="Tim",
               lastname="Long",
               email="",
               password="timpass")
 
-  create_staff(username="vijay",
+  create_staff(staffID = 4321,
+              username="vijay",
               firstname="Vijayanandh",
               lastname="Rajamanickam",
               email="Vijayanandh.Rajamanickam@sta.uwi.edu",
               password="vijaypass")
 
-  create_staff(username="permanand",
+  create_staff(staffID = 1987,
+              username="permanand",
               firstname="Permanand",
               lastname="Mohan",
               email="Permanand.Mohan@sta.uwi.edu",
               password="password")
 
   staff = get_staff_by_id(1)
-  student1 = get_student_by_id(816031609)
-  create_review(staff, student1, True, "Behaves very well in class!")
+  student1 = get_student_by_studnetid(816036438)
+  create_review(1, 1, True, "Behaves very well in class!")
 
-  student2 = get_student_by_id(816016480)
-  create_review(staff, student2, True, "Behaves very well in class!")
-  student3 = get_student_by_id(816026834)
-  create_review(staff, student3, True, "Behaves very well in class!")
-  student4 = get_student_by_id(816030847)
-  create_review(staff, student4, True, "Behaves very well in class!")
+  student2 = get_student_by_studnetid(81603938)
+  create_review(1, 2, True, "Behaves very well in class!")
+  student3 = get_student_by_studnetid(816039358)
+  create_review(1, 3, True, "Behaves very well in class!")
+  student4 = get_student_by_studnetid(816035718)
+  create_review(1, 4, True, "Behaves very well in class!")
  
 
   students = Student.query.all()
@@ -80,9 +88,11 @@ def initialize():
     
     if student:
       print(student.ID)
-      create_karma(student.ID)
-      student.karmaID = get_karma(student.ID).karmaID
-      print(get_karma(student.ID).karmaID)
+      print(student.studentID)
+      print(student.firstName)
+      print(student.lastName)
+      print(student.karma)
+      print("\n")
       db.session.commit()
 
 

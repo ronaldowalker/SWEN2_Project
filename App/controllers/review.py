@@ -15,8 +15,8 @@ def create_review(staffID, studentID, isPositive, details):
         print(f"No student found with ID {studentID}")
         return f"No student found with ID {studentID}"
 
-    newReview = Review(createdByStaffID=staffID,
-                       taggedStudentID=studentID,
+    newReview = Review(staffID=staffID,
+                       studentID=studentID,
                        isPositive=isPositive,
                        details=details)
     db.session.add(newReview)

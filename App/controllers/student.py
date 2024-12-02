@@ -4,8 +4,8 @@ from App.karmaManager import KarmaManager  # Import KarmaManager
 
 karma_manager = KarmaManager()  # Instantiate the KarmaManager
 
-def create_student(firstname, lastname, karma):
-    newStudent = Student(firstname, lastname, karma)
+def create_student(studentID, firstname, lastname, karma):
+    newStudent = Student(studentID, firstname, lastname, karma)
     db.session.add(newStudent)
     try:
         db.session.commit()
@@ -18,6 +18,13 @@ def create_student(firstname, lastname, karma):
 
 def get_student_by_id(id):
     student = Student.query.get(id)
+    if student:
+        return student
+    else:
+        return None
+
+def get_student_by_studnetid(id):
+    student = Student.query.filter_by(studentID = id)
     if student:
         return student
     else:
@@ -51,6 +58,7 @@ def get_all_students_json():
     for student in students:
         student_data = {
             'id': student.ID,
+            'studentID': student.studentID,
             'username': student.username,
             'firstname': student.firstname,
             'lastname': student.lastname,
