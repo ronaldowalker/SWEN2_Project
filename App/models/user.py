@@ -5,6 +5,7 @@ from App.database import db
 class User(db.Model, UserMixin):
     __tablename__ = 'user'  # Specify the table name explicitly
     ID = db.Column(db.Integer, primary_key=True)  # Primary Key
+    userID = db.Column(db.Integer, nullable=True, unique=True)  
     username = db.Column(db.String(120), nullable=False, unique=True)  # Unique username
     firstname = db.Column(db.String(120), nullable=False)
     lastname = db.Column(db.String(120), nullable=False)
@@ -18,7 +19,8 @@ class User(db.Model, UserMixin):
         "polymorphic_on": type           # Use the 'type' column to differentiate subclasses
     }
 
-    def __init__(self, username, firstname, lastname, email, password):
+    def __init__(self, userID, username, firstname, lastname, email, password):
+        self.userID = userID
         self.username = username
         self.firstname = firstname
         self.lastname = lastname
@@ -29,6 +31,7 @@ class User(db.Model, UserMixin):
         """Returns a JSON representation of the User object."""
         return {
             'id': self.ID,
+            'userID': self.userID,
             'username': self.username,
             'firstname': self.firstname,
             'lastname': self.lastname,
@@ -38,6 +41,10 @@ class User(db.Model, UserMixin):
     def get_id(self):
         """Returns the unique ID of the User."""
         return self.ID
+
+    def get_userid(self):
+        """Returns the external userID."""
+        return self.userID
 
     def set_password(self, password):
         """Hashes and sets the user's password."""

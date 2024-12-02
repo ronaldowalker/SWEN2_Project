@@ -4,7 +4,7 @@ import string
 from flask import current_app
 from flask_mailman import EmailMultiAlternatives
 from App.models import *
-from App.controllers.student import create_student, get_student_by_UniId
+from App.controllers.student import create_student
 from App.controllers.karma import  create_karma, get_karma
 from App.database import db  
 

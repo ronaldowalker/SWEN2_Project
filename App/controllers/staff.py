@@ -7,13 +7,11 @@ from .review import (
 )
 from .student import(
     get_student_by_id,
-    get_student_by_username,
-    get_students_by_degree,
-    get_students_by_faculty
+    get_student_by_name,
 )
 
-def create_staff(username,firstname, lastname, email, password):
-    newStaff = Staff(username,firstname, lastname, email, password)
+def create_staff(staffID, username,firstname, lastname, email, password):
+    newStaff = Staff(staffID, username,firstname, lastname, email, password)
     db.session.add(newStaff)
     
     try:
@@ -29,6 +27,14 @@ def create_staff(username,firstname, lastname, email, password):
 
 def get_staff_by_id(id):
     staff = Staff.query.filter_by(ID=id).first()
+    if staff:
+        return staff
+    else:
+        return None
+
+
+def get_staff_by_userid(id):
+    staff = Staff.query.filter_by(userID=id).first()
     if staff:
         return staff
     else:

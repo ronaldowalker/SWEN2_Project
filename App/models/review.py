@@ -10,8 +10,8 @@ class Review(db.Model):
     dateCreated = db.Column(db.DateTime, default=datetime.utcnow)
     details = db.Column(db.String(400), nullable=False)
 
-    taggedStudent = db.relationship('Student', backref='reviews', lazy='joined')
-    createdByStaff = db.relationship('Staff', backref='reviews', lazy='joined')
+    taggedStudent = db.relationship('Student', back_populates='reviews', lazy='joined')
+    createdByStaff = db.relationship('Staff', back_populates='reviews', lazy='joined')
 
     def __init__(self, staffID, studentID, isPositive, details):
         self.createdByStaffID = staffID
@@ -26,7 +26,7 @@ class Review(db.Model):
         return {
             "reviewID": self.ID,
             "reviewer": f"{self.createdByStaff.firstname} {self.createdByStaff.lastname}",
-            "studentID": self.taggedStudentID,
+            "studentID": self.taggedStudent.studentID,
             "studentName": f"{self.taggedStudent.firstname} {self.taggedStudent.lastname}",
             "created": self.dateCreated.strftime("%d-%m-%Y %H:%M"),  # Formatted date/time
             "isPositive": self.isPositive,
