@@ -1,12 +1,9 @@
 from App.database import db
 from App.models import Review, Staff, Student
-from App.karmaManager import KarmaManager  # Import KarmaManager
 
-karma_manager = KarmaManager()  # Instantiate the KarmaManager
-
-def create_review(staffID, studentID, isPositive, details):
-    staff = Staff.query.get(staffID)
-    student = Student.query.get(studentID)
+def create_review(staffID, studentID, isPositive, details): 
+    staff = Staff.query.filter_by(staffID = staffID).first()
+    student = Student.query.filter_by(studentID = studentID).first()
 
     if not staff:
         print(f"No staff found with ID {staffID}")
@@ -15,8 +12,8 @@ def create_review(staffID, studentID, isPositive, details):
         print(f"No student found with ID {studentID}")
         return f"No student found with ID {studentID}"
 
-    newReview = Review(staffID=staffID,
-                       studentID=studentID,
+    newReview = Review(staffID=staff.ID,
+                       studentID=student.ID,
                        isPositive=isPositive,
                        details=details)
     db.session.add(newReview)
@@ -25,9 +22,9 @@ def create_review(staffID, studentID, isPositive, details):
 
         # Use KarmaManager for updating karma
         if isPositive:
-            result = karma_manager.increase_karma(student, 1)
+            result = student.increase_karma(1)
         else:
-            result = karma_manager.decrease_karma(student, 1)
+            result = student.decrease_karma(1)
         
         db.session.commit()
 

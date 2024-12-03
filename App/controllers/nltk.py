@@ -2,16 +2,16 @@ import nltk
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
-nltk.download('vader_lexicon')
-nltk.download('punkt')
-nltk.download('stopwords')
-nltk.download('wordnet')
+nltk.download('vader_lexicon', quiet=True)
+nltk.download('punkt', quiet=True)
+nltk.download('stopwords', quiet=True)
+nltk.download('wordnet', quiet=True)
 
 def setup_nltk():
-    nltk.download('vader_lexicon')
-    nltk.download('punkt')
-    nltk.download('stopwords')
-    nltk.download('wordnet')
+    nltk.download('vader_lexicon', quiet=True)
+    nltk.download('punkt', quiet=True)
+    nltk.download('stopwords', quiet=True)
+    nltk.download('wordnet', quiet=True)
     return
 
 from nltk.sentiment.vader import SentimentIntensityAnalyzer

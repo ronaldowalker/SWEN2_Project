@@ -37,4 +37,4 @@ class Staff(db.Model):
         }
 
     def __repr__(self):
-        return f'<Staff {self.ID}: {self.username}>'
+        return f'<Staff {self.ID}: {self.username} , {self.email}>'

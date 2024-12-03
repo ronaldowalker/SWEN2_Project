@@ -1,8 +1,5 @@
 from App.models import Student
 from App.database import db
-from App.karmaManager import KarmaManager  # Import KarmaManager
-
-karma_manager = KarmaManager()  # Instantiate the KarmaManager
 
 def create_student(studentID, firstname, lastname, karma):
     newStudent = Student(studentID, firstname, lastname, karma)
@@ -16,15 +13,15 @@ def create_student(studentID, firstname, lastname, karma):
         return False
 
 
-def get_student_by_id(id):
-    student = Student.query.get(id)
+def get_student_by_id(ID):
+    student = Student.query.get(ID)
     if student:
         return student
     else:
         return None
 
-def get_student_by_studnetid(id):
-    student = Student.query.filter_by(studentID = id)
+def get_student_by_studnetID(studentID):
+    student = Student.query.filter_by(studentID = studentID).first()
     if student:
         return student
     else:
@@ -39,8 +36,8 @@ def get_student_by_name(firstname, lastname):
         return []
 
 
-def get_full_name_by_student_id(id):
-    student = Student.query.filter_by(ID=id).first()
+def get_full_name_by_student_id(ID):
+    student = Student.query.filter_by(ID=ID).first()
     if student:
         full_name = f"{student.firstname} {student.lastname}"
         return full_name
@@ -69,8 +66,8 @@ def get_all_students_json():
     return students_json
 
 
-def update_student_karma(student_id, is_positive):
-    student = Student.query.get(student_id)
+def update_student_karma(studentID, is_positive):
+    student = Student.query.filter_by(studentID=studentID).first()
     if not student:
         return "Student not found"
 
@@ -84,8 +81,8 @@ def update_student_karma(student_id, is_positive):
     return result
 
 
-def undo_last_karma_change(student_id):
-    student = Student.query.get(student_id)
+def undo_last_karma_change(studentID):
+    student = Student.query.filter_by(studentID=studentID).first()
     if not student:
         return "Student not found"
 
@@ -94,9 +91,10 @@ def undo_last_karma_change(student_id):
     return result
 
 
-def view_student_karma_history(student_id):
-    student = Student.query.get(student_id)
+def view_student_karma_history(studentID):
+    student = Student.query.filter_by(studentID=studentID).first()
     if not student:
         return "Student not found"
 
-    return karma_manager.view_history(student)
+    return student.view_karma_history()
+    

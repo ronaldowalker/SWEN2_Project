@@ -33,8 +33,8 @@ def get_staff_by_id(id):
         return None
 
 
-def get_staff_by_userid(id):
-    staff = Staff.query.filter_by(userID=id).first()
+def get_staff_by_staffID(staffID):
+    staff = Staff.query.filter_by(staffID=staffID).first()
     if staff:
         return staff
     else:

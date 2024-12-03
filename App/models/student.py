@@ -14,8 +14,8 @@ class Student(db.Model):
     # Relationships
     reviews = db.relationship('Review', back_populates='taggedStudent', lazy='joined')
 
-    def __init__(self, ID, firstName, lastName, karma=0):
-        self.studentID = ID
+    def __init__(self, studentID, firstName, lastName, karma=0):
+        self.studentID = studentID
         self.firstName = firstName
         self.lastName = lastName
         self.karma = karma
@@ -48,5 +48,8 @@ class Student(db.Model):
     def view_karma_history(self):
         return karma_manager.view_history(self)
 
+    def view_history(self):
+        return karma_manager.history(self)
+
     def __repr__(self):
-        return f"<Student {self.ID}: {self.full_name()}>"
+        return f"<Student {self.ID}: {self.studentID} {self.full_name()}>"

@@ -1,22 +1,22 @@
 from App.database import db
 
 class KarmaManager:
-    def __init__(self):
-        self.history = []
+    
+    history = []
 
     def increase_karma(self, student, amount):
         """Increase the karma for a student."""
         previous_karma = student.karma
         student.karma += amount
         self.history.append((student.ID, "increase", amount, previous_karma, student.karma))
-        return f"Karma increased by {amount} to {student.karma}"
+        return f"Karma increased by {amount} to {student.karma} for student {student.firstName} {student.lastName}"
 
     def decrease_karma(self, student, amount):
         """Decrease the karma for a student."""
         previous_karma = student.karma
         student.karma -= amount
         self.history.append((student.ID, "decrease", amount, previous_karma, student.karma))
-        return f"Karma decreased by {amount} to {student.karma}"
+        return f"Karma decreased by {amount} to {student.karma} for student {student.firstName} {student.lastName}"
 
     def undo_last_action(self, student):
         """Undo the last karma change for a student."""
@@ -39,3 +39,15 @@ class KarmaManager:
             if sid == student.ID
         ]
         return student_history if student_history else ["No karma changes recorded"]
+
+    
+
+    # def view_history(self, student):
+    #     """View the karma history for a student."""
+    #     student_history = []
+
+    #     for element in self.history:
+    #         if element[0] == student.ID:
+    #             student_history.append(element)
+
+    #     return student_history if student_history else ["No karma changes recorded"]
