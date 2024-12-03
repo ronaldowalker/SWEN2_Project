@@ -1,7 +1,11 @@
 from App.database import db
-from App.karmaManager import KarmaManager
+KarmaManager = None  # Prevent circular import
 
-karma_manager = KarmaManager()  # Singleton instance of the manager
+def init_karma_manager():
+    global KarmaManager
+    if KarmaManager is None:
+        from App.karmaManager import KarmaManager
+
 
 class Student(db.Model):
     __tablename__ = 'student'
@@ -13,6 +17,7 @@ class Student(db.Model):
 
     # Relationships
     reviews = db.relationship('Review', back_populates='taggedStudent', lazy='joined')
+    karma_history = db.relationship('Karma', back_populates='student', lazy='dynamic', cascade="all, delete-orphan")
 
     def __init__(self, studentID, firstName, lastName, karma=0):
         self.studentID = studentID
@@ -37,19 +42,21 @@ class Student(db.Model):
 
     # Interact with the KarmaManager
     def increase_karma(self, amount):
-        return karma_manager.increase_karma(self, amount)
+        init_karma_manager()
+        return KarmaManager().increase_karma(self, amount)
 
     def decrease_karma(self, amount):
-        return karma_manager.decrease_karma(self, amount)
+        init_karma_manager()
+        return KarmaManager().decrease_karma(self, amount)
 
     def undo_last_action(self):
-        return karma_manager.undo_last_action(self)
+        init_karma_manager()
+        return KarmaManager().undo_last_action(self)
 
     def view_karma_history(self):
-        return karma_manager.view_history(self)
+        init_karma_manager()
+        return KarmaManager().view_history(self)
 
-    def view_history(self):
-        return karma_manager.history(self)
 
     def __repr__(self):
         return f"<Student {self.ID}: {self.studentID} {self.full_name()}>"
