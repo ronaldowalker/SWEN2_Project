@@ -142,7 +142,6 @@ def view_student_karma_history_command(studentid):
 @click.argument("details", default="Well behaved student")
 def create_review_command(staffid, studentid, ispositive, details):
   create_review(staffid, studentid, ispositive, details)
-  print("review created\n")
 
 
 
