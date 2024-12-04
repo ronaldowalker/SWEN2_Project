@@ -13,9 +13,10 @@ class Review(db.Model):
     taggedStudent = db.relationship('Student', back_populates='reviews', lazy='joined')
     createdByStaff = db.relationship('Staff', back_populates='reviews', lazy='joined')
 
-    def __init__(self, staffID, studentID, isPositive, details):
-        self.createdByStaffID = staffID
-        self.taggedStudentID = studentID
+    def __init__(self, taggedStudentID, createdByStaffID, isPositive, details, **kwargs):
+        super().__init__(**kwargs)  # Pass any additional keyword arguments to the superclass
+        self.taggedStudentID = taggedStudentID
+        self.createdByStaffID = createdByStaffID
         self.isPositive = isPositive
         self.details = details
 

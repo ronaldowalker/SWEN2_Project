@@ -5,13 +5,13 @@ from flask_login import login_required, current_user
 from sqlalchemy import or_
 from datetime import datetime
 
-from App.models import Student, Staff, User
+from App.models import Student, Staff, User, Review
 from App.controllers import (
     jwt_authenticate,  get_student_by_id, get_staff_by_id,
     get_staff_by_id, create_review, get_karma,
     analyze_sentiment, calculate_ranks, update_total_points,
     calculate_academic_points, calculate_accomplishment_points,
-    calculate_review_points)
+    calculate_review_points,get_student_by_studentID)
 
 staff_views = Blueprint('staff_views',
                         __name__,
@@ -66,39 +66,48 @@ def mainReviewPage():
   
 @staff_views.route('/createReview', methods=['POST'])
 def createReview():
-  staff_id = current_user.get_id()
-  staff = get_staff_by_id(staff_id)
+    # Get staff details
+    staff_id = current_user.get_id()
+    staff = get_staff_by_id(staff_id)
 
-  data = request.form
-  studentID = data['studentID']
-  studentName = data['name']
-  points = int(data['points'])
-  print("Start points:", points)
-  num = data['num']
-  personalReview = data['manual-review']
-  details = data['selected-details']
-  firstname, lastname = studentName.split(' ')
-  student = get_student_by_id(studentID)
+    # Get form data
+    data = request.form
+    studentID = data['studentID']
+    studentName = data['name']
+    is_positive = data['isPositive'] == 'True'  # This will be 'True' or 'False' as a string
+    details = data['details']  # The review entered by the staff member
+    
+    firstname, lastname = studentName.split(' ')
+    student = get_student_by_studentID(studentID)
 
-  if personalReview:
-    details += f"{num}. {personalReview}"
-    nltk_points = analyze_sentiment(personalReview)
-    rounded_nltk_points = round(float(nltk_points))
-    points += int(rounded_nltk_points)
-    print("Final points:", points)
+    # Determine the points based on positivity
+    points = 1 if is_positive else -1
 
-  if points > 0:
-    positive = True
-  else:
-    positive = False
+    # If student exists, create review and update karma
+    if student:
+        # Create a review with the correct column name 'taggedStudentID'
+        review = Review(
+            taggedStudentID=studentID,  # Matches the column name in the model
+            createdByStaffID=staff_id,  # Matches the column name in the model
+            isPositive=is_positive,
+            details=details   # Correct variable name
+        )
+        db.session.add(review)
+        db.session.commit()
 
-  if student:
-    review = create_review(staff, student, positive, points, details)
-    message = f"You have created a review on Student: {studentName}"
-    return render_template('Stafflandingpage.html', message=message)
-  else:
-    message = f"Error creating review on Student: {studentName}"
-    return render_template('Stafflandingpage.html', message=message)
+        # Update student's karma based on review positivity
+        student.karma += points if is_positive else -points
+        db.session.commit()
+
+        # Success message and redirection
+        message = f"You have created a review for Student: {studentName}"
+        return render_template('Stafflandingpage.html', message=message)
+
+    else:
+        # Handle error if student doesn't exist
+        message = f"Error creating review for Student: {studentName}"
+        return render_template('Stafflandingpage.html', message=message)
+
 
 
 @staff_views.route('/searchStudent', methods=['GET'])
@@ -142,14 +151,6 @@ def studentSearch():
     return render_template('StudentSearch.html', message=message)
 
 
-@staff_views.route('/allAchievementApproval', methods=['GET'])
-@login_required
-def allAchievementApproval():
-
-  staff_id = current_user.get_id()
-  return render_template('ProposedAchievements.html')
-
-
 
 @staff_views.route('/view-all-student-reviews/<string:uniID>', methods=['GET'])
 @login_required
@@ -159,24 +160,6 @@ def view_all_student_reviews(uniID):
   user = User.query.filter_by(ID=current_user.ID).first()
   return render_template('AllStudentReviews.html', student=student,user=user)
 
-
-@staff_views.route('/view-all-student-incidents/<string:uniID>',
-                   methods=['GET'])
-@login_required
-def view_all_student_incidents(uniID):
-
-  student = get_student_by_id(uniID)
-  user = User.query.filter_by(ID=current_user.ID).first()
-  return render_template('AllStudentIncidents.html', student=student,user=user)
-
-
-@staff_views.route('/view-all-student-achievements/<string:uniID>',
-                   methods=['GET'])
-@login_required
-def view_all_student_achievements(uniID):
-  student = Student.query.filter_by(UniId=uniID).first()
-  user = User.query.filter_by(ID=current_user.ID).first()
-  return render_template('AllStudentAchivements.html', student=student,user=user)
 
 
 @staff_views.route('/getStudentProfile/<string:uniID>', methods=['GET'])
@@ -208,10 +191,3 @@ def getStudentProfile(uniID):
                          student=student,
                          user=user,
                          karma=karma)
-
-@staff_views.route('/view-all-badges-staff/<string:studentID>', methods=['GET'])
-@login_required
-def view_all_badges(studentID):
-  student = get_student_by_id(studentID)
-  user = User.query.filter_by(ID=current_user.ID).first()
-  return render_template('AllBadges.html',student=student,user=user)

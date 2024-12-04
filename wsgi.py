@@ -9,7 +9,7 @@ from App.models import Student, Karma
 from App.controllers import (
     create_student, create_staff, get_all_users_json,get_staff_by_staffID, get_staff_by_name, get_staff_by_username, 
     get_all_users, get_student_by_id, setup_nltk, get_full_name_by_student_id, 
-    analyze_sentiment, create_review, get_staff_by_id, create_karma, get_karma, get_student_by_studnetID)
+    analyze_sentiment, create_review, get_staff_by_id, create_karma, get_karma, get_student_by_studentID)
 
 from App.controllers.student import *
 from App.controllers.staff import *
@@ -92,12 +92,14 @@ def get_staff_by_id_command(id):
 def create_student_command(studentid, firstname, lastname, karma):
   create_student(studentid, firstname, lastname, karma)
   print(f'{firstname} {lastname} created!')
+  print(f"Looking for student with ID: {studentid}")
+
 
 
 @student_cli.command("get_by_studentID", help = "retrieves a student by studentID")
 @click.argument("studentid", default=816036000)
 def get_student_by_studnetID_command(studentid):
-  student = get_student_by_studnetID(studentid)
+  student = get_student_by_studentID(studentid)
   print(student)
 
 

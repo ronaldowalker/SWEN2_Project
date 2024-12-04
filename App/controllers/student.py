@@ -20,7 +20,7 @@ def get_student_by_id(ID):
     else:
         return None
 
-def get_student_by_studnetID(studentID):
+def get_student_by_studentID(studentID):
     student = Student.query.filter_by(studentID = studentID).first()
     if student:
         return student
