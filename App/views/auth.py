@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, jsonify, request, send_from_directory, flash, redirect, url_for
+from flask import Blueprint, render_template, jsonify, request, send_from_directory, flash, redirect, url_for, session
 from flask_jwt_extended import jwt_required, current_user as jwt_current_user
 from flask_login import login_required, login_user, current_user, logout_user
 
@@ -29,18 +29,14 @@ def identify_page():
 
 @auth_views.route('/login', methods=['POST'])
 def login_action():
-    data = request.form
-    message = "Bad username or password"
-    
-    staff_member = Staff.query.filter_by(username=data['username']).first()
-
-    if staff_member and staff_member.check_password(data['password']):
-        login_user(staff_member)  # Logs the user in
-
-        # Remove the position check and directly redirect
-        return redirect("/StaffHome")  # Or any default redirect
-
-    return render_template('login.html', message=message)
+    username = request.form['username']
+    password = request.form['password']
+    staff = authenticate_staff(username, password)
+    if staff:
+        session['staff_id'] = staff.ID  # Store staff ID in session
+        return redirect(url_for('/staff_home'))
+    else:
+        return render_template('login.html', error="Invalid credentials")
 
 
 @auth_views.route('/logout', methods=['GET'])
