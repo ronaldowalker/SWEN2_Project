@@ -12,8 +12,8 @@ def create_review(staffID, studentID, isPositive, details):
         print(f"No student found with ID {studentID}")
         return f"No student found with ID {studentID}"
 
-    newReview = Review(staffID=staff.ID,
-                       studentID=student.ID,
+    newReview = Review(StaffID=staff.ID,
+                       StudentID=student.ID,
                        isPositive=isPositive,
                        details=details)
     db.session.add(newReview)
@@ -28,6 +28,7 @@ def create_review(staffID, studentID, isPositive, details):
         
         db.session.commit()
 
+        print("\n")
         print(f"Karma Update: {result}")
         return True
     except Exception as e:
