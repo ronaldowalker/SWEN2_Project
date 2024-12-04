@@ -87,6 +87,22 @@ $ flask user create bob bobpass
 ```
 
 
+# Project CLI Commands
+
+This project uses a few CLI command groups to ensure running commmands are simple
+
+```python
+# inside wsgi.py
+
+#All the CLI command groups
+
+staff_cli = AppGroup('staff', help = 'Staff object commands')
+student_cli = AppGroup('student', help = 'Student object commands')
+review_cli = AppGroup('review', help = 'Review object commands')
+
+```
+
+
 # Running the Project
 
 _For development run the serve command (what you execute):_

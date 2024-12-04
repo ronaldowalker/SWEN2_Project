@@ -6,16 +6,14 @@ from App.database import db, create_db
 from App.models import Student
 from App.controllers import (
     create_student,
-    get_karma,
     get_student_by_id,
-    get_student_by_UniId,
-    get_student_by_username,
-    get_students_by_degree,
-    get_students_by_faculty,
+    get_student_by_studnetID,
+    get_student_by_name,
+    get_full_name_by_student_id,
     get_all_students_json,
-    update_admittedTerm,
-    update_yearofStudy,
-    update_degree
+    update_student_karma,
+    undo_last_karma_change,
+    view_student_karma_history
 )
 
 '''
@@ -24,31 +22,22 @@ from App.controllers import (
 class StudentUnitTests(unittest.TestCase):
 
     def test_new_student(self):
-        student = Student(username="billy", firstname="Billy", lastname="John", email="billy@example.com", password="billypass", faculty="FST", admittedTerm="2022/2023", UniId="816000000", degree="BSc Computer Science", gpa="3.5")
-        assert student.username == "billy"
+        student = Student(studentID=816036000, firstname = "sly", lastname="cooper", karma=0)
+        assert student.firstname == "sly"
 
-    def test_get_json(self):
-        student = Student(username="billy", firstname="Billy", lastname="John", email="billy@example.com", password="billypass", faculty="FST", admittedTerm="2022/2023", UniId="816000000", degree="BSc Computer Science", gpa="3.5")
-        karma = get_karma(student.karmaID)
-        student_json = student.to_json(karma)
+    def test_full_name(self):
+        student = Student(studentID=816036000, firstname = "sly", lastname="cooper", karma=0)
+        assert student.full_name == "sly cooper"
+
+    def test_student_to_json(self):
+        student = Student(studentID=816036000, firstname = "sly", lastname="cooper", karma=0)
+        student_json = student.to_json()
         print(student_json)
-        self.assertDictEqual(student_json, {"studentID": None,
-                                            "username": "billy",
-                                            "firstname": "Billy",
-                                            "lastname": "John",
-                                            "gpa": "3.5",
-                                            "email": "billy@example.com",
-                                            "faculty": "FST",
-                                            "degree": "BSc Computer Science",
-                                            "admittedTerm": "2022/2023",
-                                            "UniId": "816000000",
-                                            # "reviews": [],
-                                            "accomplishments": [],
-                                            "incidents": [],
-                                            "grades": [],
-                                            "transcripts": [],
-                                            "karmaScore": None,
-                                            "karmaRank": None})
+        self.assertDictEqual(student_json, {"studentID": "816036000",
+                                            "firstname": "sly",
+                                            "lastname": "cooper",
+                                            "karma": "0",
+                                            "reviews": []})
 
 
 '''
@@ -67,37 +56,37 @@ def empty_db():
 class StudentIntegrationTests(unittest.TestCase):
 
     def test_create_student(self):
-        assert create_student(username="billy", firstname="Billy", lastname="John", email="billy@example.com", password="billypass", faculty="FST", admittedTerm="2022/2023", UniId="816000000", degree="BSc Computer Science", gpa="3.5") == True
+        assert create_student(studentID=816036000, firstname = "sly", lastname="cooper", karma=0) == True
         
     def test_get_student_by_id(self):
         student = get_student_by_id(1)
         assert student is not None
     
-    def test_get_student_by_username(self):
-        student = get_student_by_username("billy")
+    def test_get_student_by_name(self):
+        student = get_student_by_name(firstname="sly", lastname="cooper")
         assert student is not None
 
-    def test_get_studens_by_degree(self):
-        students = get_students_by_degree("BSc Computer Science")
-        assert students != []
+    def test_get_student_by_studnetID(self):
+        student = get_student_by_studnetID(studentID=816036000)
+        assert student is not None
 
-    def test_get_students_by_faulty(self):
-        students = get_students_by_faculty("FST")
-        assert students != []
+    def test_get_full_name_by_student_id(self):
+        student = get_full_name_by_student_id(ID=1)
+        assert student is not None
+
     
-    def test_get_students_json(self):
+    def test_get_all_students_json(self):
         students = get_all_students_json()
         assert students != []
 
-    def test_update_admittedTerm(self):
-        assert update_admittedTerm(1, "2023/2024") == True
-    
-    # def test_update_yearOfStudy(self):
-    #     assert update_yearofStudy(1, 1) == True
-    
-    def test_get_student_by_UniId(self):
-      student = get_student_by_UniId("816000000")
-      assert student is not None
-    
-    def test_update_degree(self):
-        assert update_degree(1, "BSc Computer Science Special") == True
+    def test_update_student_karma(self):
+        student = update_student_karma(studentID=816036000, is_positive=True)
+        assert student is not None
+
+    def test_undo_last_karma_change(self):
+        student = undo_last_karma_change(studentID=816036000)
+        assert student is not None
+
+    def test_view_student_karma_history(self):
+        students = view_student_karma_history(studentID=816036000)
+        assert students != []
