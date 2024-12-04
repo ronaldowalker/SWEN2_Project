@@ -35,8 +35,6 @@ class Karma(db.Model):
             "timestamp": self.timestamp.isoformat(),
         }
       
-      def __repr__(self):
-            return f"<Karma History {self.ID}: {self.studentID} {self.action} {self.amount} {self.previous_karma} {self.updated_karma}>"
-
+       return f"<Karma History {self.ID}: StudentID {self.studentID}, Action-{self.action} by {self.amount}. The previous karma was {self.previous_karma}. Updated to {self.updated_karma}>"
 
   
