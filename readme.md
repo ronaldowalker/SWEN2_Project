@@ -80,6 +80,13 @@ app.cli.add_command(user_cli) # add the group to the cli
 
 ```
 
+Then execute the command invoking with flask cli with command name and the relevant parameters
+
+```bash
+$ flask user create bob bobpass
+```
+
+
 # Project CLI Commands
 
 This project uses a few CLI command groups to ensure running commmands are simple
@@ -93,12 +100,6 @@ staff_cli = AppGroup('staff', help = 'Staff object commands')
 student_cli = AppGroup('student', help = 'Student object commands')
 review_cli = AppGroup('review', help = 'Review object commands')
 
-```
-
-Then execute the command invoking with flask cli with command name and the relevant parameters
-
-```bash
-$ flask user create bob bobpass
 ```
 
 
