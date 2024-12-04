@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, jsonify, request, send_from_directory, flash, redirect, url_for, session
-from flask_jwt_extended import jwt_required, current_user as jwt_current_user
+from flask_jwt_extended import jwt_required, current_user as jwt_current_user, create_access_token
 from flask_login import login_required, login_user, current_user, logout_user
 
 from .index import index_views
@@ -28,15 +28,23 @@ def identify_page():
 
 
 @auth_views.route('/login', methods=['POST'])
-def login_action():
+def login():
     username = request.form['username']
     password = request.form['password']
-    staff = authenticate_staff(username, password)
-    if staff:
-        session['staff_id'] = staff.ID  # Store staff ID in session
-        return redirect(url_for('/staff_home'))
+    
+    # Query the Staff table for the given username
+    staff = Staff.query.filter_by(username=username).first()
+    
+    if staff and staff.check_password(password):
+        # Store staff_id in the session
+        session['staff_id'] = staff.ID
+        
+        # Redirect to staff home page
+        return redirect("/StaffHome")
+    
     else:
-        return render_template('login.html', error="Invalid credentials")
+        # Handle invalid login credentials
+        return jsonify({"msg": "Invalid credentials"}), 401
 
 
 @auth_views.route('/logout', methods=['GET'])

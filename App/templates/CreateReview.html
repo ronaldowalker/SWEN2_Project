@@ -20,6 +20,23 @@
             z-index: 999;
             background: #fff;
         }
+        .selected {
+        background-color: #4CAF50;  /* Green background for selected button */
+        color: white;  /* White text for selected button */
+        }
+
+        .button-group button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            background-color: #f0f0f0;  /* Default background color */
+            color: black;  /* Default text color */
+        }
+        .button-group button:hover {
+            background-color: #ddd;  /* Hover effect */
+        }
         .logo {
             background-color:#051d3c;
             border-bottom-right-radius: 50px;
@@ -127,34 +144,47 @@
     </div>
 
     <script>
-        function fetchStudentName() {
-            const studentID = document.getElementById('studentID').value;
-            fetch('/get_student_name', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ studentID: studentID })
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('name').value = data.studentName;
-            })
-            .catch(error => console.error('Error:', error));
-        }
-
-        function selectReviewType(type) {
-    // Set the value for isPositive based on the selected button
-    const positiveButton = document.getElementById('positive');
-    const negativeButton = document.getElementById('negative');
-    
-    if (type === 'positive') {
-        document.getElementById('isPositive').value = 'True';  // Set the hidden input value to True
-        positiveButton.classList.add('selected');  // Highlight the selected button
-        negativeButton.classList.remove('selected');  // Remove highlight from the other button
-    } else {
-        document.getElementById('isPositive').value = 'False';  // Set the hidden input value to False
-        negativeButton.classList.add('selected');  // Highlight the selected button
-        positiveButton.classList.remove('selected');  // Remove highlight from the other button
+    function fetchStudentName() {
+        const studentID = document.getElementById('studentID').value;
+        fetch('/get_student_name', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ studentID: studentID })
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('name').value = data.studentName;
+        })
+        .catch(error => console.error('Error:', error));
     }
-}
 
+    function selectReviewType(type) {
+        const positiveButton = document.getElementById('positive');
+        const negativeButton = document.getElementById('negative');
+        
+        if (type === 'positive') {
+            document.getElementById('isPositive').value = 'True';
+            positiveButton.classList.add('selected');
+            negativeButton.classList.remove('selected');
+        } else {
+            document.getElementById('isPositive').value = 'False';
+            negativeButton.classList.add('selected');
+            positiveButton.classList.remove('selected');
+        }
+    }
+
+    document.getElementById('review-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const formData = new FormData(this);
+
+    fetch('/createReview', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+        document.body.innerHTML = data; // Replace the body content with the response
+    })
+    .catch(error => console.error('Error:', error));
+});
 </script>

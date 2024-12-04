@@ -114,7 +114,7 @@
         }
         .student-buttons {
             position: absolute;
-            bottom: 35px;
+            bottom: 20px;
             right: 20px;
             display: flex;
             gap: 10px;
@@ -164,13 +164,12 @@
     {% for student  in students %}
     <div class="student-card">
         <div class="student-info">
-            <h3>Name: {{ student.firstname }} {{ student.lastname }}</h3>
-            <p>Student ID: {{ student.UniId }} </p>
-            <p>Degree: {{ student.degree }}</p>
+            <h3>Name: {{ student.firstName }} {{ student.lastName }}</h3>
+            <p>Student ID: {{ student.studentID }}</p>
         </div>
         <div class="student-buttons">
-            <form method="GET" action="/getStudentProfile/{{student.UniId}}">
-                <button href="/getStudentProfile/{{student.UniId}}">Student Profile</button>
+            <form method="GET" action="/getStudentProfile/{{student.studentID}}">
+                <button type="submit">Student Profile</button>
             </form>
         </div>
     </div>
