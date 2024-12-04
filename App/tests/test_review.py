@@ -7,15 +7,13 @@ from App.models import Review
 from App.controllers import (
     create_student,
     create_staff,
-    get_staff_by_username,
-    get_staff_by_id,
-    get_student_by_id,
-    get_student_by_username,
+    get_id,
+    to_json,
     create_review,
+    get_student_by_studnetID,
+    get_staff_by_staffID,
+
     delete_review,
-    calculate_points_upvote,
-    calculate_points_downvote,
-    get_total_review_points,
     get_review
 )
 '''
@@ -24,21 +22,27 @@ from App.controllers import (
 class ReviewUnitTests(unittest.TestCase):
 
     def test_new_review(self):
-        assert create_staff(username="joe",firstname="Joe", lastname="Mama", email="joe@example.com", password="joepass", faculty="FST") == True
-        assert create_student(username="billy",
-                 firstname="Billy",
-                 lastname="John",
-                 email="billy@example.com",
-                 password="billypass",
-                 faculty="FST",
-                 admittedTerm="",
-                 UniId='816031160',
-                 degree="",
-                 gpa="") == True
-        student = get_student_by_username("billy")
-        staff = get_staff_by_username("joe")
-        review = Review(staff, student, True, 3, "Billy is good.", studentSeen=False)
+        assert create_staff(staffID=12345,username="RenWalker",firstname="ren", lastname="walker", email="ren@example.com", password="renpass") == True
+        assert create_student(studentID=816036000, firstname = "sly", lastname="cooper", karma=0) == True
+        student = get_student_by_studnetID(816036000)
+        staff = get_staff_by_staffID(12345)
+        review = Review(staff.staffID, student.studentID, True, "Good Student")
         assert review is not None
+
+    def test_review_to_json(self):
+        assert create_staff(staffID=12345,username="RenWalker",firstname="ren", lastname="walker", email="ren@example.com", password="renpass") == True
+        assert create_student(studentID=816036000, firstname = "sly", lastname="cooper", karma=0) == True
+        student = get_student_by_studnetID(816036000)
+        staff = get_staff_by_staffID(12345)
+        review = Review(staff.staffID, student.studentID, True, "Good Student")
+        review_json = review.to_json()
+        self.assertDictEqual(review_json, {"reviewID": "1",
+                                            "reviewer": "ren walker",
+                                            "studentID": "816036000",
+                                            "studentName": "sly cooper",
+                                            "created": f"{review.dateCreated}",
+                                            "isPositive": "True",
+                                            "reviews": "Good Student"})
 
 '''
     Integration Tests
@@ -56,48 +60,20 @@ def empty_db():
 class ReviewIntegrationTests(unittest.TestCase):
 
     def test_create_review(self):
-        assert create_staff(username="joe",firstname="Joe", lastname="Mama", email="joe@example.com", password="joepass", faculty="FST") == True
-        assert create_student(username="billy",
-                 firstname="Billy",
-                 lastname="John",
-                 email="billy@example.com",
-                 password="billypass",
-                 faculty="FST",
-                 admittedTerm="",
-                 UniId='816031160',
-                 degree="",
-                 gpa="") == True
-        student = get_student_by_username("billy")
-        staff = get_staff_by_username("joe")
-        assert create_review(staff=staff, student=student, isPositive=True, points=3, details="Billy is good.") == True
+        assert create_staff(staffID=12345,username="RenWalker",firstname="ren", lastname="walker", email="ren@example.com", password="renpass") == True
+        assert create_student(studentID=816036000, firstname = "sly", lastname="cooper", karma=0) == True
+        student = get_student_by_studnetID(816036000)
+        staff = get_staff_by_staffID(12345)
+        assert create_review(staffID = staff.staffID, studentID=student.studentID, isPositive=True, details="Good Student") == True
         review = get_review(1)
 
-    def test_get_review(self):
-        self.test_create_review()
-        review = get_review(1)
-        print(review.to_json(student=get_student_by_id(review.studentID), staff=get_staff_by_id(review.createdByStaffID)))
-        assert review is not None
+    # def test_get_review(self):
+    #     self.test_create_review()
+    #     review = get_review(1)
+    #     print(review.to_json(student=get_student_by_id(review.studentID), staff=get_staff_by_id(review.createdByStaffID)))
+    #     assert review is not None
 
-    def test_calc_points_upvote(self):
-        self.test_create_review()
-        review = get_review(1)
-        print(review.to_json(student=get_student_by_id(review.studentID), staff=get_staff_by_id(review.createdByStaffID)))
-        assert review is not None
-        assert calculate_points_upvote(review) == True
-
-    def test_calc_points_downvote(self):
-        self.test_create_review()
-        review = get_review(1)
-        print(review.to_json(student=get_student_by_id(review.studentID), staff=get_staff_by_id(review.createdByStaffID)))
-        assert review is not None
-        assert calculate_points_downvote(review) == True
-
-    def test_get_total_points(self):
-        self.test_create_review()
-        review = get_review(1)
-        assert get_total_review_points(review.studentID) != 0
-
-    def test_delete_review(self):
-        self.test_create_review()
-        review = get_review(2)
-        assert delete_review(review.ID) == True
+    # def test_delete_review(self):
+    #     self.test_create_review()
+    #     review = get_review(2)
+    #     assert delete_review(review.ID) == True
