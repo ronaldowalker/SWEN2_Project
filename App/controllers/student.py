@@ -1,3 +1,4 @@
+from App import karmaManager
 from App.models import Student
 from App.database import db
 
@@ -73,9 +74,9 @@ def update_student_karma(studentID, is_positive):
 
     # Use KarmaManager to update karma
     if is_positive:
-        result = karma_manager.increase_karma(student, 1)
+        result = karmaManager.increase_karma(student, 1)
     else:
-        result = karma_manager.decrease_karma(student, 1)
+        result = karmaManager.decrease_karma(student, 1)
 
     db.session.commit()  # Persist changes
     return result
@@ -86,7 +87,7 @@ def undo_last_karma_change(studentID):
     if not student:
         return "Student not found"
 
-    result = karma_manager.undo_last_action(student)
+    result = karmaManager.undo_last_action(student)
     db.session.commit()  # Persist changes
     return result
 

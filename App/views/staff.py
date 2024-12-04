@@ -4,7 +4,7 @@ from App.database import db
 from flask_login import login_required, current_user
 from sqlalchemy import or_
 from datetime import datetime
-
+from App.karmaManager import KarmaManager
 from App.models import Student, Staff, User, Review
 from App.controllers import (
     jwt_authenticate,  get_student_by_id, get_staff_by_id,
@@ -104,8 +104,15 @@ def createReview():
         db.session.commit()
 
         # Update student's karma based on review positivity
-        student.karma += points if is_positive else -points
-        db.session.commit()
+        karma_manager = KarmaManager()
+
+        if is_positive:
+            # Increase karma if the review is positive
+            karma_manager.increase_karma(student, points)
+        else:
+            # Decrease karma if the review is negative
+            karma_manager.decrease_karma(student, points)
+
 
         # Success message and redirection
         message = f"You have created a review for Student: {studentName}"
@@ -169,32 +176,22 @@ def view_all_student_reviews(uniID):
 
 
 
-@staff_views.route('/getStudentProfile/<string:uniID>', methods=['GET'])
-@login_required
-def getStudentProfile(uniID):
-  student = Student.query.filter_by(UniId=uniID).first()
+@staff_views.route('/getStudentProfile/<string:studentID>', methods=['GET'])
+def getStudentProfile(studentID):
+    # Fetch student based on studentID
+    student = Student.query.filter_by(studentID=studentID).first()
 
-  if student is None:
-    student = Student.query.filter_by(ID=uniID).first()
+    if student is None:
+        return jsonify({"msg": "Student not found"}), 404
 
-  user = User.query.filter_by(ID=student.ID).first()
-  karma = get_karma(student.ID)
+    # Fetch the user profile associated with the student
+    user = User.query.filter_by(ID=student.ID).first()
 
-  if karma:
-
-    calculate_academic_points(student.ID)
-    calculate_accomplishment_points(student.ID)
-    calculate_review_points(student.ID)
-    #Points: academic (0.4),accomplishment (0,3 shared)
-    #missing points: incident , reivew
-    #calculate the accomplishment - incident for 0.3 shared
-    #assign review based on 1 time reivew max 5pts for 0.3
-    update_total_points(karma.karmaID)
-    #updaing ranks
-    calculate_ranks()
-
-
-  return render_template('Student-Profile-forStaff.html',
+    # Get the student's karma (using KarmaManager or your own method)
+    karma = get_karma(studentID)  # Assuming this is how you get the karma
+    reviews = Review.query.filter_by(taggedStudentID=student.ID).all()
+    # Return the profile page with student details and karma information
+    return render_template('Student-Profile-forStaff.html',
                          student=student,
                          user=user,
-                         karma=karma)
+                         karma=karma, reviews=reviews)
