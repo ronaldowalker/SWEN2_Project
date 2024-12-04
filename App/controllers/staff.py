@@ -12,8 +12,7 @@ from .student import(
 
 def create_staff(staffID, username,firstname, lastname, email, password):
     newStaff = Staff(staffID, username,firstname, lastname, email, password)
-    db.session.add(newStaff)
-    
+    db.session.add(newStaff)    
     try:
         db.session.commit()
         return True
@@ -31,6 +30,7 @@ def get_staff_by_id(id):
         return staff
     else:
         return None
+
 
 
 def get_staff_by_staffID(staffID):

@@ -29,20 +29,18 @@ def identify_page():
 
 @auth_views.route('/login', methods=['POST'])
 def login_action():
-  data = request.form
-  message="Bad username or password"
-  user = login(data['username'], data['password'])
-  if user:
-    user_type = type(user)
-    print("User type:", user_type)
-    login_user(user)
-    if (user.user_type == "staff"):
-      return redirect("/StaffHome")  # Redirect to student dashboard
-    elif (user.user_type == "student"):
-      return redirect("/StudentHome")  # Redirect to staff dashboard
-    elif (user.user_type == "admin"):
-      return redirect("/admin")
-  return render_template('login.html', message=message)
+    data = request.form
+    message = "Bad username or password"
+    
+    staff_member = Staff.query.filter_by(username=data['username']).first()
+
+    if staff_member and staff_member.check_password(data['password']):
+        login_user(staff_member)  # Logs the user in
+
+        # Remove the position check and directly redirect
+        return redirect("/StaffHome")  # Or any default redirect
+
+    return render_template('login.html', message=message)
 
 
 @auth_views.route('/logout', methods=['GET'])
