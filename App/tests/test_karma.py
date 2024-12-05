@@ -4,8 +4,11 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from App.main import create_app
 from App.database import db, create_db
 from App.models import Karma
+from App.controllers.student import get_student_by_studentID
 from App.controllers import (
-    to_json
+    create_student,
+    get_student_by_studentID,
+
 )
 
 '''
@@ -15,24 +18,24 @@ class KarmaUnitTests(unittest.TestCase):
 
     def test_new_karma(self):
         assert create_student(studentID=816036000, firstname = "sly", lastname="cooper", karma=0) == True
-        student = get_student_by_studnetID(816036000)
+        student = get_student_by_studentID(816036000)
         history = Karma(studentID = student.ID, action = "increase", amount = 1, previous_karma = 0, updated_karma = 1)
         assert history is not None
         
 
     def test_karma_to_json(self):
         assert create_student(studentID=816036000, firstname = "sly", lastname="cooper", karma=0) == True
-        student = get_student_by_studnetID(816036000)
+        student = get_student_by_studentID(816036000)
         history = Karma(studentID = student.ID, action = "increase", amount = 1, previous_karma = 0, updated_karma = 1)
         history_json = history.to_json()
         self.assertDictEqual(history_json,{
             "id": 1,
-            "student_id": f"{student.ID}",
+            "student_id": student.ID,
             "action": "increase", 
-            "amount": "1", 
-            "previous_karma": "0",
-            "updated_karma": "1",
-            "timestamp": -f"{history.timestamp}",
+            "amount": 1, 
+            "previous_karma": 0,
+            "updated_karma": 1,
+            "timestamp": history.timestamp,
         })
 
 '''
@@ -48,4 +51,6 @@ def empty_db():
     yield app.test_client()
     db.drop_all()
 
-class KarmaIntegrationTests(unittest.TestCase):
+# class KarmaIntegrationTests(unittest.TestCase):
+
+    #test cases

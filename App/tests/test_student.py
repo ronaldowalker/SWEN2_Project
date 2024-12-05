@@ -7,7 +7,7 @@ from App.models import Student
 from App.controllers import (
     create_student,
     get_student_by_id,
-    get_student_by_studnetID,
+    get_student_by_studentID,
     get_student_by_name,
     get_full_name_by_student_id,
     get_all_students_json,
@@ -27,7 +27,7 @@ class StudentUnitTests(unittest.TestCase):
 
     def test_full_name(self):
         student = Student(studentID=816036000, firstname = "sly", lastname="cooper", karma=0)
-        assert student.full_name == "sly cooper"
+        assert student.full_name == f"{firstName} {lastName}"
 
     def test_student_to_json(self):
         student = Student(studentID=816036000, firstname = "sly", lastname="cooper", karma=0)
@@ -67,7 +67,7 @@ class StudentIntegrationTests(unittest.TestCase):
         assert student is not None
 
     def test_get_student_by_studnetID(self):
-        student = get_student_by_studnetID(studentID=816036000)
+        student = get_student_by_studentID(studentID=816036000)
         assert student is not None
 
     def test_get_full_name_by_student_id(self):
