@@ -41,22 +41,18 @@ def karma_history():
     student_id = request.args.get('studentID')
     name = request.args.get('name')
 
-    # Search for student by studentID if provided
     if student_id:
         student = Student.query.filter_by(studentID=student_id).first()
-    # Optionally search by name if provided
     elif name:
         student = Student.query.filter(Student.firstName.contains(name) | Student.lastName.contains(name)).first()
     else:
         return render_template('karmaHistory.html', message="Please provide either a Student ID or Name")
 
     if student:
-        # Redirect to karma history page with the studentID in the URL
         return redirect(url_for('staff_views.karma_history_with_id', studentID=student.studentID))
     else:
         return render_template('karmaHistory.html', message="Student not found")
 
-    # If method is GET, just render the search page
     return render_template('karmaHistory.html')
 
 
@@ -66,8 +62,7 @@ def get_student_name():
 
     student = get_student_by_id(student_id)
     
-    if student:
-        # Concatenate firstName and lastName to form the fullname
+    if student: 
         fullname = f"{student.firstName} {student.lastName}"
         return jsonify({'studentName': fullname})
     else:
@@ -101,23 +96,22 @@ def createReview():
     data = request.form
     studentID = data['studentID']
     studentName = data['name']
-    is_positive = data['isPositive'] == 'True'  # This will be 'True' or 'False' as a string
-    details = data['details']  # The review entered by the staff member
+    is_positive = data['isPositive'] == 'True'  
+    details = data['details'] 
     
     # Validate student
     firstname, lastname = studentName.split(' ')
     student = get_student_by_studentID(studentID)
 
-    # Determine the points based on positivity
     points = 1 if is_positive else -1
 
     # If student exists, create review and update karma
     if student:
         review = Review(
-            taggedStudentID=studentID,  # Matches the column name in the model
-            createdByStaffID=staff_id,  # Matches the column name in the model
+            StudentID=studentID,  
+            StaffID=staff_id,  
             isPositive=is_positive,
-            details=details   # Correct variable name
+            details=details   
         )
         db.session.add(review)
         db.session.commit()
@@ -138,7 +132,6 @@ def createReview():
         return render_template('Stafflandingpage.html', message=message)
 
     else:
-        # Handle error if student doesn't exist
         message = f"Error creating review for Student: {studentName}"
         return render_template('Stafflandingpage.html', message=message)
 
@@ -152,10 +145,8 @@ def studentSearch():
     query = Student.query
 
     if name:
-        # Split the name to check if it's a full name or partial
         name_parts = name.split()
         if len(name_parts) > 1:
-            # If there are multiple parts, assume full name
             first_name, last_name = name_parts[0], name_parts[1]
             query = query.filter(
                 db.and_(
@@ -164,7 +155,6 @@ def studentSearch():
                 )
             )
         else:
-            # If only one part, search in first or last name
             query = query.filter(
                 db.or_(
                     Student.firstName.ilike(f'%{name}%'),
@@ -197,32 +187,27 @@ def view_all_student_reviews(uniID):
 @staff_views.route('/karmaHistory/<int:studentID>', methods=['GET'])
 def karma_history_with_id(studentID):
     # Fetch student data from the Student model
-    student = Student.query.filter_by(studentID=studentID).first()  # Assuming Student has studentID as unique
+    student = Student.query.filter_by(studentID=studentID).first()  
     if student is None:
-        return "Student not found", 404  # Handle case where student is not found
+        return "Student not found", 404  
 
-    # Fetch karma history using KarmaManager
     karma_manager = KarmaManager() 
     karma_history = karma_manager.view_history(student)
 
-    # Pass the student and karma history data to the template
     return render_template('viewKarmaHistory.html', student=student, karma_history=karma_history)
 
 @staff_views.route('/getStudentProfile/<string:studentID>', methods=['GET'])
 def getStudentProfile(studentID):
-    # Fetch student based on studentID
     student = Student.query.filter_by(studentID=studentID).first()
 
     if student is None:
         return jsonify({"msg": "Student not found"}), 404
 
-    # Fetch the user profile associated with the student
     user = User.query.filter_by(ID=student.ID).first()
 
-    # Get the student's karma (using KarmaManager or your own method)
-    karma = get_karma(studentID)  # Assuming this is how you get the karma
+   
+    karma = get_karma(studentID)  
     reviews = Review.query.filter_by(taggedStudentID=studentID).all()
-    # Return the profile page with student details and karma information
     return render_template('Student-Profile-forStaff.html',
                          student=student,
                          user=user,

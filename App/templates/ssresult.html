@@ -64,36 +64,35 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding-top: 100px; /* Adjust this value based on your header's height */
+            padding-top: 100px; 
         }
         .recommendation-text {
-            font-size: 42px; /* Adjust based on your preference */
-            margin-left: 20px; /* Space between image and text */
-            transform-origin: center; /* Ensures the text rotates around its center */
-            background: -webkit-linear-gradient(#084f71, #051d3c); /* For Safari 5.1 to 6.0 */
-            background: linear-gradient(#084f71, #051d3c); /* Standard syntax; top to bottom gradient */
+            font-size: 42px; 
+            margin-left: 20px; 
+            transform-origin: center;
+            background: -webkit-linear-gradient(#084f71, #051d3c); 
+            background: linear-gradient(#084f71, #051d3c); 
             -webkit-background-clip: text;
             background-clip: text;
-            color: transparent; /* Makes the text color transparent so the gradient shows through */
-            -webkit-text-fill-color: transparent; /* Needed for Safari */
-            /* Assuming you want bold text */
-            color: #0056b3; /* Adjust the color to match your design */
+            color: transparent; 
+            -webkit-text-fill-color: transparent; 
+            color: #0056b3; 
             font-family: "Titan One", sans-serif;
         }
         .recommendation-image {
-            height: 120px; /* Adjust based on your image */
+            height: 120px; 
             width: 120px;
         }
         .student-card {
             width: 150%;
-            max-width: 1200px; /* Adjust this value based on your design */
+            max-width: 1200px; 
             padding: 20px;
             display: flex;
-            position: relative; /* Positioned Ancestor */
+            position: relative; 
             align-items: center;
             border: 2px solid #051d3c;
             border-radius: 10px;
-            margin: 20px auto; /* Center the card */
+            margin: 20px auto; 
         }
         .student-info {
             flex: 1;
@@ -101,11 +100,11 @@
         }
         .student-info h3 {
             margin: 0 0 5px;
-            font-size: 24px; /* Adjust based on your preference */
+            font-size: 24px; 
         }
         .student-info p {
             margin: 0;
-            font-size: 18px; /* Adjust based on your preference */
+            font-size: 18px; 
             color: #666;
         }
         .student-info span {
@@ -120,7 +119,7 @@
             gap: 10px;
         }
         .student-buttons button {
-            padding: 24px 28px; /* Adjust button padding */
+            padding: 24px 28px; 
             background-color: #051d3c;
             color: white;
             border: none;
@@ -128,17 +127,16 @@
             cursor: pointer;
         }
         @media screen and (max-width: 768px) {
-            /* Adjust button positions for smaller screens */
             .student-buttons {
                 bottom: 10px;
                 right: 10px;
             }
         }
         .student-buttons button.accept {
-            background-color: green; /* Green background for Accept button */
+            background-color: green; 
         }
         .student-buttons button.decline {
-            background-color: red; /* Red background for Decline button */
+            background-color: red; 
              }
     </style>
 </head>
@@ -160,7 +158,6 @@
 
     </div>
 
-    <!-- New student card -->
     {% for student  in students %}
     <div class="student-card">
         <div class="student-info">

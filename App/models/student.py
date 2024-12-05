@@ -15,7 +15,6 @@ class Student(db.Model):
     lastName = db.Column(db.String(50), nullable=False)
     karma = db.Column(db.Integer, nullable=False, default=0)
 
-    # Relationships
     reviews = db.relationship('Review', back_populates='taggedStudent', lazy='joined')
     karma_history = db.relationship('Karma', back_populates='student', lazy='dynamic', cascade="all, delete-orphan")
 

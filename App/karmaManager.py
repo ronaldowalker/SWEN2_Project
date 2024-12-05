@@ -9,7 +9,6 @@ class KarmaManager:
         student.karma += amount
         updated_karma = student.karma
 
-        #self, studentID, action, amount, previous_karma, updated_karma
         history = Karma(studentID = student.ID,
                         action = "increase",
                         amount = amount,
@@ -43,15 +42,12 @@ class KarmaManager:
 
     def undo_last_action(self, student):
         """Undo the last karma change for a student."""
-        # Fetch the last karma change for this student from the database
         last_action = Karma.query.filter_by(studentID=student.ID).order_by(Karma.timestamp.desc()).first()
         if not last_action:
             return "No actions to undo"
 
-        # Revert the student's karma
         student.karma = last_action.previous_karma
 
-        # Delete the last action from the history
         db.session.delete(last_action)
         db.session.commit()
 

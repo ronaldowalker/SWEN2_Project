@@ -666,4 +666,3 @@ def view_all_achievements():
   return render_template('AllStudentAchivements.html'
                         , student=student
                          ,user=user)
-  #return jsonify({'students': students_data}), 200

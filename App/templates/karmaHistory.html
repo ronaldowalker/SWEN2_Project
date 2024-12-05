@@ -187,7 +187,6 @@
         })
         .then(response => response.json())
         .then(data => {
-            // Update name input field with retrieved student name
             document.getElementById('name').value = data.studentName;
         })
         .catch(error => console.error('Error:', error));
