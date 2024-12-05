@@ -4,17 +4,16 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from App.main import create_app
 from App.database import db, create_db
 from App.models import Review
+from App.controllers import get_student_by_studentID
 from App.controllers import (
     create_student,
     create_staff,
-    get_id,
-    to_json,
     create_review,
-    get_student_by_studnetID,
+    get_student_by_studentID,
     get_staff_by_staffID,
 
     delete_review,
-    get_review
+    get_review,
 )
 '''
    Unit Tests
