@@ -4,8 +4,8 @@ from datetime import datetime
 class Review(db.Model):
     __tablename__ = 'review'
     ID = db.Column(db.Integer, primary_key=True)
-    taggedStudentID = db.Column(db.Integer, db.ForeignKey('student.ID'), nullable=False)
-    createdByStaffID = db.Column(db.Integer, db.ForeignKey('staff.ID'), nullable=False)
+    StudentID = db.Column(db.Integer, db.ForeignKey('student.ID'), nullable=False)
+    StaffID = db.Column(db.Integer, db.ForeignKey('staff.ID'), nullable=False)
     isPositive = db.Column(db.Boolean, nullable=False)
     dateCreated = db.Column(db.DateTime, default=datetime.utcnow)
     details = db.Column(db.String(400), nullable=False)
@@ -13,10 +13,9 @@ class Review(db.Model):
     taggedStudent = db.relationship('Student', back_populates='reviews', lazy='joined')
     createdByStaff = db.relationship('Staff', back_populates='reviews', lazy='joined')
 
-    def __init__(self, taggedStudentID, createdByStaffID, isPositive, details, **kwargs):
-        super().__init__(**kwargs)  # Pass any additional keyword arguments to the superclass
-        self.taggedStudentID = taggedStudentID
-        self.createdByStaffID = createdByStaffID
+    def __init__(self, StudentID, StaffID, isPositive, details):
+        self.StudentID = StudentID
+        self.StaffID = StaffID
         self.isPositive = isPositive
         self.details = details
 

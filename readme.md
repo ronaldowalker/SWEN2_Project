@@ -1,4 +1,4 @@
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/uwidcit/flaskmvc)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/new#https://github.com/ronaldowalker/SWEN2_Project)
 <a href="https://render.com/deploy?repo=https://github.com/uwidcit/flaskmvc">
   <img src="https://render.com/images/deploy-to-render-button.svg" alt="Deploy to Render">
 </a>
@@ -99,6 +99,70 @@ This project uses a few CLI command groups to ensure running commmands are simpl
 staff_cli = AppGroup('staff', help = 'Staff object commands')
 student_cli = AppGroup('student', help = 'Student object commands')
 review_cli = AppGroup('review', help = 'Review object commands')
+
+```
+
+# Special Features CLI Commands
+
+To be able to utilize the special feature of being able to track/view a student's karma history
+a few models need to be created first: a student, a staff and at least one review of a student.
+
+Here are the CLI commands for performing these operations
+
+```python
+# inside wsgi.py
+
+#CLI command to create a staff.
+#To perform this command, enter "flask staff create"
+#Not entering any fields gives you the default values
+
+@staff_cli.command("create", help = "Creates a staff")
+@click.argument("staffid", default=12345)
+@click.argument("username", default="RenWalker")
+@click.argument("firstname", default="ren")
+@click.argument("lastname", default="walker")
+@click.argument("email", default="ren.walker@my.uwi.edu")
+@click.argument("password", default="renpass")
+def create_staff_command(staffid, username,firstname, lastname, email, password):
+  create_staff(staffid, username,firstname, lastname, email, password)
+  print(f'{username} created!')
+
+#CLI command to create a student.
+#To perform this command, enter "flask student create"
+#Not entering any fields gives you the default values
+
+@student_cli.command("create", help = "Creates a student")
+@click.argument("studentid", default=816036000)
+@click.argument("firstname", default="sly")
+@click.argument("lastname", default="cooper")
+@click.argument("karma", default=0)
+def create_student_command(studentid, firstname, lastname, karma):
+  create_student(studentid, firstname, lastname, karma)
+  print(f'{firstname} {lastname} created!')
+
+
+#CLI command to create a review.
+#To perform this command, enter "flask review create"
+#Not entering any fields gives you the default values
+
+@review_cli.command("create", help = "Creates a review")
+@click.argument("staffid", default=12345)
+@click.argument("studentid", default=816036000)
+@click.argument("ispositive", default=True)
+@click.argument("details", default="Well behaved student")
+def create_review_command(staffid, studentid, ispositive, details):
+  create_review(staffid, studentid, ispositive, details)
+  print("review created\n")
+
+
+#CLI command to view karma history
+#To perform this command, enter "flask student view_history"
+#Not entering any fields gives you the default values
+
+@student_cli.command("view_history", help = "views a student's karma history")
+@click.argument("studentid", default=816036000)
+def view_student_karma_history_command(studentid):
+  history = view_student_karma_history(studentid)
 
 ```
 

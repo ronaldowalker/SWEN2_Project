@@ -92,7 +92,6 @@ def get_staff_by_id_command(id):
 def create_student_command(studentid, firstname, lastname, karma):
   create_student(studentid, firstname, lastname, karma)
   print(f'{firstname} {lastname} created!')
-  print(f"Looking for student with ID: {studentid}")
 
 
 
@@ -129,7 +128,6 @@ def get_full_name_by_student_id_command(id):
 @click.argument("studentid", default=816036000)
 def view_student_karma_history_command(studentid):
   history = view_student_karma_history(studentid)
-  print(history)
   
 
 
@@ -142,7 +140,6 @@ def view_student_karma_history_command(studentid):
 @click.argument("details", default="Well behaved student")
 def create_review_command(staffid, studentid, ispositive, details):
   create_review(staffid, studentid, ispositive, details)
-  print("review created\n")
 
 
 

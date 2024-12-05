@@ -61,6 +61,12 @@ class KarmaManager:
     def view_history(self, student):
         """View the karma history for a student."""
         history = Karma.query.filter_by(studentID=student.ID).order_by(Karma.timestamp.desc()).all()
+
+        if history:
+            for entry in history:
+                print(entry)
+
         return [entry.to_json() for entry in history] if history else ["No karma changes recorded"]
+
 
     
