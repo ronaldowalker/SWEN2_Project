@@ -36,9 +36,28 @@ def get_staffHome_page():
   return render_template('Staff-Home.html')
 
 
-@staff_views.route('/incidentReport', methods=['GET'])
-def staff_ir_page():
-  return render_template('IncidentReport.html')
+@staff_views.route('/karmaHistory', methods=['GET'])
+def karma_history():
+    student_id = request.args.get('studentID')
+    name = request.args.get('name')
+
+    # Search for student by studentID if provided
+    if student_id:
+        student = Student.query.filter_by(studentID=student_id).first()
+    # Optionally search by name if provided
+    elif name:
+        student = Student.query.filter(Student.firstName.contains(name) | Student.lastName.contains(name)).first()
+    else:
+        return render_template('karmaHistory.html', message="Please provide either a Student ID or Name")
+
+    if student:
+        # Redirect to karma history page with the studentID in the URL
+        return redirect(url_for('staff_views.karma_history_with_id', studentID=student.studentID))
+    else:
+        return render_template('karmaHistory.html', message="Student not found")
+
+    # If method is GET, just render the search page
+    return render_template('karmaHistory.html')
 
 
 @staff_views.route('/get_student_name', methods=['POST'])
@@ -175,6 +194,19 @@ def view_all_student_reviews(uniID):
   return render_template('AllStudentReviews.html', student=student,user=user)
 
 
+@staff_views.route('/karmaHistory/<int:studentID>', methods=['GET'])
+def karma_history_with_id(studentID):
+    # Fetch student data from the Student model
+    student = Student.query.filter_by(studentID=studentID).first()  # Assuming Student has studentID as unique
+    if student is None:
+        return "Student not found", 404  # Handle case where student is not found
+
+    # Fetch karma history using KarmaManager
+    karma_manager = KarmaManager() 
+    karma_history = karma_manager.view_history(student)
+
+    # Pass the student and karma history data to the template
+    return render_template('viewKarmaHistory.html', student=student, karma_history=karma_history)
 
 @staff_views.route('/getStudentProfile/<string:studentID>', methods=['GET'])
 def getStudentProfile(studentID):
@@ -189,7 +221,7 @@ def getStudentProfile(studentID):
 
     # Get the student's karma (using KarmaManager or your own method)
     karma = get_karma(studentID)  # Assuming this is how you get the karma
-    reviews = Review.query.filter_by(taggedStudentID=student.ID).all()
+    reviews = Review.query.filter_by(taggedStudentID=studentID).all()
     # Return the profile page with student details and karma information
     return render_template('Student-Profile-forStaff.html',
                          student=student,

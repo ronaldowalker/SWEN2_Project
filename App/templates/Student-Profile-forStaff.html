@@ -178,10 +178,12 @@
         }
 
         .mini-icon {
-            width: 20px;
-            height: 20px;
-            margin-right: 5px;
-        }
+        width: 50px; /* Increased size */
+        height: 50px; /* Increased size */
+        border-radius: 50%; /* Ensures it's circular */
+        margin-right: 10px; /* Added margin for spacing */
+    }
+
 
         .request-card {
             width: 800px;
@@ -202,14 +204,62 @@
             right: -950px;
         }
 
-        .reviews-container,
-        .reviews-container2 {
-            width: 470px;
-            margin-top: 120px;
-            margin-right: 50px;
-            margin-bottom: 80px;
-            margin-left: 20px;
-        }
+        .reviews-container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 2px solid #051d3c;
+    border-radius: 10px;
+}
+
+.review-box {
+    display: flex;
+    align-items: flex-start; /* Align content properly */
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-height: 150px; /* Limit box height to avoid overflow */
+    overflow-y: auto; /* Allow scrolling for long reviews */
+}
+.review-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.review-content p {
+    font-size: 14px; /* Reduced font size for better readability */
+    margin: 5px 0;
+}
+
+.review-content p strong {
+    font-size: 16px; /* Increased size for the review title */
+}
+
+.review-content p em {
+    font-size: 12px; /* Smaller size for the date */
+}
+
+.review-details {
+    flex: 1;
+}
+
+.review-details p {
+    margin: 5px 0;
+}
+
+h3 {
+    font-family: "Kanit", sans-serif;
+    font-size: 24px;
+    color: #051d3c;
+    margin-bottom: 20px;
+}
+
 
         .reviews-card {
             width: 100%;
@@ -316,16 +366,19 @@
         <div class="block text-gray-700 font-semibold">
             <span class="font-bold">Student ID: {{ student.studentID }}</span>
         </div>
+        <h3>Reviews:</h3>
         <div class="reviews-container">
-            <h3>Reviews:</h3>
             {% for review in reviews %}
             <div class="review">
-                <p><strong>{{ 'Positive' if review.isPositive else 'Negative' }} Review</strong></p>
-                <p>{{ review.details }}</p>
-                <p><em>Posted by Staff on: {{ review.dateCreated.strftime('%Y-%m-%d') }}</em></p>
+                <img src="https://images.unsplash.com/photo-1674241832914-f7e35a8480ed?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Profile" class="mini-icon">
+                <div class="review-content">
+                    <p><strong>{{ 'Positive' if review.isPositive else 'Negative' }} Review</strong></p>
+                    <p>{{ review.details }}</p>
+                    <p><em>Posted by Staff on: {{ review.dateCreated.strftime('%Y-%m-%d') }}</em></p>
+                </div>
             </div>
             {% else %}
-                <p>No reviews available for this student.</p>
+            <p>No reviews available for this student.</p>
             {% endfor %}
         </div>
     </nav>

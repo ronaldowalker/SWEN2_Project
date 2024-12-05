@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Existing head content here -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Lilita+One&family=Titan+One&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karma History - Student Conduct Tracker</title>
+    <link rel="icon" href="https://github.com/RichardR963/Info3604_Project/blob/main/images/AV2.png?raw=true" type="image/png">
+
+    <style>
+        /* Your existing styles here */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: #fff;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 999;
+            background: #fff;
+        }
+
+        .logo {
+            background-color:#051d3c;
+            border-bottom-right-radius: 50px;
+            border-top-right-radius: 50px;
+            padding: 10px 20px;
+            padding-left: 50px;
+            font-family: "Titan One", sans-serif;
+            font-weight: bold;
+        }
+
+        .logo h1 {
+            margin: 0;
+            color: white;
+            font-size: 30px;
+        }
+
+        .nav-bar {
+            list-style: none;
+            display: flex;
+            padding: 10px 20px;
+            background-color: #051d3c;
+            border-bottom-left-radius: 40px;
+            border-top-left-radius: 40px;
+            font-family: "Titan One", sans-serif;
+            font-weight: bold;
+        }
+
+        .nav-bar li {
+            padding: 0 20px;
+        }
+
+        .nav-bar li a {
+            text-decoration: none;
+            color: white;
+        }
+
+        .logo2 {
+            position: absolute;
+            left: 140px;
+            color: #051d3c;
+        }
+
+        .karma-history-container {
+            margin-top: 100px; /* Added margin to avoid overlap with navbar */
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>UWI</h1>
+        </div>
+        <div class="logo2"><h2>Student Conduct Tracker</h2></div>
+        <ul class="nav-bar">
+            <li><a href="/staffhome">Home</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </header>
+
+    <div class="karma-history-container">
+        <h2>Karma History for {{ student.firstName }} {{ student.lastName }}</h2>
+        
+        {% if karma_history %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Action</th>
+                    <th>Amount</th>
+                    <th>Previous Karma</th>
+                    <th>Updated Karma</th>
+                    <th>Timestamp</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in karma_history %}
+                <tr>
+                    <td>{{ entry.action }}</td>
+                    <td>{{ entry.amount }}</td>
+                    <td>{{ entry.previous_karma }}</td>
+                    <td>{{ entry.updated_karma }}</td>
+                    <td>{{ entry.timestamp }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No karma history available for this student.</p>
+        {% endif %}
+    </div>
+
+</body>
+</html>
